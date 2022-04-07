@@ -389,8 +389,8 @@
                         <form class="px-6 pb-4 space-y-6 lg:px-8 sm:pb-6 xl:pb-8" action="#">
                         <h3 class="text-xl font-medium text-gray-900 dark:text-white">Informar Saque</h3>
                     <div>
-                        <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Valor</label>
-                        <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="name@company.com" required="">
+                        <label for="withdrawal" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Valor</label>
+                        <input type="number" min="0.00" max="1000000.00" step="0.01" name="withdrawal" id="withdrawal" placeholder="R$100,00" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="name@company.com" required="">
                         <div class="text-sm text-gray-500 mt-1">Informe o valor que foi sacado da sua conta.</div>
                     </div>
                     
@@ -413,8 +413,8 @@
                         <form class="px-6 pb-4 space-y-6 lg:px-8 sm:pb-6 xl:pb-8" action="#">
                         <h3 class="text-xl font-medium text-gray-900 dark:text-white">Banca - Início do dia</h3>
                     <div>
-                        <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Valor</label>
-                        <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="name@company.com" required="">
+                        <label for="bank_balance_start" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Valor</label>
+                        <input type="number" min="0.00" max="1000000.00" step="0.01" name="bank_balance_start" id="bank_balance_start" placeholder="R$100,00" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="name@company.com" required="">
                         <div class="text-sm text-gray-500 mt-1">Valor referente ao início das operações no dia. Não recomendamos a troca desse valor no mesmo dia.</div>
                     </div>
                     
@@ -437,8 +437,8 @@
                         <form class="px-6 pb-4 space-y-6 lg:px-8 sm:pb-6 xl:pb-8" action="#">
                         <h3 class="text-xl font-medium text-gray-900 dark:text-white">Atualizar valor da banca</h3>
                     <div>
-                        <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Valor</label>
-                        <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="name@company.com" required="">
+                        <label for="bank_balance_current" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Valor</label>
+                        <input type="number" min="0.00" max="1000000.00" step="0.01" name="bank_balance_current" id="bank_balance_current" placeholder="R$100,00" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="name@company.com" required="">
                         <div class="text-sm text-gray-500 mt-1">Valor da banca após cada operação.</div>
                     </div>
                     

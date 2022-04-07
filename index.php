@@ -514,10 +514,10 @@
                         <input type="number" min="0.00" max="1000000.00" step="0.01" name="yield" placeholder="R$100,00" id="yield" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
                         <div class="text-sm text-gray-500 mt-1">Aplicada sobre o valor da banca do dia.</div>
                     </div>
-                    <div>
+                    <!-- <div>
                         <label for="bank_balance_start" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Banca inicial</label>
                         <input type="number" min="0.00" max="1000000.00" step="0.01" name="bank_balance_start" placeholder="R$100,00" id="bank_balance_start" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
-                    </div>
+                    </div> -->
                     <div>
                         <label for="stop_win" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Porcentagem para stop win</label>
                         <input type="number" min="0.00" max="100.00" step="0.01" name="stop_win" id="stop_win" placeholder="30%" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">

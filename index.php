@@ -505,9 +505,14 @@
                         </div>
                         <form class="px-6 pb-4 space-y-6 lg:px-8 sm:pb-6 xl:pb-8" action="#">
                         <h3 class="text-xl font-medium text-gray-900 dark:text-white">Configurações da Conta</h3>
-                    <div>
+                    <!-- <div>
                         <label for="wallet" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Nome da carteira</label>
                         <input type="wallet" name="wallet" id="wallet" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
+                    </div> -->
+                    <div>
+                        <label for="yield" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Procentagem de lucro</label>
+                        <input type="number" min="0.00" max="1000000.00" step="0.01" name="yield" placeholder="R$100,00" id="yield" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
+                        <div class="text-sm text-gray-500 mt-1">Aplicada sobre o valor da banca do dia.</div>
                     </div>
                     <div>
                         <label for="bank_balance_start" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Banca inicial</label>

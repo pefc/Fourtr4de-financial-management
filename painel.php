@@ -46,17 +46,28 @@
 
         <div class="w-full container mx-auto flex flex-wrap items-center mt-0 pt-3 pb-3 md:pb-0">
 
-            <div class="w-1/2 pl-2 md:pl-2">
+            <div class="w-1/3 pl-2 md:pl-2">
+                <div class="block lg:hidden pr-4">
+                    <button id="nav-toggle" class="bg-gray-100 flex items-center px-3 py-2 border rounded text-gray-500 border-gray-500 hover:text-gray-500 hover:border-gray-500 appearance-none focus:outline-none">
+                        <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <title>Menu</title>
+                            <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="w-1/3 pl-2 md:pl-0 text-center uppercase">
                 <a class="text-gray-100 text-base xl:text-xl no-underline hover:no-underline font-bold" href="#">
-                    Gestor de banca
+                    Gestor de Banca
                 </a>
             </div>
-            <div class="w-1/2 pr-0">
-                <div class="flex relative inline-block float-right">
 
+            <div class="w-1/3 pr-0">
+                <div class="flex relative inline-block float-right">
                     <div class="relative text-sm">
                         <button id="userButton" class="flex items-center focus:outline-none mr-3">
-                            <img class="w-8 h-8 rounded-full mr-4" src="http://i.pravatar.cc/300" alt="Avatar of User"> <span class="hidden md:inline-block text-gray-100">Olá, Nome do Usuário</span>
+                            <img class="w-8 h-8 rounded-full mr-1" src="http://i.pravatar.cc/300" alt="Avatar of User"> <span class="hidden md:inline-block text-gray-100">Olá, Nome do Usuário</span>
                             <span class="pl-2 text-gray-100"><i class="fas fa-caret-down"></i></span>
                         </button>
                         <div id="userMenu" class="bg-white rounded shadow-md mt-2 absolute mt-12 top-0 right-0 min-w-full overflow-auto z-30 invisible">
@@ -71,14 +82,14 @@
                     </div>
 
 
-                    <div class="block lg:hidden pr-4">
+                    <!-- <div class="block lg:hidden pr-4">
                         <button id="nav-toggle" class="bg-gray-100 flex items-center px-3 py-2 border rounded text-gray-500 border-gray-500 hover:text-gray-500 hover:border-gray-500 appearance-none focus:outline-none">
                             <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <title>Menu</title>
                                 <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
                             </svg>
                         </button>
-                    </div>
+                    </div> -->
                 </div>
 
             </div>
@@ -103,7 +114,7 @@
                     </li>
                     <li class="mr-6 my-2 md:my-0" data-bs-toggle="modal" data-bs-target="#configModal">
                         <a href="#" class="block py-1 md:py-3 pl-1 align-middle text-gray-100 no-underline hover:text-gray-500">
-                            <i class="fa fa-cog fa-fw mr-3"></i><span class="pb-1 md:pb-0 text-sm">Configurações</span>
+                            <i class="fa fa-cog fa-fw mr-3"></i><span class="pb-1 md:pb-0 text-sm">Configurações da Banca</span>
                         </a>
                     </li>
                     
@@ -519,7 +530,7 @@
             <div
                 class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
                 <h5 class="text-xl font-medium leading-normal text-gray-800" id="configModalLabel">
-                Configurações da Conta
+                Configurações da Banca
                 </h5>
                 <button type="button"
                 class="btn-close box-content w-4 h-4 p-1 text-black border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-black hover:opacity-75 hover:no-underline"

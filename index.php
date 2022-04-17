@@ -56,6 +56,14 @@
                     <a href="#" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal" class="text-sm text-gray-100 hover:text-gray-100 hover:underline mb-6">Esqueceu a senha?</a>
                 </div>
                 <button class="bg-blue-600 hover:bg-bule-700 text-white font-bold py-2 rounded shadow-lg hover:shadow-xl transition duration-200" type="submit">Entrar</button>
+                <div class="w-full text-center mt-3">
+                    <button class="bg-gray-700 text-white font-bold py-0 px-3 rounded" type="submit">
+                        <img src="icon-google.png" class="w-8 h-8">
+                    </button>
+                    <button class="bg-gray-700 text-white font-bold py-0 px-3 rounded" type="submit">
+                        <img src="icon-facebook.png" class="w-9 h-9">
+                    </button>
+                </div>
             </form>
         </section>
     </main>

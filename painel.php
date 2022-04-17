@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
     <!--Replace with your tailwind.css once created-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js" integrity="sha256-XF29CBwU1MWLaGEnsELogU6Y6rcc5nCkhhx89nFMIDQ=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
     <script src="https://unpkg.com/flowbite@1.4.1/dist/flowbite.js"></script>
@@ -45,29 +45,39 @@
 
 
         <div class="w-full container mx-auto flex flex-wrap items-center mt-0 pt-3 pb-3 md:pb-0">
-
-            <div class="w-1/3 pl-2 md:pl-2">
-                <div class="block lg:hidden pr-4">
-                    <button id="nav-toggle" class="bg-gray-100 flex items-center px-3 py-2 border rounded text-gray-500 border-gray-500 hover:text-gray-500 hover:border-gray-500 appearance-none focus:outline-none">
+<!--  -->
+            <div class="w-1/4 pl-2">
+                <div class="pl-0 text-left uppercase hidden md:block">
+                    <a class="text-gray-100 text-base xl:text-xl no-underline hover:no-underline font-bold" href="#">
+                        Gestor de Banca
+                    </a>
+                </div>
+                
+                <div class="block pr-4 visible md:invisible">
+                    <button id="nav-toggle" class="lg:hidden bg-gray-100 flex items-center px-3 py-2 border rounded text-gray-500 border-gray-500 hover:text-gray-500 hover:border-gray-500 appearance-none focus:outline-none">
                         <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <title>Menu</title>
                             <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
                         </svg>
                     </button>
                 </div>
+                
             </div>
 
-            <div class="w-1/3 pl-2 md:pl-0 text-center uppercase">
-                <a class="text-gray-100 text-base xl:text-xl no-underline hover:no-underline font-bold" href="#">
-                    Gestor de Banca
-                </a>
+            
+            <div class="w-2/4 pl-0 text-center uppercase visible md:invisible">
+                    <a class="text-gray-100 text-base xl:text-xl no-underline hover:no-underline font-bold" href="#">
+                        Gestor de Banca
+                    </a>
             </div>
 
-            <div class="w-1/3 pr-0">
+            
+
+            <div class="w-1/4 pr-0">
                 <div class="flex relative inline-block float-right">
                     <div class="relative text-sm">
-                        <button id="userButton" class="flex items-center focus:outline-none mr-3">
-                            <img class="w-8 h-8 rounded-full mr-1" src="http://i.pravatar.cc/300" alt="Avatar of User"> <span class="hidden md:inline-block text-gray-100">Olá, Nome do Usuário</span>
+                        <button id="userButton" class="flex items-center focus:outline-none mr-2">
+                            <img class="w-8 h-8 rounded-full mr-0 md:mr-1" src="http://i.pravatar.cc/300" alt="Avatar of User"> <span class="hidden md:inline-block text-gray-100">Olá, Nome do Usuário</span>
                             <span class="pl-2 text-gray-100"><i class="fas fa-caret-down"></i></span>
                         </button>
                         <div id="userMenu" class="bg-white rounded shadow-md mt-2 absolute mt-12 top-0 right-0 min-w-full overflow-auto z-30 invisible">
@@ -141,103 +151,135 @@
     <!--Container-->
     <div class="container w-full mx-auto pt-20">
 
-        <div class="w-full px-4 md:px-0 md:mt-8 mb-16 text-gray-800 leading-normal">
+        <div class="w-full px-4 py-0 md:px-0 md:mt-8 mb-16 text-gray-800 leading-normal">
 
             <!--Console Content-->
 
             <div class="flex flex-wrap">
                 <div class="w-full md:w-1/2 xl:w-1/3 p-3">
                     <!--Metric Card-->
-                    <div class="bg-gray-200 border rounded shadow p-2">
+                    <div class="bg-gray-200 h-full border rounded shadow p-2">
                         <div class="flex flex-row items-center">
-                            <div class="flex-shrink pr-4">
-                                <div class="rounded p-3 bg-green-600"><i class="fa fa-wallet fa-2x fa-fw fa-inverse"></i></div>
+                            <div class="flex-1 text-left md:text-left">
+                                <h5 class="font-bold uppercase text-gray-500">Valor da Banca <a href="#"><span class="text-blue-600" data-bs-toggle="modal" data-bs-target="#balanceCurrentModal"><i class="fa-solid fa-rotate"></i></span></a></h5>
+                                <h3 class="font-bold text-3xl">R$ 1000,00 <span class="align-top text-sm font-semibold text-white mt-10 px-1.5 bg-green-500 rounded-full">37%</span></h3>
                             </div>
-                            <div class="flex-1 text-right md:text-center">
-                                <h5 class="font-bold uppercase text-gray-500">Banca - início do dia <a href="#"><span class="text-blue-600" data-bs-toggle="modal" data-bs-target="#balanceStartModal"><i class="fa-solid fa-rotate"></i></span></a></h5>
-                                <h3 class="font-bold text-3xl">R$ 1000,00 </i></h3>
-                            </div>
+                        </div>
+                        <div class="w-full">
+                            <canvas id="chartjs-0" width="389" height="128"></canvas>
                         </div>
                     </div>
                     <!--/Metric Card-->
                 </div>
 
-                <div class="w-full md:w-1/2 xl:w-1/3 p-3">
+                <div class="w-1/2 md:w-1/2 xl:w-1/3 p-3">
                     <!--Metric Card-->
-                    <div class="bg-gray-200 border rounded shadow p-2">
+                    <div class="bg-gray-200 h-full border rounded shadow p-2">
+                        <div class="flex flex-row items-center">
+                            <div class="flex-1 text-left md:text-left">
+                                <h5 class="font-bold uppercase text-gray-500">Lucro do dia</h5>
+                                <h3 class="font-bold text-md md:text-3xl">R$ 53,00 <span class="align-top text-[10px] md:text-sm font-semibold text-white mt-10 px-1.5 bg-yellow-500 rounded-full">57%</span></h3>
+                            </div>
+                        </div>
+                        <div class="w-full">
+                            <canvas id="chartjs-1" width="389" height="128"></canvas>
+                        </div>
+                    </div>
+                    <!--/Metric Card-->
+                </div>
+
+                <div class="w-1/2 md:w-1/2 xl:w-1/3 p-3">
+                    <!--Metric Card-->
+                    <div class="bg-gray-200 h-full border rounded shadow p-2">
+                        <div class="flex flex-row items-center">
+                            <div class="flex-1 text-left md:text-left">
+                                <h5 class="font-bold uppercase text-gray-500">Lucro total</h5>
+                                <h3 class="font-bold text-md md:text-3xl">R$ 512,00 <span class="align-top text-[10px] md:text-sm font-semibold text-white mt-10 px-1.5 bg-green-500 rounded-full">67%</span></h3>
+                            </div>
+                        </div>
+                        <div class="w-full">
+                            <canvas id="chartjs-2" width="389" height="128"></canvas>
+                        </div>
+                    </div>
+                    <!--/Metric Card-->
+                </div>
+
+                <!-- <div class="w-full md:w-1/2 xl:w-1/3 p-3"> -->
+                    <!--Metric Card-->
+                    <!-- <div class="bg-gray-200 border rounded shadow p-2">
                         <div class="flex flex-row items-center">
                             <div class="flex-shrink pr-4">
                                 <div class="rounded p-3 bg-green-600"><i class="fa fa-wallet fa-2x fa-fw fa-inverse"></i></div>
                             </div>
                             <div class="flex-1 text-right md:text-center">
-                                <h5 class="font-bold uppercase text-gray-500">Banca atual <a href="#"><span class="text-blue-600" data-bs-toggle="modal" data-bs-target="#balanceCurrentModal"><i class="fa-solid fa-rotate"></i></span></a></h5>
+                                <h5 class="font-bold uppercase text-gray-500">Banca - inicial <a href="#"><span class="text-blue-600" data-bs-toggle="modal" data-bs-target="#balanceStartModal"><i class="fa-solid fa-rotate"></i></span></a></h5>
                                 <h3 class="font-bold text-3xl">R$ 1047,00 <span class="text-red-500"><i class="fas fa-caret-down"></i></span></h3>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!--/Metric Card-->
-                </div>    
+                <!-- </div>     -->
+            </div>
 
-                <div class="w-full md:w-1/2 xl:w-1/3 p-3">
+            <div class="flex flex-wrap">
+                <div class="w-1/2 md:w-1/4 p-3">
                     <!--Metric Card-->
-                    <div class="bg-gray-200 border rounded shadow p-2">
+                    <div class="bg-gray-200 border rounded shadow p-2 h-24 md:h-full">
                         <div class="flex flex-row items-center">
-                            <div class="flex-shrink pr-4">
+                            <div class="flex-shrink pr-4 hidden md:block">
                                 <div class="rounded p-3 bg-green-600"><i class="fas fa-percent fa-2x fa-fw fa-inverse"></i></div>
                             </div>
-                            <div class="flex-1 text-right md:text-center">
+                            <div class="flex-1 text-center md:text-center">
                                 <h5 class="font-bold uppercase text-gray-500">Margem de lucro</h5>
-                                <h3 class="font-bold text-3xl">10%</h3>
+                                <h3 class="font-bold text-xl md:text-3xl">10%</h3>
                             </div>
                         </div>
                     </div>
                     <!--/Metric Card-->
                 </div>
 
-                <div class="w-full md:w-1/2 xl:w-1/3 p-3">
+                <div class="w-1/2 md:w-1/4 p-3">
                     <!--Metric Card-->
-                    <div class="bg-gray-200 border rounded shadow p-2">
+                    <div class="bg-gray-200 border rounded shadow p-2 h-24 md:h-full">
                         <div class="flex flex-row items-center">
-                            <div class="flex-shrink pr-4">
+                            <div class="flex-shrink pr-4 hidden md:block">
                                 <div class="rounded p-3 bg-blue-600"><i class="fas fa-tasks fa-2x fa-fw fa-inverse"></i></div>
                             </div>
-                            <div class="flex-1 text-right md:text-center">
+                            <div class="flex-1 text-center md:text-center">
                                 <h5 class="font-bold uppercase text-gray-500">Meta do dia</h5>
-                                <h3 class="font-bold text-3xl">R$ 100,00</h3>
+                                <h3 class="font-bold text-xl md:text-3xl">R$ 100,00</h3>
                             </div>
                         </div>
                     </div>
                     <!--/Metric Card-->
                 </div>
 
-                            
-
-                <div class="w-full md:w-1/2 xl:w-1/3 p-3">
+                <div class="w-1/2 md:w-1/4 p-3">
                     <!--Metric Card-->
-                    <div class="bg-gray-200 border rounded shadow p-2">
+                    <div class="bg-gray-200 border rounded shadow p-2 h-24 md:h-full">
                         <div class="flex flex-row items-center">
-                            <div class="flex-shrink pr-4">
-                                <div class="rounded p-3 bg-blue-600"><i class="fas fa-file-invoice-dollar fa-2x fa-fw fa-inverse"></i></div>
+                            <div class="flex-shrink pr-4 hidden md:block">
+                                <div class="rounded p-3 bg-red-600"><i class="fas fa-sack-xmark fa-2x fa-fw fa-inverse"></i></div>
                             </div>
-                            <div class="flex-1 text-right md:text-center">
-                                <h5 class="font-bold uppercase text-gray-500">Lucro do dia</h5>
-                                <h3 class="font-bold text-3xl">R$ 47,00 <span class="text-yellow-600"><i class="fas fa-caret-up"></i></span></h3>
+                            <div class="flex-1 text-center md:text-center">
+                                <h5 class="font-bold uppercase text-gray-500">Stop Loss</h5>
+                                <h3 class="font-bold text-xl md:text-3xl">R$ 800,00</h3>
                             </div>
                         </div>
                     </div>
                     <!--/Metric Card-->
                 </div>
-                
-                <div class="w-full md:w-1/2 xl:w-1/3 p-3">
+
+                <div class="w-1/2 md:w-1/4 p-3">
                     <!--Metric Card-->
-                    <div class="bg-gray-200 border rounded shadow p-2">
+                    <div class="bg-gray-200 border rounded shadow p-2 h-24 md:h-full">
                         <div class="flex flex-row items-center">
-                            <div class="flex-shrink pr-4">
-                                <div class="rounded p-3 bg-blue-600"><i class="fas fa-sack-dollar fa-2x fa-fw fa-inverse"></i></div>
+                            <div class="flex-shrink pr-4 hidden md:block">
+                                <div class="rounded p-3 bg-green-600"><i class="fas fa-sack-dollar fa-2x fa-fw fa-inverse"></i></div>
                             </div>
-                            <div class="flex-1 text-right md:text-center">
-                                <h5 class="font-bold uppercase text-gray-500">Lucro acumulado</h5>
-                                <h3 class="font-bold text-3xl">R$ 312,30 <span class="text-green-600"><i class="fas fa-caret-up"></i></h3>
+                            <div class="flex-1 text-center md:text-center">
+                                <h5 class="font-bold uppercase text-gray-500">Stop Win</h5>
+                                <h3 class="font-bold text-xl md:text-3xl">R$ 1300,00</h3>
                             </div>
                         </div>
                     </div>
@@ -251,18 +293,19 @@
 
             <div class="flex flex-row flex-wrap flex-grow mt-2">
 
-                <div class="w-full p-3">
+                <div class="w-full md:w-1/2 p-3">
                     <!--Template Card-->
                     <div class="bg-white border rounded shadow">
                         <div class="bg-gray-200 border-b p-3">
-                            <h5 class="font-bold uppercase text-gray-600">Gestão da banca</h5>
+                            <h5 class="font-bold uppercase text-gray-600">Gestão das Apostas</h5>
                         </div>
-                        <div class="p-5">
-                            <table class="w-full p-5 text-gray-700 text-center">
+                        <div class="p-2">
+                            <table class="w-full p-5 text-gray-700 text-center text-sm md:text-md">
                                 <thead>
                                     <tr class="bg-gray-200 text-blue-900">
                                         <th>Porcentagem</th>
                                         <th>Valor da aposta</th>
+                                        <th>Greens</th>
                                     </tr>
                                 </thead>
 
@@ -270,34 +313,42 @@
                                     <tr>
                                         <td>0,5%</td>
                                         <td>R$ 5,00</td>
+                                        <td>20</td>
                                     </tr>
                                     <tr class="bg-gray-100">
                                         <td>1%</td>
                                         <td>R$ 10,00</td>
+                                        <td>15</td>
                                     </tr>
                                     <tr>
                                         <td>1,5%</td>
                                         <td>R$ 20,00</td>
+                                        <td>14</td>
                                     </tr>
                                     <tr class="bg-gray-100">
                                         <td>2%</td>
                                         <td>R$ 80,00</td>
+                                        <td>10</td>
                                     </tr>
                                     <tr>
                                         <td>3,5%</td>
                                         <td>R$ 80,00</td>
+                                        <td>8</td>
                                     </tr>
                                     <tr class="bg-gray-100">
                                         <td>4%</td>
                                         <td>R$ 80,00</td>
+                                        <td>3</td>
                                     </tr>
                                     <tr>
                                         <td>7%</td>
                                         <td>R$ 80,00</td>
+                                        <td>2</td>
                                     </tr>
                                     <tr class="bg-gray-100">
                                         <td>8%</td>
                                         <td>R$ 80,00</td>
+                                        <td>1</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -311,36 +362,25 @@
                     <!--Graph Card-->
                     <div class="bg-white border rounded shadow">
                         <div class="border-b p-3">
-                            <h5 class="font-bold uppercase text-gray-600">Lucro acumulado</h5>
+                            <h5 class="font-bold uppercase text-gray-600">Saques</h5>
                         </div>
                         <div class="p-5">
-                            <canvas id="chartjs-7" class="chartjs" width="undefined" height="undefined"></canvas>
+                            <canvas id="chartjs-7" class="chartjs" width="undefined" height="93"></canvas>
                             <script>
                             new Chart(document.getElementById("chartjs-7"), {
-                                "type": "bar",
+                                "type": "line",
                                 "data": {
-                                    "labels": ["January", "February", "March", "April"],
+                                    "labels": ["January", "February", "March", "April", "May", "June", "July"],
                                     "datasets": [{
-                                        "label": "Page Impressions",
-                                        "data": [10, 20, 30, 40],
-                                        "borderColor": "rgb(255, 99, 132)",
-                                        "backgroundColor": "rgba(255, 99, 132, 0.2)"
-                                    }, {
-                                        "label": "Adsense Clicks",
-                                        "data": [5, 15, 10, 30],
-                                        "type": "line",
-                                        "fill": false,
-                                        "borderColor": "rgb(54, 162, 235)"
+                                        "label": "",
+                                        "data": [65, 59, 80, 81, 56, 55, 40],
+                                        "borderColor": "rgb(75, 192, 192)",
+                                        "lineTension": 0.1,
+                                        "fill": true,
+                                        
                                     }]
                                 },
                                 "options": {
-                                    "scales": {
-                                        "yAxes": [{
-                                            "ticks": {
-                                                "beginAtZero": true
-                                            }
-                                        }]
-                                    }
                                 }
                             });
                             </script>
@@ -351,34 +391,19 @@
 
 
 
-                <div class="w-full md:w-1/2 p-3">
+                <!-- <div class="w-full md:w-1/2 p-3"> -->
                     <!--Graph Card-->
-                    <div class="bg-white border rounded shadow">
+                    <!-- <div class="bg-white border rounded shadow">
                         <div class="border-b p-3">
                             <h5 class="font-bold uppercase text-gray-600">Saques</h5>
                         </div>
                         <div class="p-5">
                             <canvas id="chartjs-0" class="chartjs" width="undefined" height="undefined"></canvas>
-                            <script>
-                            new Chart(document.getElementById("chartjs-0"), {
-                                "type": "line",
-                                "data": {
-                                    "labels": ["January", "February", "March", "April", "May", "June", "July"],
-                                    "datasets": [{
-                                        "label": "Views",
-                                        "data": [65, 59, 80, 81, 56, 55, 40],
-                                        "fill": false,
-                                        "borderColor": "rgb(75, 192, 192)",
-                                        "lineTension": 0.1
-                                    }]
-                                },
-                                "options": {}
-                            });
-                            </script>
+                            
                         </div>
-                    </div>
+                    </div> -->
                     <!--/Graph Card-->
-                </div>
+                <!-- </div> -->
 
 
             </div>
@@ -742,6 +767,135 @@
 
         </div>
     </footer>
+
+    <script>
+    new Chart(document.getElementById("chartjs-0"), {
+        "type": "line",
+        "data": {
+            "labels": ["10/04/2022", "11/04/2022", "12/04/2022", "13/04/2022", "14/04/2022", "15/04/2022", "16/04/2022", "17/04/2022"],
+            "datasets": [{
+                "label": "",
+                "data": [1000, 1122, 812, 1753, 1500, 1303, 1710, 1902],
+                "borderColor": "hsl(209, 100%, 42%)",
+                "lineTension": 0.1,
+                "fill": true,
+                "backgroundColor": "hsl(183, 0%, 84%)",
+                "borderWidth": 2,
+                // "tension": 0,
+                "pointRadius": 1,
+                "pointHoverRadius": 3,
+            }]
+        },
+        "options": {
+            "scales": {
+                "y": {
+                    "display": false,
+                    "beginAtZero": true,
+                },
+                "x": {
+                    "display": false,
+                },
+            },
+            "plugins": {
+                "legend": {
+                    "display": false,
+                },
+                "tooltip": {
+                    "callbacks": {
+                    // "title": () => true, // Disable tooltip title
+                    "label": (context) => ('R$ '+context.parsed.y),
+                    },
+                },
+            },
+        }
+    });
+    </script>
+
+<script>
+    new Chart(document.getElementById("chartjs-1"), {
+        "type": "line",
+        "data": {
+            "labels": ["10/04/2022", "11/04/2022", "12/04/2022", "13/04/2022", "14/04/2022", "15/04/2022", "16/04/2022", "17/04/2022"],
+            "datasets": [{
+                "label": "",
+                "data": [41, 12, 131, 121, 121, 212, 31, 50],
+                "borderColor": "hsl(209, 100%, 42%)",
+                "lineTension": 0.1,
+                "fill": true,
+                "backgroundColor": "hsl(183, 0%, 84%)",
+                "borderWidth": 2,
+                // "tension": 0,
+                "pointRadius": 1,
+                "pointHoverRadius": 3,
+            }]
+        },
+        "options": {
+            "scales": {
+                "y": {
+                    "display": false,
+                    "beginAtZero": true,
+                },
+                "x": {
+                    "display": false,
+                },
+            },
+            "plugins": {
+                "legend": {
+                    "display": false,
+                },
+                "tooltip": {
+                    "callbacks": {
+                    // "title": () => true, // Disable tooltip title
+                    "label": (context) => ('R$ '+context.parsed.y),
+                    },
+                },
+            },
+        }
+    });
+    </script>
+
+    <script>
+    new Chart(document.getElementById("chartjs-2"), {
+        "type": "line",
+        "data": {
+            "labels": ["10/04/2022", "11/04/2022", "12/04/2022", "13/04/2022", "14/04/2022", "15/04/2022", "16/04/2022", "17/04/2022"],
+            "datasets": [{
+                "label": "",
+                "data": [131, 311, 123, 412, 422, 521, 440, 600],
+                "borderColor": "hsl(209, 100%, 42%)",
+                "lineTension": 0.1,
+                "fill": true,
+                "backgroundColor": "hsl(183, 0%, 84%)",
+                "borderWidth": 2,
+                // "tension": 0,
+                "pointRadius": 1,
+                "pointHoverRadius": 3,
+            }]
+        },
+        "options": {
+            "scales": {
+                "y": {
+                    "display": false,
+                    "beginAtZero": true,
+                },
+                "x": {
+                    "display": false,
+                },
+            },
+            "plugins": {
+                "legend": {
+                    "display": false,
+                },
+                "tooltip": {
+                    "callbacks": {
+                    // "title": () => true, // Disable tooltip title
+                    "label": (context) => ('R$ '+context.parsed.y),
+                    },
+                },
+            },
+        }
+    });
+    </script>
 
     <script>
     /*Toggle dropdown list*/

@@ -60,6 +60,74 @@
         background-color: #18181b;
         background-image: linear-gradient(#18181b 0%, #3f3f46 74%);
     }
+
+    /*Footer open/load animation*/
+    .alert-footer {
+      -webkit-animation: slide-in-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+      animation: slide-in-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+    }
+
+    /*Footer close animation*/
+    .alert-footer input:checked~* {
+      -webkit-animation: slide-out-bottom 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+      animation: slide-out-bottom 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+    }
+
+    @-webkit-keyframes slide-in-bottom {
+      0% {
+        -webkit-transform: translateY(1000px);
+        transform: translateY(1000px);
+        opacity: 0
+      }
+
+      100% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+        opacity: 1
+      }
+    }
+
+    @keyframes slide-in-bottom {
+      0% {
+        -webkit-transform: translateY(1000px);
+        transform: translateY(1000px);
+        opacity: 0
+      }
+
+      100% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+        opacity: 1
+      }
+    }
+
+    @-webkit-keyframes slide-out-bottom {
+      0% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+        opacity: 1
+      }
+
+      100% {
+        -webkit-transform: translateY(1000px);
+        transform: translateY(1000px);
+        opacity: 0
+      }
+    }
+
+    @keyframes slide-out-bottom {
+      0% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+        opacity: 1
+      }
+
+      100% {
+        -webkit-transform: translateY(1000px);
+        transform: translateY(1000px);
+        opacity: 0
+      }
+    }
     </style>
 
 
@@ -69,9 +137,8 @@
 
     <nav id="header" class="bg-zinc-800 fixed w-full z-10 top-0 shadow">
 
-
         <div class="w-full container mx-auto flex flex-wrap items-center mt-0 pt-3 pb-3 md:pb-0">
-<!--  -->
+
             <div class="w-1/4 pl-2">
                 <div class="pl-0 text-left uppercase hidden md:block">
                     <a class="text-gray-100 text-base xl:text-xl no-underline hover:no-underline font-bold" href="#">
@@ -187,7 +254,7 @@
                     <div class="bg-gray-200 h-full border rounded shadow p-2">
                         <div class="flex flex-row items-center">
                             <div class="flex-1 text-left md:text-left">
-                                <h5 class="font-bold uppercase text-gray-500">Valor da Banca <a href="#"><span class="text-blue-600" data-bs-toggle="modal" data-bs-target="#balanceCurrentModal"><i class="fa-solid fa-rotate"></i></span></a></h5>
+                                <h5 class="font-bold uppercase text-gray-500">Valor da Banca <a href="#"><span class="text-blue-600" data-bs-toggle="modal" data-bs-target="#balanceCurrentModal"><i class="fa-solid fa-pen-to-square"></i></span></a></h5>
                                 <h3 class="font-bold text-3xl">R$ <?=number_format(rand(30,10000),2,",",".")?> <span class="align-top text-sm font-semibold text-white mt-10 px-1.5 bg-green-500 rounded-full"><?=rand(1,100)?>%</span></h3>
                             </div>
                         </div>
@@ -584,17 +651,20 @@
                     <div>
                         <label for="yield" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Procentagem de lucro</label>
                         <input type="number" min="0.00" max="1000000.00" step="0.01" name="yield" placeholder="8%" id="yield" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
-                        <div class="text-sm text-gray-500 mt-1">Aplicada sobre o valor da banca do dia.</div>
+                        <!-- <div class="text-sm text-gray-500 mt-1">Aplicada sobre o valor da banca do dia.</div> -->
                     </div>
                     <div>
                         <label for="stop_win" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Porcentagem para stop win</label>
                         <input type="number" min="0.00" max="100.00" step="0.01" name="stop_win" id="stop_win" placeholder="30%" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
-                        <div class="text-sm text-gray-500 mt-1">Aplicada sobre o valor da banca do dia.</div>
+                        <!-- <div class="text-sm text-gray-500 mt-1">Aplicada sobre o valor da banca do dia.</div> -->
                     </div>
                     <div>
                         <label for="stop_loss" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Porcentagem para stop loss</label>
                         <input type="number" min="0.00" max="100.00" step="0.01" name="stop_loss" id="stop_loss" placeholder="20%" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
-                        <div class="text-sm text-gray-500 mt-1">Aplicada sobre o valor da banca do dia.</div>
+                        <!-- <div class="text-sm text-gray-500 mt-1">Aplicada sobre o valor da banca do dia.</div> -->
+                    </div>
+                    <div>
+                        <div class="text-sm text-red-600 mt-1 font-bold">Os valores serão aplicados sobre o primeiro valor da banca informado no dia.</div>
                     </div>
                 </form>
             </div>
@@ -645,7 +715,7 @@
     </div>
 
 
-    <div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
+    <!-- <div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
     id="balanceStartModal" tabindex="-1" aria-labelledby="balanceStartModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable relative w-auto pointer-events-none">
             <div
@@ -678,7 +748,7 @@
             </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
     id="projectionModal" tabindex="-1" aria-labelledby="projectionModalLabel" aria-hidden="true">
@@ -851,234 +921,244 @@
                     </div>
                 </div>
             </div>
-
-
-
         </div>
     </footer>
 
-    <script>
-    new Chart(document.getElementById("chartjs-0"), {
-        "type": "line",
-        "data": {
-            "labels": ["10/04/2022", "11/04/2022", "12/04/2022", "13/04/2022", "14/04/2022", "15/04/2022", "16/04/2022", "17/04/2022"],
-            "datasets": [{
-                "label": "",
-                "data": [<?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>],
-                "borderColor": "hsl(209, 100%, 42%)",
-                "lineTension": 0.1,
-                "fill": true,
-                "backgroundColor": "hsl(183, 0%, 84%)",
-                "borderWidth": 2,
-                // "tension": 0,
-                "pointRadius": 1,
-                "pointHoverRadius": 3,
-            }]
-        },
-        "options": {
-            "scales": {
-                "y": {
-                    "display": false,
-                    "beginAtZero": true,
-                },
-                "x": {
-                    "display": false,
-                },
-            },
-            "plugins": {
-                "legend": {
-                    "display": false,
-                },
-                "tooltip": {
-                    "callbacks": {
-                    // "title": () => true, // Disable tooltip title
-                    "label": (context) => ('R$ '+context.parsed.y),
-                    },
-                },
-            },
-        }
-    });
-    </script>
 
-<script>
-    new Chart(document.getElementById("chartjs-1"), {
-        "type": "line",
-        "data": {
-            "labels": ["10/04/2022", "11/04/2022", "12/04/2022", "13/04/2022", "14/04/2022", "15/04/2022", "16/04/2022", "17/04/2022"],
-            "datasets": [{
-                "label": "",
-                "data": [<?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>],
-                "borderColor": "hsl(209, 100%, 42%)",
-                "lineTension": 0.1,
-                "fill": true,
-                "backgroundColor": "hsl(183, 0%, 84%)",
-                "borderWidth": 2,
-                // "tension": 0,
-                "pointRadius": 1,
-                "pointHoverRadius": 3,
-            }]
-        },
-        "options": {
-            "scales": {
-                "y": {
-                    "display": false,
-                    "beginAtZero": true,
-                },
-                "x": {
-                    "display": false,
-                },
-            },
-            "plugins": {
-                "legend": {
-                    "display": false,
-                },
-                "tooltip": {
-                    "callbacks": {
-                    // "title": () => true, // Disable tooltip title
-                    "label": (context) => ('R$ '+context.parsed.y),
-                    },
-                },
-            },
-        }
-    });
-    </script>
-
-    <script>
-    new Chart(document.getElementById("chartjs-2"), {
-        "type": "line",
-        "data": {
-            "labels": ["10/04/2022", "11/04/2022", "12/04/2022", "13/04/2022", "14/04/2022", "15/04/2022", "16/04/2022", "17/04/2022"],
-            "datasets": [{
-                "label": "",
-                "data": [<?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>],
-                "borderColor": "hsl(209, 100%, 42%)",
-                "lineTension": 0.1,
-                "fill": true,
-                "backgroundColor": "hsl(183, 0%, 84%)",
-                "borderWidth": 2,
-                // "tension": 0,
-                "pointRadius": 1,
-                "pointHoverRadius": 3,
-            }]
-        },
-        "options": {
-            "scales": {
-                "y": {
-                    "display": false,
-                    "beginAtZero": true,
-                },
-                "x": {
-                    "display": false,
-                },
-            },
-            "plugins": {
-                "legend": {
-                    "display": false,
-                },
-                "tooltip": {
-                    "callbacks": {
-                    // "title": () => true, // Disable tooltip title
-                    "label": (context) => ('R$ '+context.parsed.y),
-                    },
-                },
-            },
-        }
-    });
-    </script>
-
-    <script>
-    new Chart(document.getElementById("chartjs-7"), {
-        "type": "line",
-        "data": {
-            "labels": ["January", "February", "March", "April", "May", "June", "July"],
-            "datasets": [{
-                "label": "",
-                "data": [<?=rand(100,300)?>, <?=rand(1000,3000)?>, <?=rand(1000,3000)?>, <?=rand(1000,3000)?>, <?=rand(1000,3000)?>, <?=rand(1000,3000)?>, <?=rand(1000,3000)?>],
-                "borderColor": "rgb(75, 192, 192)",
-                "lineTension": 0.1,
-                "fill": true,
-                
-            }]
-        },
-        "options": {
-            "scales": {
-                "y": {
-                    "display": false,
-                    "beginAtZero": true,
-                },
-                "x": {
-                    "display": true,
-                },
-            },
-            "plugins": {
-                "legend": {
-                    "display": false,
-                },
-                "tooltip": {
-                    "callbacks": {
-                    // "title": () => true, // Disable tooltip title
-                    "label": (context) => ('R$ '+context.parsed.y),
-                    },
-                },
-            },
-        }
-    });
-    </script>
-
-    <script>
-    /*Toggle dropdown list*/
-    /*https://gist.github.com/slavapas/593e8e50cf4cc16ac972afcbad4f70c8*/
-
-    var userMenuDiv = document.getElementById("userMenu");
-    var userMenu = document.getElementById("userButton");
-
-    var navMenuDiv = document.getElementById("nav-content");
-    var navMenu = document.getElementById("nav-toggle");
-
-    document.onclick = check;
-
-    function check(e) {
-        var target = (e && e.target) || (event && event.srcElement);
-
-        //User Menu
-        if (!checkParent(target, userMenuDiv)) {
-            // click NOT on the menu
-            if (checkParent(target, userMenu)) {
-                // click on the link
-                if (userMenuDiv.classList.contains("invisible")) {
-                    userMenuDiv.classList.remove("invisible");
-                } else { userMenuDiv.classList.add("invisible"); }
-            } else {
-                // click both outside link and outside menu, hide menu
-                userMenuDiv.classList.add("invisible");
-            }
-        }
-
-        //Nav Menu
-        if (!checkParent(target, navMenuDiv)) {
-            // click NOT on the menu
-            if (checkParent(target, navMenu)) {
-                // click on the link
-                if (navMenuDiv.classList.contains("hidden")) {
-                    navMenuDiv.classList.remove("hidden");
-                } else { navMenuDiv.classList.add("hidden"); }
-            } else {
-                // click both outside link and outside menu, hide menu
-                navMenuDiv.classList.add("hidden");
-            }
-        }
-
-    }
-
-    function checkParent(t, elm) {
-        while (t.parentNode) {
-            if (t == elm) { return true; }
-            t = t.parentNode;
-        }
-        return false;
-    }
-    </script>
+    <div class="alert-footer w-full fixed bottom-0">
+        <input type="checkbox" class="hidden" id="footeralert">
+        <div class="flex items-center justify-between w-full p-2 bg-red-500 shadow text-white ">
+            Não localizamos nenhum registro referente ao valor atual da sua banca para este dia.<br/><br/>Informe o valor atual da sua banca para que possamos atualizar os seus parâmetros.
+            <label class="close cursor-pointer" title="close" for="footeralert">
+                <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+                </svg>
+            </label>
+        </div>
+    </div>
 
 </body>
 
 </html>
+
+<script>
+new Chart(document.getElementById("chartjs-0"), {
+    "type": "line",
+    "data": {
+        "labels": ["10/04/2022", "11/04/2022", "12/04/2022", "13/04/2022", "14/04/2022", "15/04/2022", "16/04/2022", "17/04/2022"],
+        "datasets": [{
+            "label": "",
+            "data": [<?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>],
+            "borderColor": "hsl(209, 100%, 42%)",
+            "lineTension": 0.1,
+            "fill": true,
+            "backgroundColor": "hsl(183, 0%, 84%)",
+            "borderWidth": 2,
+            // "tension": 0,
+            "pointRadius": 1,
+            "pointHoverRadius": 3,
+        }]
+    },
+    "options": {
+        "scales": {
+            "y": {
+                "display": false,
+                "beginAtZero": true,
+            },
+            "x": {
+                "display": false,
+            },
+        },
+        "plugins": {
+            "legend": {
+                "display": false,
+            },
+            "tooltip": {
+                "callbacks": {
+                // "title": () => true, // Disable tooltip title
+                "label": (context) => ('R$ '+context.parsed.y),
+                },
+            },
+        },
+    }
+});
+</script>
+
+<script>
+new Chart(document.getElementById("chartjs-1"), {
+    "type": "line",
+    "data": {
+        "labels": ["10/04/2022", "11/04/2022", "12/04/2022", "13/04/2022", "14/04/2022", "15/04/2022", "16/04/2022", "17/04/2022"],
+        "datasets": [{
+            "label": "",
+            "data": [<?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>],
+            "borderColor": "hsl(209, 100%, 42%)",
+            "lineTension": 0.1,
+            "fill": true,
+            "backgroundColor": "hsl(183, 0%, 84%)",
+            "borderWidth": 2,
+            // "tension": 0,
+            "pointRadius": 1,
+            "pointHoverRadius": 3,
+        }]
+    },
+    "options": {
+        "scales": {
+            "y": {
+                "display": false,
+                "beginAtZero": true,
+            },
+            "x": {
+                "display": false,
+            },
+        },
+        "plugins": {
+            "legend": {
+                "display": false,
+            },
+            "tooltip": {
+                "callbacks": {
+                // "title": () => true, // Disable tooltip title
+                "label": (context) => ('R$ '+context.parsed.y),
+                },
+            },
+        },
+    }
+});
+</script>
+
+<script>
+new Chart(document.getElementById("chartjs-2"), {
+    "type": "line",
+    "data": {
+        "labels": ["10/04/2022", "11/04/2022", "12/04/2022", "13/04/2022", "14/04/2022", "15/04/2022", "16/04/2022", "17/04/2022"],
+        "datasets": [{
+            "label": "",
+            "data": [<?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>],
+            "borderColor": "hsl(209, 100%, 42%)",
+            "lineTension": 0.1,
+            "fill": true,
+            "backgroundColor": "hsl(183, 0%, 84%)",
+            "borderWidth": 2,
+            // "tension": 0,
+            "pointRadius": 1,
+            "pointHoverRadius": 3,
+        }]
+    },
+    "options": {
+        "scales": {
+            "y": {
+                "display": false,
+                "beginAtZero": true,
+            },
+            "x": {
+                "display": false,
+            },
+        },
+        "plugins": {
+            "legend": {
+                "display": false,
+            },
+            "tooltip": {
+                "callbacks": {
+                // "title": () => true, // Disable tooltip title
+                "label": (context) => ('R$ '+context.parsed.y),
+                },
+            },
+        },
+    }
+});
+</script>
+
+<script>
+new Chart(document.getElementById("chartjs-7"), {
+    "type": "line",
+    "data": {
+        "labels": ["January", "February", "March", "April", "May", "June", "July"],
+        "datasets": [{
+            "label": "",
+            "data": [<?=rand(100,300)?>, <?=rand(1000,3000)?>, <?=rand(1000,3000)?>, <?=rand(1000,3000)?>, <?=rand(1000,3000)?>, <?=rand(1000,3000)?>, <?=rand(1000,3000)?>],
+            "borderColor": "rgb(75, 192, 192)",
+            "lineTension": 0.1,
+            "fill": true,
+            
+        }]
+    },
+    "options": {
+        "scales": {
+            "y": {
+                "display": false,
+                "beginAtZero": true,
+            },
+            "x": {
+                "display": true,
+            },
+        },
+        "plugins": {
+            "legend": {
+                "display": false,
+            },
+            "tooltip": {
+                "callbacks": {
+                // "title": () => true, // Disable tooltip title
+                "label": (context) => ('R$ '+context.parsed.y),
+                },
+            },
+        },
+    }
+});
+</script>
+
+<script>
+/*Toggle dropdown list*/
+/*https://gist.github.com/slavapas/593e8e50cf4cc16ac972afcbad4f70c8*/
+
+var userMenuDiv = document.getElementById("userMenu");
+var userMenu = document.getElementById("userButton");
+
+var navMenuDiv = document.getElementById("nav-content");
+var navMenu = document.getElementById("nav-toggle");
+
+document.onclick = check;
+
+function check(e) {
+    var target = (e && e.target) || (event && event.srcElement);
+
+    //User Menu
+    if (!checkParent(target, userMenuDiv)) {
+        // click NOT on the menu
+        if (checkParent(target, userMenu)) {
+            // click on the link
+            if (userMenuDiv.classList.contains("invisible")) {
+                userMenuDiv.classList.remove("invisible");
+            } else { userMenuDiv.classList.add("invisible"); }
+        } else {
+            // click both outside link and outside menu, hide menu
+            userMenuDiv.classList.add("invisible");
+        }
+    }
+
+    //Nav Menu
+    if (!checkParent(target, navMenuDiv)) {
+        // click NOT on the menu
+        if (checkParent(target, navMenu)) {
+            // click on the link
+            if (navMenuDiv.classList.contains("hidden")) {
+                navMenuDiv.classList.remove("hidden");
+            } else { navMenuDiv.classList.add("hidden"); }
+        } else {
+            // click both outside link and outside menu, hide menu
+            navMenuDiv.classList.add("hidden");
+        }
+    }
+
+}
+
+function checkParent(t, elm) {
+    while (t.parentNode) {
+        if (t == elm) { return true; }
+        t = t.parentNode;
+    }
+    return false;
+}
+</script>

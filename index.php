@@ -27,17 +27,27 @@
     }
     </script>
 
+    <style>
+        .body-bg {
+            background-color: #18181b;
+            background-image: linear-gradient(#18181b 0%, #3f3f46 74%);
+        }
+    </style>
+
     <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>
 
 </head>
-<body class="bg-gray-800 min-h-screen pt-12 md:pt-20 pb-6 px-2 md:px-0" style="font-family:'Lato',sans-serif;">
-    <header class="max-w-lg mx-auto">
-        <a href="#">
+<body class="body-bg min-h-screen pt-12 md:pt-10 pb-6 px-2 md:px-0" style="font-family:'Lato',sans-serif;">
+    <header class="max-w-lg mx-auto text-center">
+    <div class="flex items-center justify-center">
+            <img src="logo_2.png" class="w-[310px]"></div>
+            <!-- <h1 class="text-4xl font-bold text-gray-100 text-center">Fourtr4de</h1> -->
+        <!-- <a href="#">
             <h1 class="text-4xl font-bold text-gray-100 text-center">Fourtr4de</h1>
-        </a>
+        </a> -->
     </header>
 
-    <main class="bg-gray-700 max-w-lg mx-auto p-8 md:p-12 my-10 rounded-lg shadow-2xl">
+    <main class="bg-zinc-700 max-w-lg mx-auto p-8 md:p-12 my-10 rounded-lg shadow-2xl">
         <section>
             <h3 class="text-gray-100 font-bold text-2xl">Gestor de Banca</h3>
         </section>
@@ -57,10 +67,10 @@
                 </div>
                 <button class="bg-blue-600 hover:bg-bule-700 text-white font-bold py-2 rounded shadow-lg hover:shadow-xl transition duration-200" type="submit">Entrar</button>
                 <div class="w-full text-center mt-3">
-                    <button class="bg-gray-700 text-white font-bold py-0 px-3 rounded" type="submit">
+                    <button class="bg-zinc-700 text-white font-bold py-0 px-3 rounded" type="submit">
                         <img src="icon-google.png" class="w-8 h-8">
                     </button>
-                    <button class="bg-gray-700 text-white font-bold py-0 px-3 rounded" type="submit">
+                    <button class="bg-zinc-700 text-white font-bold py-0 px-3 rounded" type="submit">
                         <img src="icon-facebook.png" class="w-9 h-9">
                     </button>
                 </div>
@@ -73,8 +83,8 @@
     </div>
 
     <footer class="max-w-lg mx-auto flex justify-center text-gray-100">
-        <!-- <a href="#" class="hover:underline">Contato</a>
-        <span class="mx-3">•</span> -->
+        <a href="#" class="hover:underline">Contato</a>
+        <span class="mx-3">•</span>
         <a href="#" data-bs-toggle="modal" data-bs-target="#policesModal" class="hover:underline">Política de Privacidade</a>
     </footer>
 

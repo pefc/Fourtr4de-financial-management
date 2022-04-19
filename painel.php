@@ -36,12 +36,38 @@
 
     <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>
 
+    <style>
+    .shim-green {
+        position: relative;
+        overflow: hidden;
+        background-color: rgba(0, 255, 0, 0.7);
+    }
+    .shim-green::after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        transform: translateX(-100%);
+        background-image: linear-gradient(
+            90deg,
+            rgba(233, 233, 233, 1) 0,
+            rgba(233, 233, 233, 0.9) 50%,
+            rgba(233, 233, 233, 0.8) 100%
+        );
+    }
+    .body-bg {
+        background-color: #18181b;
+        background-image: linear-gradient(#18181b 0%, #3f3f46 74%);
+    }
+    </style>
+
 
 </head>
 
-<body class="bg-gray-800 font-sans leading-normal tracking-normal">
+<body class="body-bg font-sans leading-normal tracking-normal">
 
-    <nav id="header" class="bg-gray-700 fixed w-full z-10 top-0 shadow">
+    <nav id="header" class="bg-zinc-800 fixed w-full z-10 top-0 shadow">
 
 
         <div class="w-full container mx-auto flex flex-wrap items-center mt-0 pt-3 pb-3 md:pb-0">
@@ -105,21 +131,21 @@
             </div>
 
 
-            <div class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden lg:block mt-2 lg:mt-0 bg-gray-700 z-20" id="nav-content">
+            <div class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden lg:block mt-2 lg:mt-0 bg-zinc-800 z-20" id="nav-content">
                 <ul class="list-reset lg:flex flex-1 items-center px-4 md:px-1">
-                    <li class="mr-6 my-2 md:my-0" data-bs-toggle="modal" data-bs-target="#reportsModal">
+                    <li class="mr-6 my-2 md:my-0" data-bs-toggle="modal" data-bs-target="#projectionModal">
                         <a href="#" class="block py-1 md:py-3 pl-1 align-middle text-gray-100 no-underline hover:text-gray-500">
-                            <i class="fas fa-chart-area fa-fw mr-3"></i><span class="pb-1 md:pb-0 text-sm">Relatórios</span>
+                            <i class="fas fa-chart-line fa-fw mr-3"></i><span class="pb-1 md:pb-0 text-sm">Projeção</span>
                         </a>
                     </li>
                     <li class="mr-6 my-2 md:my-0" data-bs-toggle="modal" data-bs-target="#withdrawalModal">
                         <a href="#" class="block py-1 md:py-3 pl-1 align-middle text-gray-100 no-underline hover:text-gray-500">
-                            <i class="fa fa-money-bill-transfer fa-fw mr-3"></i><span class="pb-1 md:pb-0 text-sm">Informar Saque</span>
+                            <i class="fa fa-money-bill-transfer fa-fw mr-3"></i><span class="pb-1 md:pb-0 text-sm">Saques</span>
                         </a>
                     </li>
                     <li class="mr-6 my-2 md:my-0" data-bs-toggle="modal" data-bs-target="#operationModal">
                         <a href="#" class="block py-1 md:py-3 pl-1 align-middle text-gray-100 no-underline hover:text-gray-500">
-                            <i class="fa fa-tasks fa-fw mr-3"></i><span class="pb-1 md:pb-0 text-sm" >Informar Operação</span>
+                            <i class="fa fa-receipt fa-fw mr-3"></i><span class="pb-1 md:pb-0 text-sm" >Operações</span>
                         </a>
                     </li>
                     <li class="mr-6 my-2 md:my-0" data-bs-toggle="modal" data-bs-target="#configModal">
@@ -162,7 +188,7 @@
                         <div class="flex flex-row items-center">
                             <div class="flex-1 text-left md:text-left">
                                 <h5 class="font-bold uppercase text-gray-500">Valor da Banca <a href="#"><span class="text-blue-600" data-bs-toggle="modal" data-bs-target="#balanceCurrentModal"><i class="fa-solid fa-rotate"></i></span></a></h5>
-                                <h3 class="font-bold text-3xl">R$ 1000,00 <span class="align-top text-sm font-semibold text-white mt-10 px-1.5 bg-green-500 rounded-full">37%</span></h3>
+                                <h3 class="font-bold text-3xl">R$ <?=number_format(rand(30,10000),2,",",".")?> <span class="align-top text-sm font-semibold text-white mt-10 px-1.5 bg-green-500 rounded-full"><?=rand(1,100)?>%</span></h3>
                             </div>
                         </div>
                         <div class="w-full">
@@ -178,7 +204,7 @@
                         <div class="flex flex-row items-center">
                             <div class="flex-1 text-left md:text-left">
                                 <h5 class="font-bold uppercase text-gray-500">Lucro do dia</h5>
-                                <h3 class="font-bold text-md md:text-3xl">R$ 53,00 <span class="align-top text-[10px] md:text-sm font-semibold text-white mt-10 px-1.5 bg-yellow-500 rounded-full">57%</span></h3>
+                                <h3 class="font-bold text-md md:text-3xl">R$ 3.708,99</h3>
                             </div>
                         </div>
                         <div class="w-full">
@@ -194,7 +220,7 @@
                         <div class="flex flex-row items-center">
                             <div class="flex-1 text-left md:text-left">
                                 <h5 class="font-bold uppercase text-gray-500">Lucro total</h5>
-                                <h3 class="font-bold text-md md:text-3xl">R$ 512,00 <span class="align-top text-[10px] md:text-sm font-semibold text-white mt-10 px-1.5 bg-green-500 rounded-full">67%</span></h3>
+                                <h3 class="font-bold text-md md:text-3xl">R$ <?=number_format(rand(10,10000),2,",",".")?></h3>
                             </div>
                         </div>
                         <div class="w-full">
@@ -231,7 +257,7 @@
                             </div>
                             <div class="flex-1 text-center md:text-center">
                                 <h5 class="font-bold uppercase text-gray-500">Margem de lucro</h5>
-                                <h3 class="font-bold text-xl md:text-3xl">10%</h3>
+                                <h3 class="font-bold text-xl md:text-3xl"><?=rand(2,20)?>%</h3>
                             </div>
                         </div>
                     </div>
@@ -247,7 +273,11 @@
                             </div>
                             <div class="flex-1 text-center md:text-center">
                                 <h5 class="font-bold uppercase text-gray-500">Meta do dia</h5>
-                                <h3 class="font-bold text-xl md:text-3xl">R$ 100,00</h3>
+                                <h3 class="font-bold text-xl md:text-3xl">R$ <?=number_format(rand(30,200),2,",",".")?></h3>
+                                <div class="relative w-full bg-red-500 rounded h-2 mt-2">
+                                    <div style="width: <?=rand(1,100)?>%" class="absolute top-0 h-2 rounded shim-green"></div>
+                                    &nbsp;
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -263,7 +293,7 @@
                             </div>
                             <div class="flex-1 text-center md:text-center">
                                 <h5 class="font-bold uppercase text-gray-500">Stop Loss</h5>
-                                <h3 class="font-bold text-xl md:text-3xl">R$ 800,00</h3>
+                                <h3 class="font-bold text-xl md:text-3xl">R$ <?=number_format(rand(0,10000),2,",",".")?></h3>
                             </div>
                         </div>
                     </div>
@@ -279,7 +309,7 @@
                             </div>
                             <div class="flex-1 text-center md:text-center">
                                 <h5 class="font-bold uppercase text-gray-500">Stop Win</h5>
-                                <h3 class="font-bold text-xl md:text-3xl">R$ 1300,00</h3>
+                                <h3 class="font-bold text-xl md:text-3xl">R$ <?=number_format(rand(0,10000),2,",",".")?></h3>
                             </div>
                         </div>
                     </div>
@@ -361,29 +391,11 @@
                 <div class="w-full md:w-1/2 p-3">
                     <!--Graph Card-->
                     <div class="bg-white border rounded shadow">
-                        <div class="border-b p-3">
+                        <div class="bg-gray-200 border-b p-3">
                             <h5 class="font-bold uppercase text-gray-600">Saques</h5>
                         </div>
                         <div class="p-5">
-                            <canvas id="chartjs-7" class="chartjs" width="undefined" height="93"></canvas>
-                            <script>
-                            new Chart(document.getElementById("chartjs-7"), {
-                                "type": "line",
-                                "data": {
-                                    "labels": ["January", "February", "March", "April", "May", "June", "July"],
-                                    "datasets": [{
-                                        "label": "",
-                                        "data": [65, 59, 80, 81, 56, 55, 40],
-                                        "borderColor": "rgb(75, 192, 192)",
-                                        "lineTension": 0.1,
-                                        "fill": true,
-                                        
-                                    }]
-                                },
-                                "options": {
-                                }
-                            });
-                            </script>
+                            <canvas id="chartjs-7" class="" width="undefined" height="75"></canvas>
                         </div>
                     </div>
                     <!--/Graph Card-->
@@ -496,6 +508,10 @@
                         <label for="confirm_password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Confirmar senha</label>
                         <input type="password" name="confirm_password" id="confirm_password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
                     </div>
+                    <!-- <div>
+                        <label for="newletter" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Confirmar senha</label>
+                        <input type="password" name="confirm_password" id="confirm_password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
+                    </div> -->
                     <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
                         Encerrar sua conta conosco? <a href="#" class="text-blue-700 hover:underline dark:text-blue-500">Clique aqui</a>
                     </div>
@@ -665,14 +681,14 @@
     </div>
 
     <div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
-    id="reportsModal" tabindex="-1" aria-labelledby="reportsModalLabel" aria-hidden="true">
+    id="projectionModal" tabindex="-1" aria-labelledby="projectionModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable relative w-auto pointer-events-none">
             <div
             class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
                 <div
                     class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
-                    <h5 class="text-xl font-medium leading-normal text-gray-800" id="reportsModalLabel">
-                    Relatórios
+                    <h5 class="text-xl font-medium leading-normal text-gray-800" id="projectionModalLabel">
+                    Planejamento
                     </h5>
                     <button type="button"
                     class="btn-close box-content w-4 h-4 p-1 text-black border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-black hover:opacity-75 hover:no-underline"
@@ -681,11 +697,84 @@
                     </button>
                 </div>
                 <div class="modal-body relative p-4">
-                    <form class="px-6 pb-4 space-y-6 lg:px-8 sm:pb-6 xl:pb-8" action="#">
+                    <!-- <form class="px-6 pb-4 space-y-6 lg:px-8 sm:pb-6 xl:pb-8" action="#"> -->
                         <div>
-                            <div class="text-sm text-gray-500 mt-1">Em breve</div>
+                            <table class="w-full p-5 text-gray-700 text-center text-sm md:text-md">
+                                <thead>
+                                    <tr class="bg-gray-200 text-blue-900">
+                                        <th>Dia</th>
+                                        <th>Banca</th>
+                                        <th>Resultado</th>
+                                        <th>Lucro</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr>
+                                        <td>1º</td>
+                                        <td>R$ 500,00</td>
+                                        <td>R$ 530,00</td>
+                                        <td>R$ 30,00</td>
+                                    </tr>
+                                    <tr class="bg-gray-100">
+                                        <td>2º</td>
+                                        <td>R$ 530,00</td>
+                                        <td>R$ 561,80</td>
+                                        <td>R$ 31,80</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3º</td>
+                                        <td>R$ 561,80</td>
+                                        <td>R$ 595,51</td>
+                                        <td>R$ 33,71</td>
+                                    </tr>
+                                    <tr class="bg-gray-100">
+                                        <td>4º</td>
+                                        <td>R$ 595,51</td>
+                                        <td>R$ 631,24</td>
+                                        <td>R$ 35,73</td>
+                                    </tr>
+                                    <tr>
+                                        <td>5º</td>
+                                        <td>R$ 631,24</td>
+                                        <td>R$ 669,11</td>
+                                        <td>R$ 37,87</td>
+                                    </tr>
+                                    <tr class="bg-gray-100">
+                                        <td>6º</td>
+                                        <td>R$ 631,24</td>
+                                        <td>R$ 709,26</td>
+                                        <td>R$ 40,15</td>
+                                    </tr>
+                                    <tr>
+                                        <td>7º</td>
+                                        <td>R$ 709,26</td>
+                                        <td>R$ 751,82</td>
+                                        <td>R$ 42,56</td>
+                                    </tr>
+                                    <tr class="bg-gray-100">
+                                        <td>8º</td>
+                                        <td>R$ 751,82</td>
+                                        <td>R$ 796,92</td>
+                                        <td>R$ 45,11</td>
+                                    </tr>
+                                    <tr>
+                                        <td>9º</td>
+                                        <td>R$ 751,82</td>
+                                        <td>R$ 844,74</td>
+                                        <td>R$ 47,82</td>
+                                    </tr>
+                                    <tr class="bg-gray-100">
+                                        <td>10º</td>
+                                        <td>R$ 844,74</td>
+                                        <td>R$ 895,42</td>
+                                        <td>R$ 50,68</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                    </form>
+                        <div class="text-sm text-gray-500 mt-1">Valores calculados com base na sua banca atual e na margem definida de lucro.</div>
+                    <!-- </form> -->
                 </div>
                 <!-- <div  class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
                     <button type="button"
@@ -732,7 +821,7 @@
     </div>
     <!-- /Modal -->
 
-    <footer class="bg-gray-700 border-t border-gray-400 shadow">
+    <footer class="bg-zinc-800 border-t border-gray-400 shadow">
         <div class="container max-w-md mx-auto flex py-8">
 
             <div class="w-full mx-auto flex flex-wrap">
@@ -740,7 +829,7 @@
                     <div class="px-8">
                         <h3 class="font-bold font-bold text-gray-100">Quem somos</h3>
                         <p class="py-4 text-gray-400 text-sm">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel mi ut felis tempus commodo nec id erat. Suspendisse consectetur dapibus velit ut lacinia.
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel mi ut felis tempus commodo nec.
                         </p>
                     </div>
                 </div>
@@ -775,7 +864,7 @@
             "labels": ["10/04/2022", "11/04/2022", "12/04/2022", "13/04/2022", "14/04/2022", "15/04/2022", "16/04/2022", "17/04/2022"],
             "datasets": [{
                 "label": "",
-                "data": [1000, 1122, 812, 1753, 1500, 1303, 1710, 1902],
+                "data": [<?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>],
                 "borderColor": "hsl(209, 100%, 42%)",
                 "lineTension": 0.1,
                 "fill": true,
@@ -818,7 +907,7 @@
             "labels": ["10/04/2022", "11/04/2022", "12/04/2022", "13/04/2022", "14/04/2022", "15/04/2022", "16/04/2022", "17/04/2022"],
             "datasets": [{
                 "label": "",
-                "data": [41, 12, 131, 121, 121, 212, 31, 50],
+                "data": [<?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>],
                 "borderColor": "hsl(209, 100%, 42%)",
                 "lineTension": 0.1,
                 "fill": true,
@@ -861,7 +950,7 @@
             "labels": ["10/04/2022", "11/04/2022", "12/04/2022", "13/04/2022", "14/04/2022", "15/04/2022", "16/04/2022", "17/04/2022"],
             "datasets": [{
                 "label": "",
-                "data": [131, 311, 123, 412, 422, 521, 440, 600],
+                "data": [<?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>, <?=rand(100,1000)?>],
                 "borderColor": "hsl(209, 100%, 42%)",
                 "lineTension": 0.1,
                 "fill": true,
@@ -880,6 +969,45 @@
                 },
                 "x": {
                     "display": false,
+                },
+            },
+            "plugins": {
+                "legend": {
+                    "display": false,
+                },
+                "tooltip": {
+                    "callbacks": {
+                    // "title": () => true, // Disable tooltip title
+                    "label": (context) => ('R$ '+context.parsed.y),
+                    },
+                },
+            },
+        }
+    });
+    </script>
+
+    <script>
+    new Chart(document.getElementById("chartjs-7"), {
+        "type": "line",
+        "data": {
+            "labels": ["January", "February", "March", "April", "May", "June", "July"],
+            "datasets": [{
+                "label": "",
+                "data": [<?=rand(100,300)?>, <?=rand(1000,3000)?>, <?=rand(1000,3000)?>, <?=rand(1000,3000)?>, <?=rand(1000,3000)?>, <?=rand(1000,3000)?>, <?=rand(1000,3000)?>],
+                "borderColor": "rgb(75, 192, 192)",
+                "lineTension": 0.1,
+                "fill": true,
+                
+            }]
+        },
+        "options": {
+            "scales": {
+                "y": {
+                    "display": false,
+                    "beginAtZero": true,
+                },
+                "x": {
+                    "display": true,
                 },
             },
             "plugins": {

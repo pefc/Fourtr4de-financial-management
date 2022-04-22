@@ -331,6 +331,7 @@
                             <div class="flex-1 text-center md:text-center">
                                 <h5 class="font-bold uppercase text-gray-500">Margem de lucro</h5>
                                 <h3 class="font-bold text-xl md:text-2xl">{{profitMargin}}%</h3>
+                                <div>&nbsp;</div>
                             </div>
                         </div>
                     </div>
@@ -370,8 +371,9 @@
                                 <div class="rounded p-3 bg-red-600"><i class="fas fa-sack-xmark fa-2x fa-fw fa-inverse"></i></div>
                             </div>
                             <div class="flex-1 text-center md:text-center">
-                                <h5 class="font-bold uppercase text-gray-500">Stop Loss</h5>
-                                <h3 class="font-bold text-xl md:text-2xl">R$ {{stopLoss}}</h3>
+                                <h5 class="font-bold uppercase text-{% if bankroll <= stopLoss %}red-700{% else %}gray-500{% endif %}">Stop Loss</h5>
+                                <h3 class="font-bold text-xl md:text-2xl text-{% if bankroll <= stopLoss %}red-700{% else %}gray-900{% endif %}">R$ {{stopLoss}}</h3>
+                                <div>&nbsp;</div>
                             </div>
                         </div>
                     </div>
@@ -386,8 +388,9 @@
                                 <div class="rounded p-3 bg-green-600"><i class="fas fa-sack-dollar fa-2x fa-fw fa-inverse"></i></div>
                             </div>
                             <div class="flex-1 text-center md:text-center">
-                                <h5 class="font-bold uppercase text-gray-500">Stop Win</h5>
-                                <h3 class="font-bold text-xl md:text-2xl">R$ {{stopWin}}</h3>
+                                <h5 class="font-bold uppercase text-{% if bankroll >= stopWin %}green-700{% else %}gray-500{% endif %}">Stop Win</h5>
+                                <h3 class="font-bold text-xl md:text-2xl text-{% if bankroll >= stopWin %}green-700{% else %}gray-900{% endif %}">R$ {{stopWin}}</h3>
+                                <div>&nbsp;</div>
                             </div>
                         </div>
                     </div>

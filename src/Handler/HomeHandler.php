@@ -112,7 +112,7 @@ class HomeHandler implements RequestHandlerInterface
             'profitMargin' => $profitMargin,
 
             'goal' => number_format($goal,2,",","."),
-            'percenteGoal' => $percenteGoal,
+            'percenteGoal' => round($percenteGoal,2),
             
             'stopWin' => number_format($stopWin,2,",","."),
             'stopLoss' => number_format($stopLoss,2,",","."),

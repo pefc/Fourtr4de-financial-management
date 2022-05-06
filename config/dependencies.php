@@ -55,23 +55,23 @@ return static function (ContainerBuilder $containerBuilder, array $settings) {
             return $twig;
         },
 
-        // PDO::class => function (ContainerInterface $c, LoggerInterface $logger) {
-        //     $settings = $c->get('settings');
+        PDO::class => function (ContainerInterface $c, LoggerInterface $logger) {
+            $settings = $c->get('settings');
 
-        //     $host = $settings['db']['host'];
-        //     $dbname = $settings['db']['database'];
-        //     $username = $settings['db']['username'];
-        //     $password = $settings['db']['password'];
-        //     $port = $settings['db']['port'];
-        //     try {
-        //         $conn = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $username, $password);
-        //         return $conn;
-        //     }
-        //     catch( PDOException $Exception ) {
-        //         $logger->error($Exception->getMessage().'; FILE: '.$Exception->getFile().'; LINE: '.$Exception->getLine());
-        //         throw new $Exception( $Exception->getMessage());
-        //     }
-        // },
+            $host = $settings['db']['host'];
+            $dbname = $settings['db']['database'];
+            $username = $settings['db']['username'];
+            $password = $settings['db']['password'];
+            $port = $settings['db']['port'];
+            try {
+                $conn = new PDO("mysql:host=$host;port=$port;dbname=$dbname", $username, $password);
+                return $conn;
+            }
+            catch( PDOException $Exception ) {
+                $logger->error($Exception->getMessage().'; FILE: '.$Exception->getFile().'; LINE: '.$Exception->getLine());
+                throw new $Exception( $Exception->getMessage());
+            }
+        },
 
         MailerInterface::class => function (ContainerInterface $c) {
             $settings = $c->get('settings')['smtp'];

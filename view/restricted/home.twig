@@ -414,15 +414,15 @@
                     <!--Template Card-->
                     <div class="bg-zinc-800 rounded shadow">
                         <div class="bg-zinc-800 rounded p-3">
-                            <h5 class="font-bold uppercase text-green-700">Gestão das Apostas</h5>
+                            <h5 class="font-bold uppercase text-green-700">Gestão das Apostas¹</h5>
                         </div>
                         <div class="p-2">
                             <table class="w-full p-5 text-gray-200 text-center text-sm md:text-md">
                                 <thead>
                                     <tr class="bg-zinc-700 text-gray-200">
                                         <th>Porcentagem</th>
-                                        <th>Valor da aposta*</th>
-                                        <th>Greens**</th>
+                                        <th>Valor da aposta²</th>
+                                        <th>Greens³</th>
                                     </tr>
                                 </thead>
 
@@ -469,8 +469,9 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <div class="text-[10px] text-gray-500 mt-1">* Valores referentes ao primeiro <i>gale</i>. Siga o modelo <a href="https://pt.wikipedia.org/wiki/Martingale" target="_blank"><i>Martingale</i></a> nas próximas entradas.</div>
-                            <div class="text-[10px] text-gray-500 mt-1">** Quantidade aproximada de greens para bater a meta do dia. Considere a porcentagem do primeiro <i>gale</i>.</div>
+                            <div class="text-[10px] text-gray-500 mt-1">¹ Valores calculados com base no saldo da sua banca no dia anterior.</div>
+                            <div class="text-[10px] text-gray-500 mt-1">² Valores referentes ao primeiro <i>gale</i>. Siga o modelo <i>Martingale</i> nas próximas entradas.</div>
+                            <div class="text-[10px] text-gray-500 mt-1">³ Quantidade aproximada de greens para bater a meta do dia. Considere a porcentagem do primeiro <i>gale</i>.</div>
                         </div>
                     </div>
                     <!--/Template Card-->
@@ -570,7 +571,7 @@
             class="bg-zinc-800 modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-clip-padding rounded-md outline-none text-current">
             <div
                 class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
-                <h5 class="text-xl font-medium leading-normal text-gray-200" id="myAccountModalLabel">
+                <h5 class="text-xl font-medium leading-normal text-green-700" id="myAccountModalLabel">
                 Minha Conta
                 </h5>
                 <button type="button"
@@ -623,7 +624,7 @@
             class="bg-zinc-800 modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-clip-padding rounded-md outline-none text-current">
             <div
                 class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
-                <h5 class="text-xl font-medium leading-normal text-gray-200" id="withdrawalModalLabel">
+                <h5 class="text-xl font-medium leading-normal text-green-700" id="withdrawalModalLabel">
                 Saques
                 </h5>
                 <button type="button"
@@ -667,7 +668,7 @@
             class="bg-zinc-800 modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-clip-padding rounded-md outline-none text-current">
             <div
                 class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
-                <h5 class="text-xl font-medium leading-normal text-gray-200" id="depositModalLabel">
+                <h5 class="text-xl font-medium leading-normal text-green-700" id="depositModalLabel">
                 Depósitos
                 </h5>
                 <button type="button"
@@ -711,7 +712,7 @@
             class="bg-zinc-800 modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-clip-padding rounded-md outline-none text-current">
             <div
                 class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
-                <h5 class="text-xl font-medium leading-normal text-gray-200" id="configModalLabel">
+                <h5 class="text-xl font-medium leading-normal text-green-700" id="configModalLabel">
                 Configurações da Banca
                 </h5>
                 <button type="button"
@@ -853,7 +854,7 @@
             class="bg-zinc-800 modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-clip-padding rounded-md outline-none text-current">
                 <div
                     class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
-                    <h5 class="text-xl font-medium leading-normal text-gray-200" id="projectionModalLabel">
+                    <h5 class="text-xl font-medium leading-normal text-green-700" id="projectionModalLabel">
                     Projeção
                     </h5>
                     <button type="button"
@@ -960,7 +961,7 @@
             class="bg-zinc-800 modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-clip-padding rounded-md outline-none text-current">
                 <div
                     class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
-                    <h5 class="text-xl font-medium leading-normal text-gray-200" id="betsModalLabel">
+                    <h5 class="text-xl font-medium leading-normal text-green-700" id="betsModalLabel">
                     Apostas
                     </h5>
                     <button type="button"
@@ -1068,17 +1069,17 @@
     </footer>
 
 
-    {# <div class="alert-footer w-full fixed bottom-0">
+    <div class="alert-footer w-full fixed bottom-0">
         <input type="checkbox" class="hidden" id="footeralert">
         <div class="flex items-center justify-between w-full p-2 bg-red-600 shadow text-white ">
-            Não localizamos nenhum registro referente ao valor atual da sua banca para este dia.<br/><br/>Informe o valor atual da sua banca para que possamos atualizar os seus parâmetros.
+            Mensagem de alerta para todos os usuários.
             <label class="close cursor-pointer" title="close" for="footeralert">
                 <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
                 <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
                 </svg>
             </label>
         </div>
-    </div> #}
+    </div>
 
 </body>
 

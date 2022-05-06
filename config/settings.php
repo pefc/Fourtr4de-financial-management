@@ -11,19 +11,23 @@ return static function(array $appEnv) {
         'display_error_details' => false,
         'log_errors' => true,
 
+        'site_url' => $appEnv['SITE_URL'],
+
+        'secret_key' => $appEnv['SECRET_KET'],
+
         'logger' => [
             'name' => 'pp9787',
             'path' => 'php://stderr',
             'level' => Logger::DEBUG,
         ],
 
-        // "db" => [
-        //     'host' => $appEnv['DB_HOST'],
-        //     'port' => $appEnv['DB_PORT'],
-        //     'database' => $appEnv['DB_DATABASE'],
-        //     'username' => $appEnv['DB_USERNAME'],
-        //     'password' => $appEnv['DB_PASSWORD'],
-        // ],
+        "db" => [
+            'host' => $appEnv['DB_HOST'],
+            'port' => $appEnv['DB_PORT'],
+            'database' => $appEnv['DB_DATABASE'],
+            'username' => $appEnv['DB_USERNAME'],
+            'password' => $appEnv['DB_PASSWORD'],
+        ],
 
         'twig' => [
             'path_templates' => __DIR__ . '/../view',
@@ -37,26 +41,6 @@ return static function(array $appEnv) {
             'username' => $appEnv['SMTP_USERNAME'],
             'password' => $appEnv['SMTP_PASSWORD'],
             'from' => $appEnv['SMTP_FROM'],
-        ],
-
-        'hybridauth' => [
-            'callback' => $appEnv['SITE_IP'].'/login/callback',
-            'providers' => [
-                'Google' => [
-                    'enabled' => true,
-                    'keys' => [
-                        'id' => $appEnv['GOOGLE_ID'],
-                        'secret' => $appEnv['GOOGLE_SECRET'],
-                    ]
-                ],
-                // 'Facebook' => [
-                //     'enabled' => true, 
-                //     'keys' => [
-                //         'id' => $appEnv['FACEBOOK_ID'], 
-                //         'secret' => $appEnv['FACEBOOK_SECRET']
-                //     ]
-                // ]
-            ],
         ],
     ];
 

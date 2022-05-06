@@ -11,30 +11,15 @@ use Psr\Log\LoggerInterface;
 use Slim\Psr7\Response;
 use Slim\Routing\RouteContext;
 use Psr\Container\ContainerInterface;
-use Hybridauth\Hybridauth;
-use Hybridauth\Exception\Exception;
-use Hybridauth\HttpClient;
-use Hybridauth\Storage\Session;
 use Slim\Flash\Messages;
-// use PDO;
 
 class HomeHandler implements RequestHandlerInterface
 {
-    private $logger;
     private $twig;
-    private $container;
-    private $flash;
-    // private $pdo;
-    private $mailer;
 
-    public function __construct(LoggerInterface $logger, \Twig\Environment $twig, ContainerInterface $container, \Slim\Flash\Messages $flash, MailHandler $mailer)//, PDO $pdo,)
+    public function __construct(\Twig\Environment $twig)
     {
-        $this->logger = $logger;
         $this->twig = $twig;
-        $this->container = $container;
-        $this->flash = $flash;
-        // $this->pdo = $pdo;
-        $this->mailer = $mailer;
     }
 
     public function handle(ServerRequestInterface $request): ResponseInterface
@@ -119,7 +104,7 @@ class HomeHandler implements RequestHandlerInterface
         ];
 
         $response->getBody()->write(
-            $this->twig->render('home.twig', $args)
+            $this->twig->render('restricted/home.twig', $args)
         );
         return $response;
     }

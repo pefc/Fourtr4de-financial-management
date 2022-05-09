@@ -83,7 +83,6 @@ class UsersHandler implements RequestHandlerInterface
         try
         {
             $createdAt = sha1(date("dmyhis"));
-
             $token = sha1($createdAt.sha1($data["email"]).sha1($data["identifier"]).sha1($this->container->get('settings')['secret_key']));
 
             $sql = "INSERT INTO 
@@ -108,7 +107,7 @@ class UsersHandler implements RequestHandlerInterface
             if ( $stmt->execute($arrData) === false )
             {
                 $this->logger->error("Erro ao cadastrar o usuário - users");
-                throw new \Exception("Não foi possível realizar o cadastro.");
+                throw new \Exception("Não foi possível cadastrar a conta.");
             }
                 
 
@@ -118,7 +117,7 @@ class UsersHandler implements RequestHandlerInterface
             if ( empty($userData[0]['id']) )
             {
                 $this->logger->error("Erro ao recuperar informações do usuário para vincular o  termo durnate o cadastro");
-                throw new \Exception("Não foi possível realizar o cadastro.");
+                throw new \Exception("Não foi possível cadastrar a conta.");
             }
 
             $sql = "INSERT INTO 
@@ -134,21 +133,21 @@ class UsersHandler implements RequestHandlerInterface
             if ( $stmt->execute($arrData) === false )
             {
                 $this->logger->error("Erro ao vincular termos e condições ao usuário");
-                throw new \Exception("Não foi possível realizar o cadastro.");
+                throw new \Exception("Não foi possível cadastrar a conta.");
             }
 
 
-            $url = $this->container->get('settings')['site_url']."/users/activate/".$token;
+            $url = $this->container->get('settings')['site_url'].$routeParser->urlFor('activateUser', ['token' => $token]);
 
             $html = null;
             $html.= 'Olá '.strtoupper($data['name']).'<br><br>';
-            $html.= 'Clique no link abaixo para ativar seu cadastro:<br><br>';
-            $html.= '<a href="'.$url.'">ATIVAR MEU CADASTRO</a><br><br>';
+            $html.= 'Clique no link abaixo para ativar sua conta:<br><br>';
+            $html.= '<a href="'.$url.'">ATIVAR MINHA CONTA</a><br><br>';
             $html.= 'Caso não consiga acessar o link acima, copie e cole no seu navegador a url abaixo:<br><br>';
             $html.= $url.'<br><br>';
             
             $dataMail = [
-                'subject' => 'Gestor de Banca | FourTr4de - Ativar Cadastro',
+                'subject' => 'Gestor de Banca | FourTr4de - Ativar Conta',
                 'to' => strtolower(trim($data['email'])),
                 'html' => $html,
             ];
@@ -218,7 +217,7 @@ class UsersHandler implements RequestHandlerInterface
             if ( $stmt->execute($arrData) === false )
             {
                 $logger->error("Erro ao recuperar informações do usuário - formulário recuperar senha");
-                throw new \Exception("Não foi possível localizar o cadastro.");
+                throw new \Exception("Não foi possível localizar a conta.");
             }
 
             $userData = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -227,7 +226,7 @@ class UsersHandler implements RequestHandlerInterface
                 throw new \Exception("Não possível localizar e-mail do CPF informado.");
             }
 
-            $url = $this->container->get('settings')['site_url']."/users/reset-password/".$userData[0]['token'];
+            $url = $this->container->get('settings')['site_url'].$routeParser->urlFor('formResetPassword', ['token' => $userData[0]['token']]);
 
             $html = "";
             $html.= 'Olá '.$userData[0]['name'].'<br><br>';
@@ -269,7 +268,7 @@ class UsersHandler implements RequestHandlerInterface
         try
         {
             if ( empty($token) )
-                throw new \Exception("Não foi possível localizar o cadastro.");
+                throw new \Exception("Não foi possível localizar a conta.");
 
             $stmt = $this->pdo->prepare("SELECT id FROM users WHERE token = :token LIMIT 1");
             $stmt->execute(['token' => $token]);
@@ -318,7 +317,7 @@ class UsersHandler implements RequestHandlerInterface
             $stmt->execute(['token' => $token, 'userIdentifier' => $data['identifier']]);
             $userData = $stmt->fetchAll(PDO::FETCH_ASSOC);
             if ( empty($userData[0]['id']))
-                throw new \Exception("Não foi possível localizar o cadastro.");
+                throw new \Exception("Não foi possível localizar a conta.");
 
             
             $createdAt = sha1(date("dmyhis"));
@@ -362,4 +361,165 @@ class UsersHandler implements RequestHandlerInterface
                     ->withHeader('Location', $routeParser->urlFor('formResetPassword', ['token' => $token])); 
         }
     }
+
+    public function activateUser(ServerRequestInterface $request): ResponseInterface
+    {
+        $response = new Response();
+        $routeContext = RouteContext::fromRequest($request);
+        $routeParser = $routeContext->getRouteParser();
+        $route = $routeContext->getRoute();
+
+        $data = $request->getParsedBody();
+
+        $token = $route->getArgument('token');
+
+        try{
+            if ( empty($token) )
+            {
+                throw new \Exception("Não foi possível recuperar as informações.");
+            }
+
+            $stmt = $this->pdo->prepare("SELECT * FROM users WHERE token = :token LIMIT 1");
+            $stmt->execute(['token' => $token]);
+            $userData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if ( empty($userData[0]['id']))
+                throw new \Exception("Não foi possível localizar a conta.");
+
+            
+            $createdAt = sha1(date("dmyhis"));
+            $newToken = sha1($createdAt.sha1($userData[0]["email"]).sha1($userData[0]["identifier"]).sha1($this->container->get('settings')['secret_key']));
+
+            $sql = "
+            UPDATE 
+                users 
+            SET
+                verified = true,
+                token = :newToken,
+                updated_at = now()
+            WHERE
+                token = :token";	
+            $arrData = [
+                'newToken' => $newToken,
+                'token' => $token,
+            ];
+            $stmt = $this->pdo->prepare($sql);
+            if ( $stmt->execute($arrData) === false )
+            {
+                $this->logger->error("Erro ao verificar a conta do usuário");
+                throw new \Exception("Não foi possível verificar a sua conta.");
+            }
+
+            $this->flash->addMessage('success', 'Conta verificada com sucesso.');
+
+
+        }
+        catch ( \Exception $e )
+        {
+            $this->flash->addMessage('error', $e->getMessage());
+        }
+
+        return $response
+            ->withStatus(302)
+            ->withHeader('Location', $routeParser->urlFor('formLogin')); 
+    }
+
+    public function resendActivation(ServerRequestInterface $request): ResponseInterface
+    {
+        $response = new Response();
+        $routeContext = RouteContext::fromRequest($request);
+        $routeParser = $routeContext->getRouteParser();
+        $route = $routeContext->getRoute();
+
+        $data = $request->getParsedBody();
+
+        $token = $route->getArgument('token');
+
+        try{
+            if ( empty($token) )
+            {
+                throw new \Exception("Não foi possível recuperar as informações.");
+            }
+
+            $stmt = $this->pdo->prepare("SELECT * FROM users WHERE token = :token LIMIT 1");
+            $stmt->execute(['token' => $token]);
+            $userData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if ( empty($userData[0]['id']))
+                throw new \Exception("Não foi possível localizar a conta.");
+
+            $url = $this->container->get('settings')['site_url'].$routeParser->urlFor('activateUser', ['token' => $userData[0]['token']]);
+
+            $html = null;
+            $html.= 'Olá '.strtoupper($userData[0]['name']).'<br><br>';
+            $html.= 'Clique no link abaixo para ativar sua conta:<br><br>';
+            $html.= '<a href="'.$url.'">ATIVAR MINHA CONTA</a><br><br>';
+            $html.= 'Caso não consiga acessar o link acima, copie e cole no seu navegador a url abaixo:<br><br>';
+            $html.= $url.'<br><br>';		
+            
+            $dataMail = [
+                'subject' => 'Gestor de Banca | FourTr4de - Ativar conta',
+                'to' => $userData[0]['email'],
+                'html' => $html,
+            ];
+
+            $this->mailer->sendEmail($dataMail);
+
+            $subEmail = substr_replace($userData[0]['email'], "****", 0, 4);
+            $subEmail = substr_replace($subEmail, "*****", -1, 5);
+
+            $this->flash->addMessage('success', 'Acesse o e-mail '.$subEmail.' e siga as instruções.');
+        }
+        catch ( \Exception $e )
+        {
+            $this->flash->addMessage('error', $e->getMessage());
+        }
+
+        return $response
+            ->withStatus(302)
+            ->withHeader('Location', $routeParser->urlFor('formLogin'));
+    }
+
+    public function formNoActiveUser(ServerRequestInterface $request): ResponseInterface
+    {
+        $response = new Response();
+        $routeContext = RouteContext::fromRequest($request);
+        $routeParser = $routeContext->getRouteParser();
+        $route = $routeContext->getRoute();
+
+        $data = $request->getParsedBody();
+
+        $token = $route->getArgument('token');
+
+        try{
+            if ( empty($token) )
+            {
+                throw new \Exception("Não foi possível recuperar as informações.");
+            }
+
+            $stmt = $this->pdo->prepare("SELECT * FROM users WHERE token = :token LIMIT 1");
+            $stmt->execute(['token' => $token]);
+            $userData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if ( empty($userData[0]['id']))
+                throw new \Exception("Não foi possível localizar a conta.");
+
+            $args = [];
+            $args['actionResendActivation'] = $routeParser->urlFor('actionResendActivation', ['token' => $token]);
+            $args['descriptionTerms'] = $_SESSION['descriptionTerms'];
+            $args['descriptionPolices'] = $_SESSION['descriptionPolices'];
+    
+            $response->getBody()->write(
+                $this->twig->render('public/resend-activation.twig', $args)
+            );
+            return $response;
+        }
+        catch ( \Exception $e )
+        {
+            $this->flash->addMessage('error', $e->getMessage());
+
+            return $response
+                ->withStatus(302)
+                ->withHeader('Location', $routeParser->urlFor('formLogin'));
+        }
+    }
+
+    
 }

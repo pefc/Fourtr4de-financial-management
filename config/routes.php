@@ -15,12 +15,13 @@ return function (App $app) {
 
     $app->get('/', AuthHandler::class)->setName('formLogin')->add(PreLoadMiddleware::class);;
 
-    $app->get('/monitor', HomeHandler::class.':monitor')->setName('monitor');
-
-    $app->group('/users', function (RouteCollectorProxy $groupUsers) {
+    $app->group('/account', function (RouteCollectorProxy $groupUsers) {
         $groupUsers->post('/new', UsersHandler::class.':saveUser')->setName('actionNewUser');
+
         $groupUsers->get('/activate/{token}', UsersHandler::class.':activateUser')->setName('activateUser');
-        
+        $groupUsers->get('/no-active/{token}', UsersHandler::class.':formNoActiveUser')->setName('formNoActiveUser');
+        $groupUsers->post('/resend-activation/{token}', UsersHandler::class.':resendActivation')->setName('actionResendActivation');
+
         $groupUsers->get('/edit/{id}', UsersHandler::class.':editUser')->setName('formEditUser');
 
         $groupUsers->post('/forgot-password', UsersHandler::class.':forgotPassword')->setName('actionForgotPassword');
@@ -29,4 +30,6 @@ return function (App $app) {
     })->add(PreLoadMiddleware::class);
 
 
+
+    $app->get('/monitor', HomeHandler::class.':monitor')->setName('monitor');
 };

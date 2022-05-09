@@ -1,0 +1,26 @@
+{% extends "public/base.twig" %}
+
+{% block content %}
+    <main class="bg-zinc-800 max-w-lg mx-auto p-8 md:p-12 my-10 rounded-lg shadow-2xl">
+        <section>
+            <h3 class="text-gray-100 font-bold text-2xl text-center">Ativar cadastro</h3>
+        </section>
+
+        <div class="">
+            <span class="text-green-700 text-sm"><strong>{{ flash.getMessage('success')[0] }}</strong></span>
+            <span class="text-red-700 text-sm"><strong>{{ flash.getMessage('error')[0] }}</strong></span>
+        </div>
+
+        <section class="mt-6">
+            <form class="flex flex-col" method="POST" action="{{actionResendActivation}}">
+                <div class="mb-6 pt-3 rounded bg-gray-200">
+                    <label class="block text-gray-700 text-sm font-bold mb-2 ml-3">Sua conta deverá ser ativada primeiro. Verifique o e-mail que foi utilizado para cadastro e siga as instruções.<br><br>Caso não tenha recebido o e-mail, clique no botão abaixos.</label>
+                    {# <input required type="text" id="identifier" name="identifier" placeholder="000.000.000-00" class="bg-white rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-green-700 transition duration-500 px-3 pb-3"> #}
+                </div>
+                <button class="bg-green-700 hover:bg-emerald-700 text-white font-bold py-2 rounded shadow-lg hover:shadow-xl transition duration-200" type="submit">Reenviar link de ativação</button>
+
+            </form>
+        </section>
+    </main>
+
+{% endblock %}

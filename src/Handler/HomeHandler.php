@@ -108,4 +108,15 @@ class HomeHandler implements RequestHandlerInterface
         );
         return $response;
     }
+
+
+    public function monitor(ServerRequestInterface $request): ResponseInterface
+    {        
+        $response = new Response();
+
+        $response->getBody()->write(
+            $this->twig->render('restricted/monitor.twig')
+        );
+        return $response;
+    }
 }

@@ -14,12 +14,14 @@ return function (App $app) {
 
     $app->get('/', AuthHandler::class)->setName('formLogin');
 
+    $app->get('/monitor', HomeHandler::class.':monitor')->setName('monitor');
+
     $app->group('/users', function (RouteCollectorProxy $groupUsers) {
         $groupUsers->post('/new', UsersHandler::class.':saveUser')->setName('actionNewUser');
+        $groupUsers->post('/activate/{token}', UsersHandler::class.':activateUser')->setName('activateUser');
         $groupUsers->post('/edit/{id}', UsersHandler::class.':editUser')->setName('actionEditUser');
         $groupUsers->post('/forgot-password', UsersHandler::class.':forgotPassword')->setName('actionForgotPassword');
-        $groupUsers->post('/activate/{tokenIdentifier}/{tokenEmail}', UsersHandler::class.':activateUser')->setName('activateUser');
-        
+        $groupUsers->post('/reset-password/{token}', UsersHandler::class.':resetPassword')->setName('resetPassword');
     });
 
 

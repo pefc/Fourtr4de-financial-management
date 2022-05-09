@@ -102,7 +102,7 @@ class UsersHandler implements RequestHandlerInterface
                 'userName' => trim($data['name']),
                 'userEmail' => strtolower(trim($data['email'])),
                 'userPassword' => sha1($data['password']),
-                'userIdentifier' => trim($data['identifier']),
+                'userIdentifier' => trim(str_replace([".","-"], "", $data['identifier'])),
                 'token' => $token,
             ];
             $stmt = $this->pdo->prepare($sql);
@@ -114,7 +114,7 @@ class UsersHandler implements RequestHandlerInterface
                 
 
             $stmt = $this->pdo->prepare("SELECT id FROM users WHERE email = :userEmail AND identifier = :userIdentifier LIMIT 1");
-            $stmt->execute(['userEmail' =>strtolower(trim($data['email'])), 'userIdentifier' => trim($data['identifier']) ]);
+            $stmt->execute(['userEmail' =>strtolower(trim($data['email'])), 'userIdentifier' => trim(str_replace([".","-"], "", $data['identifier'])) ]);
             $userData = $stmt->fetchAll(PDO::FETCH_ASSOC);
             if ( empty($userData[0]['id']) )
             {
@@ -139,10 +139,10 @@ class UsersHandler implements RequestHandlerInterface
             }
 
 
-            $url = $this->container->get('settings')['site_url']."/users/activate/".base64_encode($data['identifier'])."/".base64_encode($data['email']).'/'.base64_encode($createdAt);
+            $url = $this->container->get('settings')['site_url']."/users/activate/".$token;
 
             $html = null;
-            $html.= 'Olá'.strtoupper($data['name']).'<br><br>';
+            $html.= 'Olá '.strtoupper($data['name']).'<br><br>';
             $html.= 'Clique no link abaixo para ativar seu cadastro:<br><br>';
             $html.= '<a href="'.$url.'">ATIVAR MEU CADASTRO</a><br><br>';
             $html.= 'Caso não consiga acessar o link acima, copie e cole no seu navegador a url abaixo:<br><br>';
@@ -197,5 +197,69 @@ class UsersHandler implements RequestHandlerInterface
             return false;
 
         return true;
+    }
+
+
+    public function forgotPassword(ServerRequestInterface $request): ResponseInterface
+    {
+        $data = $request->getParsedBody();
+        
+        $routeParser = RouteContext::fromRequest($request)->getRouteParser();
+
+        $response = new Response();
+
+        try 
+        {
+            if ( empty($data['identifierForgotPassword']) )
+                throw new \Exception('Todos os campos obrigatórios devem ser preenchidos.');
+
+            $sql = "SELECT name, email, token FROM users WHERE identifier = :userIdentifier LIMIT 1";
+            $arrData = ['userIdentifier' => trim(str_replace([".","-"], "", $data['identifierForgotPassword']))];
+            $stmt = $this->pdo->prepare($sql);
+            if ( $stmt->execute($arrData) === false )
+            {
+                $logger->error("Erro ao recuperar informações do usuário - formulário recuperar senha");
+                throw new \Exception("Não foi possível localizar o cadastro.");
+            }
+
+            $userData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if ( empty($userData[0]['email']))
+            {
+                throw new \Exception("Não possível localizar e-mail do CPF informado.");
+            }
+
+            $url = $this->container->get('settings')['site_url']."/users/reset-password/".$userData[0]['token'];
+
+            $html = "";
+            $html.= 'Olá '.$userData[0]['name'].'<br><br>';
+            $html.= 'Clique no link abaixo para definir uma senha nova:<br><br>';
+            $html.= '<a href="'.$url.'">'.$url.'</a><br><br>';		
+            
+            $dataMail = [
+                'subject' => 'Gestor de Banca | FourTr4de - Redefinir Senha',
+                'to' => $userData[0]['email'],
+                'html' => $html,
+            ];
+
+            $this->mailer->sendEmail($dataMail);
+
+            $subEmail = substr_replace($userData[0]['email'], "****", 0, 4);
+            $subEmail = substr_replace($subEmail, "*****", -1, 5);
+
+            $this->flash->addMessage('success', 'Acesse o e-mail '.$subEmail.' e siga as instruções.');
+
+            return $response
+            ->withStatus(302)
+            ->withHeader('Location', $routeParser->urlFor("formLogin"));
+
+        }
+        catch ( \Exception $e )
+        {
+            $this->flash->addMessage('error', $e->getMessage());
+
+            return $response
+                    ->withStatus(200)
+                    ->withHeader('Location', $routeParser->urlFor('formEsqueciSenha')); 
+        }
     }
 }

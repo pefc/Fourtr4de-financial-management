@@ -44,18 +44,9 @@ class AuthHandler implements RequestHandlerInterface
         $args['actionForgotPassword'] = $routeParser->urlFor('actionForgotPassword');
         $args['actionAuth'] = $routeParser->urlFor('actionAuth');
 
-        $stmt = $this->pdo->prepare("SELECT id, description FROM terms_polices WHERE type = 'T' and status = 'A' ORDER BY id DESC LIMIT 1");
-        $stmt->execute();
-        $terms = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        $stmt = $this->pdo->prepare("SELECT id, description FROM terms_polices WHERE type = 'P' and status = 'A' ORDER BY id DESC LIMIT 1");
-        $stmt->execute();
-        $polices = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
-        $args['idTerms'] = $terms[0]["id"];
-        $args['descriptionTerms'] = $terms[0]["description"];
-
-        $args['descriptionPolices'] = $polices[0]["description"];
+        $args['idTerms'] = $_SESSION['idTerms'];
+        $args['descriptionTerms'] = $_SESSION['descriptionTerms'];
+        $args['descriptionPolices'] = $_SESSION['descriptionPolices'];
 
         $response = new Response();
         $response->getBody()->write(

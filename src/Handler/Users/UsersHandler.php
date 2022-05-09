@@ -75,7 +75,6 @@ class UsersHandler implements RequestHandlerInterface
         catch ( \Exception $e )
         {
             $this->flash->addMessage('error', $e->getMessage());
-            // $this->logger->error($routeParser->urlFor('actionAuth'));
             return $response
                     ->withStatus(302)
                     ->withHeader('Location', $routeParser->urlFor('formLogin')); 
@@ -247,19 +246,120 @@ class UsersHandler implements RequestHandlerInterface
             $subEmail = substr_replace($subEmail, "*****", -1, 5);
 
             $this->flash->addMessage('success', 'Acesse o e-mail '.$subEmail.' e siga as instruções.');
+        }
+        catch ( \Exception $e )
+        {
+            $this->flash->addMessage('error', $e->getMessage());
+        }
 
-            return $response
-            ->withStatus(302)
-            ->withHeader('Location', $routeParser->urlFor("formLogin"));
+        return $response
+                ->withStatus(302)
+                ->withHeader('Location', $routeParser->urlFor('formLogin')); 
+    }
 
+    public function formResetPassword(ServerRequestInterface $request): ResponseInterface
+    {
+        $response = new Response();
+        $routeContext = RouteContext::fromRequest($request);
+        $routeParser = $routeContext->getRouteParser();
+        $route = $routeContext->getRoute();
+
+        $token = $route->getArgument('token');
+
+        try
+        {
+            if ( empty($token) )
+                throw new \Exception("Não foi possível localizar o cadastro.");
+
+            $stmt = $this->pdo->prepare("SELECT id FROM users WHERE token = :token LIMIT 1");
+            $stmt->execute(['token' => $token]);
+            $userData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if ( empty($userData[0]['id']))
+                throw new \Exception("Não foi possível localizar o cadastro.");
+
+            $args = [];
+            $args['actionResetPassword'] = $routeParser->urlFor('actionResetPassword', ['token' => $token]);
+            $args['descriptionTerms'] = $_SESSION['descriptionTerms'];
+            $args['descriptionPolices'] = $_SESSION['descriptionPolices'];
+
+            $response->getBody()->write(
+                $this->twig->render('public/reset-password.twig', $args)
+            );
+            return $response;
         }
         catch ( \Exception $e )
         {
             $this->flash->addMessage('error', $e->getMessage());
 
             return $response
-                    ->withStatus(200)
-                    ->withHeader('Location', $routeParser->urlFor('formEsqueciSenha')); 
+                    ->withStatus(302)
+                    ->withHeader('Location', $routeParser->urlFor('formLogin')); 
+        }
+    }
+
+    public function saveNewPassword(ServerRequestInterface $request): ResponseInterface
+    {
+        $response = new Response();
+        $routeContext = RouteContext::fromRequest($request);
+        $routeParser = $routeContext->getRouteParser();
+        $route = $routeContext->getRoute();
+
+        $data = $request->getParsedBody();
+
+        $token = $route->getArgument('token');
+
+        try{
+            if ( empty($token) || empty($data['identifier']) || empty($data['password']) || empty($data['passwordConfirm']))
+            {
+                throw new \Exception("Preencha todos os campos corretamente.");
+            }
+
+            $stmt = $this->pdo->prepare("SELECT * FROM users WHERE token = :token AND identifier = :userIdentifier LIMIT 1");
+            $stmt->execute(['token' => $token, 'userIdentifier' => $data['identifier']]);
+            $userData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if ( empty($userData[0]['id']))
+                throw new \Exception("Não foi possível localizar o cadastro.");
+
+            
+            $createdAt = sha1(date("dmyhis"));
+            $newToken = sha1($createdAt.sha1($userData[0]["email"]).sha1($data["identifier"]).sha1($this->container->get('settings')['secret_key']));
+
+            $sql = "
+            UPDATE 
+                users 
+            SET
+                password = :userPassword, 
+                token = :newToken,
+                updated_at = now()
+            WHERE
+                token = :token AND 
+                identifier = :userIdentifier";	
+            $arrData = [
+                'userPassword' => sha1($data['password']),
+                'newToken' => $newToken,
+                'token' => $token,
+                'userIdentifier' => trim(str_replace([".","-"], "", $data['identifier'])),
+            ];
+            $stmt = $this->pdo->prepare($sql);
+            if ( $stmt->execute($arrData) === false )
+            {
+                $this->logger->error("Erro ao redefinir a senha do usuário");
+                throw new \Exception("Não foi possível aletrar a senha.");
+            }
+
+            $this->flash->addMessage('success', 'Senha alterada com sucesso.');
+
+            return $response
+                    ->withStatus(302)
+                    ->withHeader('Location', $routeParser->urlFor('formLogin')); 
+        }
+        catch ( \Exception $e )
+        {
+            $this->flash->addMessage('error', $e->getMessage());
+
+            return $response
+                    ->withStatus(302)
+                    ->withHeader('Location', $routeParser->urlFor('formResetPassword', ['token' => $token])); 
         }
     }
 }

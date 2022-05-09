@@ -33,13 +33,82 @@
 
     <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>
 
+    {% block script %}{% endblock %}
+
 </head>
 {% endblock %}
 
-{% block content %}{% endblock %}
+<body class="bg-zinc-900 min-h-screen pt-12 md:pt-10 pb-6 px-2 md:px-0" style="font-family:'Lato',sans-serif;">
+    <header class="max-w-lg mx-auto text-center">
+    <div class="flex items-center justify-center">
+            <img src="/assets/img/logo_2.png" class="w-[310px]"></div>
+    </header>
 
-{% block script %}{% endblock %}
+    {% block content %}{% endblock %}
 
-{% block footer %}{% endblock %}
+    {% block footer %}{% endblock %}
 
+    <div class="max-w-lg mx-auto text-center text-gray-100 text-sm">
+        <div class="w-1/2 float-right">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal" class="hover:underline">Termos e Condições de Uso</a>
+        </div>
+        <div class="w-1/2">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#policesModal" class="hover:underline">Política de Privacidade</a>
+        </div>
+    </div>
+
+
+    <div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
+    id="policesModal" tabindex="-1" aria-labelledby="policesModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable relative w-auto pointer-events-none">
+            <div
+            class="bg-zinc-800 modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-clip-padding rounded-md outline-none text-current">
+                <div
+                    class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
+                    <h5 class="text-xl font-medium leading-normal text-green-700" id="policesModalLabel">
+                    Política de Privacidade
+                    </h5>
+                    <button type="button"
+                    class="btn-close box-content w-4 h-4 p-1 text-gray-100 border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-gray-200 hover:opacity-75 hover:no-underline"
+                    data-bs-dismiss="modal" aria-label="Close">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                    </button>
+                </div>
+                <div class="modal-body relative p-4 text-gray-200">
+                    <div>
+                        {{descriptionPolices}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
+    id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable relative w-auto pointer-events-none">
+            <div
+            class="bg-zinc-800 modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-clip-padding rounded-md outline-none text-current">
+                <div
+                    class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
+                    <h5 class="text-xl font-medium leading-normal text-green-700" id="termsModalLabel">
+                    Termos e Condições de Uso
+                    </h5>
+                    <button type="button"
+                    class="btn-close box-content w-4 h-4 p-1 text-gray-100 border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-gray-200 hover:opacity-75 hover:no-underline"
+                    data-bs-dismiss="modal" aria-label="Close">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                    </button>
+                </div>
+                <div class="modal-body relative p-4 text-gray-200">
+                    <div>
+                        {{descriptionTerms}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Modal -->
+
+</body>
 </html>

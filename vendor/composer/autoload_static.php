@@ -7,8 +7,8 @@ namespace Composer\Autoload;
 class ComposerStaticInit13bf66b86c70ae08ef3bcfb4ddf1816d
 {
     public static $files = array (
-        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
+        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         'e69f7f6ee287b969198c3c9d6777bd38' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/bootstrap.php',
         '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
         'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
@@ -193,8 +193,8 @@ class ComposerStaticInit13bf66b86c70ae08ef3bcfb4ddf1816d
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\EventDispatcher\\' => 
         array (
@@ -271,6 +271,12 @@ class ComposerStaticInit13bf66b86c70ae08ef3bcfb4ddf1816d
     );
 
     public static $classMap = array (
+        'App\\Error\\Renderer\\HtmlErrorRenderer' => __DIR__ . '/../..' . '/src/Error/Renderer/HtmlErrorRenderer.php',
+        'App\\Handler\\Auth\\AuthHandler' => __DIR__ . '/../..' . '/src/Handler/Auth/AuthHandler.php',
+        'App\\Handler\\HomeHandler' => __DIR__ . '/../..' . '/src/Handler/HomeHandler.php',
+        'App\\Handler\\Mailer\\MailHandler' => __DIR__ . '/../..' . '/src/Handler/Mailer/MailHandler.php',
+        'App\\Handler\\Users\\UsersHandler' => __DIR__ . '/../..' . '/src/Handler/Users/UsersHandler.php',
+        'App\\Middleware\\PreLoadMiddleware' => __DIR__ . '/../..' . '/src/Middleware/PreLoadMiddleware.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'DI\\Annotation\\Inject' => __DIR__ . '/..' . '/php-di/php-di/src/Annotation/Inject.php',

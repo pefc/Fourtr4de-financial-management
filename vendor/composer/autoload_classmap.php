@@ -6,6 +6,12 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\Error\\Renderer\\HtmlErrorRenderer' => $baseDir . '/src/Error/Renderer/HtmlErrorRenderer.php',
+    'App\\Handler\\Auth\\AuthHandler' => $baseDir . '/src/Handler/Auth/AuthHandler.php',
+    'App\\Handler\\HomeHandler' => $baseDir . '/src/Handler/HomeHandler.php',
+    'App\\Handler\\Mailer\\MailHandler' => $baseDir . '/src/Handler/Mailer/MailHandler.php',
+    'App\\Handler\\Users\\UsersHandler' => $baseDir . '/src/Handler/Users/UsersHandler.php',
+    'App\\Middleware\\PreLoadMiddleware' => $baseDir . '/src/Middleware/PreLoadMiddleware.php',
     'Attribute' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'DI\\Annotation\\Inject' => $vendorDir . '/php-di/php-di/src/Annotation/Inject.php',

@@ -505,6 +505,7 @@ class UsersHandler implements RequestHandlerInterface
             $args['actionResendActivation'] = $routeParser->urlFor('actionResendActivation', ['token' => $token]);
             $args['descriptionTerms'] = $_SESSION['descriptionTerms'];
             $args['descriptionPolices'] = $_SESSION['descriptionPolices'];
+            $args['urlLogin'] = $routeParser->urlFor('formLogin');
     
             $response->getBody()->write(
                 $this->twig->render('public/resend-activation.twig', $args)

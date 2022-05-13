@@ -74,7 +74,7 @@ class AuthHandler implements RequestHandlerInterface
         }
         else
         {
-            $stmt = $this->pdo->prepare("SELECT id, name, verified, token FROM users WHERE identifier = :formIdentifier AND password = :formPassword AND status = 'A' LIMIT 1");
+            $stmt = $this->pdo->prepare("SELECT id, name, email, identifier, verified, token FROM users WHERE identifier = :formIdentifier AND password = :formPassword AND status = 'A' LIMIT 1");
             $stmt->execute(['formIdentifier' => $data['identifier'], 'formPassword' => sha1($data['password'])]);
             $userData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -88,19 +88,48 @@ class AuthHandler implements RequestHandlerInterface
                 }
 
                 $key = $this->container->get('settings')['secret_key'];
+                $createdAt = sha1(date("dmyhis"));
+                $newToken = sha1($createdAt.sha1($userData[0]["email"]).sha1($userData[0]["identifier"]).sha1($key));
+
+                $sql = "
+                UPDATE 
+                    users 
+                SET
+                    token = :newToken,
+                    updated_at = now()
+                WHERE
+                    token = :token AND 
+                    identifier = :userIdentifier AND
+                    password = :userPassword";	
+                $arrData = [
+                    
+                    'newToken' => $newToken,
+                    'token' => $userData[0]['token'],
+                    'userIdentifier' => trim(str_replace([".","-"], "", $data['identifier'])),
+                    'userPassword' => sha1($data['password']),
+                ];
+                $stmt = $this->pdo->prepare($sql);
+                if ( $stmt->execute($arrData) === false )
+                {
+                    $this->logger->error("Erro ao redefinir o token do usuário");
+                    $this->flash->addMessage('error', 'Não foi possível efeutar o login.');
+                    return $response
+                        ->withStatus(302)
+                        ->withHeader('Location', $routeParser->urlFor('formLogin'));
+                }
 
                 $tokenToJwt = array(
-                    "user" => $userData[0]['id'],
-                    "name" => $userData[0]['name'],
+                    "user" => $newToken,
+                    "name" => ucwords(strtolower($userData[0]['name'])),
                     "iss" => $this->container->get('settings')['site_url'],
                     "aud" => $this->container->get('settings')['site_url'],
                 );
 
-                $_SESSION['user'] = array('id' => $userData[0]['id'], 'name' => $userData[0]['name']);
+                $_SESSION['user'] = array('id' => $userData[0]['id'], 'name' => ucwords(strtolower($userData[0]['name'])) );
 
                 $jwt = JWT::encode($tokenToJwt, $key, 'HS256');
 
-                setcookie("token", $jwt);
+                setcookie("token", $jwt, 0, "/");
     
                 return $response
                     ->withStatus(302)

@@ -11,6 +11,8 @@ return array(
     'App\\Handler\\HomeHandler' => $baseDir . '/src/Handler/HomeHandler.php',
     'App\\Handler\\Mailer\\MailHandler' => $baseDir . '/src/Handler/Mailer/MailHandler.php',
     'App\\Handler\\Users\\UsersHandler' => $baseDir . '/src/Handler/Users/UsersHandler.php',
+    'App\\Middleware\\CheckAuthenticatedMiddleware' => $baseDir . '/src/Middleware/CheckAuthenticatedMiddleware.php',
+    'App\\Middleware\\CheckNoAuthenticatedMiddleware' => $baseDir . '/src/Middleware/CheckNoAuthenticatedMiddleware.php',
     'App\\Middleware\\PreLoadMiddleware' => $baseDir . '/src/Middleware/PreLoadMiddleware.php',
     'Attribute' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',

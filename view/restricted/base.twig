@@ -1,0 +1,302 @@
+{% block head %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{pageTitle}} - Gestor de Banca | FourTr4de</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
+    <!--Replace with your tailwind.css once created-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+    <script src="https://unpkg.com/flowbite@1.4.1/dist/flowbite.js"></script>
+    <script src="https://kit.fontawesome.com/ff21fbcac4.js" crossorigin="anonymous"></script>
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/index.min.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    tailwind.config = {
+        theme: {
+        extend: {
+            fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            },
+        }
+        }
+    }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>
+
+    <style>
+    .shim-green {
+        position: relative;
+        overflow: hidden;
+        background-color: rgba(0, 255, 0, 0.7);
+    }
+    .shim-green::after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        transform: translateX(-100%);
+        background-image: linear-gradient(
+            90deg,
+            rgba(233, 233, 233, 1) 0,
+            rgba(233, 233, 233, 0.9) 50%,
+            rgba(233, 233, 233, 0.8) 100%
+        );
+    }
+    
+    /*Footer open/load animation*/
+    .alert-footer {
+      -webkit-animation: slide-in-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+      animation: slide-in-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+    }
+
+    /*Footer close animation*/
+    .alert-footer input:checked~* {
+      -webkit-animation: slide-out-bottom 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+      animation: slide-out-bottom 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+    }
+
+    .alert-banner {
+      -webkit-animation: slide-in-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+      animation: slide-in-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+    }
+
+    /*Banner close animation*/
+    .alert-banner input:checked~* {
+      -webkit-animation: slide-out-top 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+      animation: slide-out-top 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+    }
+
+    @-webkit-keyframes slide-in-bottom {
+      0% {
+        -webkit-transform: translateY(1000px);
+        transform: translateY(1000px);
+        opacity: 0
+      }
+
+      100% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+        opacity: 1
+      }
+    }
+
+    @keyframes slide-in-bottom {
+      0% {
+        -webkit-transform: translateY(1000px);
+        transform: translateY(1000px);
+        opacity: 0
+      }
+
+      100% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+        opacity: 1
+      }
+    }
+
+    @-webkit-keyframes slide-out-bottom {
+      0% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+        opacity: 1
+      }
+
+      100% {
+        -webkit-transform: translateY(1000px);
+        transform: translateY(1000px);
+        opacity: 0
+      }
+    }
+
+    @keyframes slide-out-bottom {
+      0% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+        opacity: 1
+      }
+
+      100% {
+        -webkit-transform: translateY(1000px);
+        transform: translateY(1000px);
+        opacity: 0
+      }
+    }
+
+    @-webkit-keyframes slide-in-top {
+      0% {
+        -webkit-transform: translateY(-1000px);
+        transform: translateY(-1000px);
+        opacity: 0
+      }
+
+      100% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+        opacity: 1
+      }
+    }
+
+    @keyframes slide-in-top {
+      0% {
+        -webkit-transform: translateY(-1000px);
+        transform: translateY(-1000px);
+        opacity: 0
+      }
+
+      100% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+        opacity: 1
+      }
+    }
+
+    @-webkit-keyframes slide-out-top {
+      0% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+        opacity: 1
+      }
+
+      100% {
+        -webkit-transform: translateY(-1000px);
+        transform: translateY(-1000px);
+        opacity: 0
+      }
+    }
+
+    @keyframes slide-out-top {
+      0% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+        opacity: 1
+      }
+
+      100% {
+        -webkit-transform: translateY(-1000px);
+        transform: translateY(-1000px);
+        opacity: 0
+      }
+    }
+    </style>
+
+
+</head>
+
+<body class="bg-zinc-900 font-sans leading-normal tracking-normal">
+
+    <nav id="header" class="bg-zinc-800 fixed w-full z-10 top-0 shadow">
+
+        <div class="w-full container mx-auto flex flex-wrap items-center mt-0 pt-3 pb-3 md:pb-0">
+
+            <div class="w-1/4 pl-2">
+                <div class="pl-0 text-left uppercase hidden md:block">
+                    <a class="text-green-700 text-base xl:text-xl no-underline hover:no-underline font-bold" href="/">
+                        Gestor de Banca
+                    </a>
+                </div>
+                
+                <div class="block pr-4 visible md:invisible">
+                    <button id="nav-toggle" class="lg:hidden bg-zinc-900 flex items-center px-3 py-2 rounded text-gray-200 hover:text-gray-200 appearance-none focus:outline-none">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="w-2/4 pl-0 text-center uppercase visible md:invisible">
+                <a class="text-green-700 text-base xl:text-xl no-underline hover:no-underline font-bold" href="/">
+                    Gestor de Banca
+                </a>
+            </div>
+
+            <div class="w-1/4 pr-0">
+                <div class="flex relative inline-block float-right">
+                    <div class="relative text-sm">
+                        <button id="userButton" class="flex items-center focus:outline-none mr-2">
+                            <span class="text-gray-100 pr-1"><i class="fa fa-circle-user fa-2x"></i></span>
+                            {# <img class="w-8 h-8 rounded-full mr-0 md:mr-1" src="http://i.pravatar.cc/300" alt="Avatar of User">  #}
+                            <span class="hidden md:inline-block text-gray-100">{{pageData.user.name}}</span>
+                            <span class="pl-2 text-gray-100"><i class="fas fa-caret-down"></i></span>
+                        </button>
+                        <div id="userMenu" class="bg-zinc-900 rounded shadow-md absolute mt-9 mr-2 top-0 right-0 min-w-[120px] overflow-auto z-30 invisible">
+                            <ul class="list-reset">
+                                {% for accountMenu in pageData.menus.accountMenu %}
+                                <li data-bs-toggle="modal" data-bs-target="{{accountMenu.targetModal}}">
+                                    <a href="{{accountMenu.href}}" class="px-4 py-2 block text-gray-200 hover:bg-zinc-800 no-underline hover:no-underline">{{accountMenu.title}}</a>
+                                </li>
+                                {{accountMenu.line|raw}}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden lg:block mt-2 lg:mt-0 bg-zinc-800 z-20" id="nav-content">
+                <ul class="list-reset lg:flex flex-1 items-center px-4 md:px-1">
+                    {% for mainMenu in pageData.menus.mainMenu %}
+                    <li class="mr-6 my-2 md:my-0" data-bs-toggle="modal" data-bs-target="{{mainMenu.targetModal}}">
+                        <a href="{{mainMenu.href}}" class="block py-1 md:py-3 pl-1 align-middle text-gray-100 no-underline hover:text-gray-500">
+                            <i class="fa fa-{{mainMenu.icon}} fa-fw mr-3"></i><span class="pb-1 md:pb-0 text-sm" >{{mainMenu.title}}</span>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+{% endblock %}
+
+    {% block content %}{% endblock %}
+
+    <footer class="bg-zinc-800 border-t border-gray-400 shadow">
+        <div class="container max-w-md mx-auto flex py-8">
+
+            <div class="w-full mx-auto flex flex-wrap">
+                <div class="flex w-full md:w-1/2 ">
+                    <div class="px-8">
+                        <h3 class="font-bold font-bold text-gray-100">Quem somos</h3>
+                        <p class="py-4 text-gray-400 text-sm">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel mi ut felis tempus commodo nec.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex w-full md:w-1/2">
+                    <div class="px-8">
+                        <h3 class="font-bold font-bold text-gray-100">Contato</h3>
+                        <ul class="list-reset items-center text-sm pt-3">
+                            <li>
+                                <span class="text-gray-100"><i class="fa-brands fa-instagram"></i></span> <a class="inline-block text-gray-400 no-underline hover:text-gray-100 hover:no-underline py-1" href="https://www.instagram.com/fourtr4de/">Intagram</a>
+                            </li>
+                            <li>
+                                <span class="text-gray-100"><i class="fa-brands fa-telegram"></i></span> <a class="inline-block text-gray-400 no-underline hover:text-gray-100 hover:no-underline py-1" href="#">Telagram</a>
+                            </li>
+                            <li>
+                                <span class="text-gray-100"><i class="fa-brands fa-whatsapp"></i></span> <a class="inline-block text-gray-400 no-underline hover:text-gray-100 hover:no-underline py-1" href="#">Whatsapp</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
+
+{% block script %}{% endblock %}

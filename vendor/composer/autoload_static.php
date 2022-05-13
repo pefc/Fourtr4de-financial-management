@@ -276,6 +276,8 @@ class ComposerStaticInit13bf66b86c70ae08ef3bcfb4ddf1816d
         'App\\Handler\\HomeHandler' => __DIR__ . '/../..' . '/src/Handler/HomeHandler.php',
         'App\\Handler\\Mailer\\MailHandler' => __DIR__ . '/../..' . '/src/Handler/Mailer/MailHandler.php',
         'App\\Handler\\Users\\UsersHandler' => __DIR__ . '/../..' . '/src/Handler/Users/UsersHandler.php',
+        'App\\Middleware\\CheckAuthenticatedMiddleware' => __DIR__ . '/../..' . '/src/Middleware/CheckAuthenticatedMiddleware.php',
+        'App\\Middleware\\CheckNoAuthenticatedMiddleware' => __DIR__ . '/../..' . '/src/Middleware/CheckNoAuthenticatedMiddleware.php',
         'App\\Middleware\\PreLoadMiddleware' => __DIR__ . '/../..' . '/src/Middleware/PreLoadMiddleware.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',

@@ -9,8 +9,10 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Slim\Routing\RouteContext;
 use Slim\Psr7\Response;
 use Psr\Container\ContainerInterface;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
-class CheckAuthenticatedMiddleware
+class RedirectAuthenticatedMiddleware
 {
 
     private $container;

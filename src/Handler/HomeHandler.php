@@ -106,30 +106,16 @@ class HomeHandler implements RequestHandlerInterface
 
 
         // TOTAL DE DEPÓSITOS
-        if ( !empty($configurationsBankrollData[0]['id']) )
-        {
-            $stmt = $this->pdo->prepare("SELECT sum(value) as result FROM deposits WHERE bankroll_id = :bankrollId AND status = 'A'");
-            $stmt->execute(['bankrollId' => $configurationsBankrollData[0]['id']]);
-            $depositsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        // if ( !empty($configurationsBankrollData[0]['id']) )
+        // {
+        //     $stmt = $this->pdo->prepare("SELECT sum(value) as result FROM deposits WHERE bankroll_id = :bankrollId AND status = 'A'");
+        //     $stmt->execute(['bankrollId' => $configurationsBankrollData[0]['id']]);
+        //     $depositsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $totalDeposits = (float)$depositsData[0]['result'];
-        }
-        else
-            $totalDeposits = 0.0;
-
-
-
-        // TOTAL DE SAQUES
-        if ( !empty($configurationsBankrollData[0]['id']) )
-        {
-            $stmt = $this->pdo->prepare("SELECT sum(value) as result FROM withdrawals WHERE bankroll_id = :bankrollId AND status = 'A'");
-            $stmt->execute(['bankrollId' => $configurationsBankrollData[0]['id']]);
-            $withdrawalsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            $totalWithdrawals = (float)$withdrawalsData[0]['result'];
-        }
-        else
-            $totalWithdrawals = 0.0;
+        //     $totalDeposits = (float)$depositsData[0]['result'];
+        // }
+        // else
+        //     $totalDeposits = 0.0;
 
 
 
@@ -217,65 +203,38 @@ class HomeHandler implements RequestHandlerInterface
                 );
                 $percentage += 0.005;
             }
-        }
-
-
-
-
-
-
-                // if ( !empty($configurationsBankrollData[0]['id']) )
-        // {
-        //     $stmt = $this->pdo->prepare("SELECT sum(result) as result FROM operations WHERE bankroll_id = :bankrollId AND status = 'A' AND bet_at <= (select max(bet_at) from operations where bankroll_id = :bankrollId AND DATE(bet_at) <> CURDATE())");
-        //     $stmt->execute(['bankrollId' => $configurationsBankrollData[0]['id']]);
-        //     $accumulatedYieldLastDayData = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        //     $accumulatedYieldBefore = (float)$accumulatedYieldLastDayData[0]['result'];
-        // }
-        // else
-            
+        }            
         
 
         // LUCRO POR DIA - 10 DIAS
+        $chartYieldByDayData = array();
         if ( !empty($configurationsBankrollData[0]['id']) )
         {
-            $stmt = $this->pdo->prepare("SELECT sum(result) as result, bet_at AS result_at FROM operations WHERE bankroll_id = :bankrollId AND status = 'A' GROUP BY bet_at ORDER BY bet_at DESC LIMIT 10");
+            $stmt = $this->pdo->prepare("SELECT sum(result) as result, bet_at AS result_at FROM operations WHERE bankroll_id = :bankrollId AND status = 'A' GROUP BY bet_at ORDER BY bet_at ASC LIMIT 10");
             $stmt->execute(['bankrollId' => $configurationsBankrollData[0]['id']]);
-            $yieldByDayData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $chartYieldByDayData = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
 
-        // LUCRO TOTAL ACUMULADO POR DIA - ULTIMOS 10 DIAS
-        // echo "<pre>";
-        // $total = 0;
-        // var_dump($yieldByDayData);
-        // $accumulatedYieldDayByDayData = array();
-        // foreach ($yieldByDayData as $data )
-        // {
-        //     $totalAccumulated += $data['result'];
-        //     $accumulatedYieldDayByDayData[] = array('result' => $totalAccumulated, 'result_at' => $data['result_at']);
-        // }
-        // var_dump($accumulatedYieldDayByDayData);
-        // die();
+        // GRÁFICO DA BANCA ATUAL E LUCRO TOTAL
+        $chartData = array();
+        if ( !empty($configurationsBankrollData[0]['id']) )
+        {
+            $stmt = $this->pdo->prepare("SELECT operations, result, DATE(created_at) as created_at FROM cash_flow WHERE id IN (SELECT MAX(id) FROM cash_flow WHERE bankroll_id = :bankrollId group by DATE(created_at)) ORDER BY created_at ASC LIMIT 10");
+            $stmt->execute(['bankrollId' => $configurationsBankrollData[0]['id']]);
+            $chartData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
 
 
-
-        
-        // BANCA ATUAL
-        // $bankroll = ($initial_bankroll+$accumulatedYield+$totalDeposits)-$totalWithdrawals;
-
-
-        // BANCA DO DIA
-        // $lastBankroll = ($initial_bankroll+$accumulatedYieldBefore+$totalDeposits)-$totalWithdrawals
-
-
-        
-
-
-
-
-
-        
+        // GRÁFICO TOTAL DE SAQUES
+        $chartWithdrawalsData = array();
+        if ( !empty($configurationsBankrollData[0]['id']) )
+        {
+            $stmt = $this->pdo->prepare("SELECT sum(value) as result, date(withdrawal_at) as withdrawal_at FROM withdrawals WHERE bankroll_id = :bankrollId AND status = 'A' GROUP BY DATE(withdrawal_at)");
+            $stmt->execute(['bankrollId' => $configurationsBankrollData[0]['id']]);
+            $chartWithdrawalsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+    
 
 
         $args = [
@@ -310,6 +269,9 @@ class HomeHandler implements RequestHandlerInterface
 
             'tableGales' => $tableGales,
 
+            'chart' => $chartData,
+            'chartYieldByDayData' => $chartYieldByDayData,
+            'chartWithdrawalsData' => $chartWithdrawalsData,
 
             'pageTitle' => "Dashboard",
             'pageData' => $_SESSION['pageData'],

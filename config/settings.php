@@ -16,7 +16,7 @@ return static function(array $appEnv) {
         'secret_key' => $appEnv['SECRET_KET'],
 
         'logger' => [
-            'name' => 'pp9787',
+            'name' => 'fourtr4de.management',
             'path' => 'php://stderr',
             'level' => Logger::DEBUG,
         ],

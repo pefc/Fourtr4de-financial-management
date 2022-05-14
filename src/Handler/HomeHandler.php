@@ -33,9 +33,75 @@ class HomeHandler implements RequestHandlerInterface
         $routeParser = RouteContext::fromRequest($request)->getRouteParser();
 
         // CONFIGURAÇÕES DA BANCA
-        $stmt = $this->pdo->prepare("SELECT id, initial_bankroll, yield, stop_win, stop_loss FROM bankroll WHERE users_id = :userId AND status = 'A' LIMIT 1");
+        $stmt = $this->pdo->prepare("SELECT id, initial_bankroll, yield, stop_win, stop_loss, created_at FROM bankroll WHERE users_id = :userId AND status = 'A' LIMIT 1");
         $stmt->execute(['userId' => $_SESSION['user']['id']]);
         $configurationsBankrollData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+
+        // FLUXO DE CAIXA - mais recente
+        $cashFlowData = array();
+        if ( !empty($configurationsBankrollData[0]['id']) )
+        {
+            $stmt = $this->pdo->prepare("SELECT * FROM cash_flow WHERE bankroll_id = :bankrollId ORDER BY id DESC LIMIT 1");
+            $stmt->execute(['bankrollId' => $configurationsBankrollData[0]['id']]);
+            $cashFlowData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        // FLUXO DE CAIXA - ultimo dia
+        $cashFlowLastDayData = array();
+        if ( !empty($configurationsBankrollData[0]['id']) )
+        {
+            $stmt = $this->pdo->prepare("SELECT * FROM cash_flow WHERE bankroll_id = :bankrollId AND DATE(created_at) <> CURDATE() ORDER BY id DESC LIMIT 1");
+            $stmt->execute(['bankrollId' => $configurationsBankrollData[0]['id']]);
+            $cashFlowLastDayData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+
+        // BANCA ATUAL
+        $bankroll = $cashFlowData[0]['result'] ? (float)$cashFlowData[0]['result'] : 0.0;
+
+        // BANCA ANTERIOR
+        $bankrollLastDay = $cashFlowLastDayData[0]['result'] ? (float)$cashFlowLastDayData[0]['result'] : 0.0;
+
+        // BANCA INICIAL
+        $initial_bankroll = !empty($configurationsBankrollData[0]['initial_bankroll']) ? (float)$configurationsBankrollData[0]['initial_bankroll'] : 0.0;
+
+        // MARGEM DE LUCRO
+        $yield = !empty($configurationsBankrollData[0]['yield']) ? (float)$configurationsBankrollData[0]['yield'] : 0.0;
+
+        // LUCRO TOTAL ACUMLADO
+        $accumulatedYield = $cashFlowData[0]['operations'] ? (float)$cashFlowData[0]['operations'] : 0.0;
+
+        // LUCRO TOTAL ACUMLADO ANTERIOR
+        $accumulatedYieldBefore = $cashFlowLastDayData[0]['operations'] ? (float)$cashFlowLastDayData[0]['operations'] : 0.0;
+
+                
+
+        // ICONE DO LUCRO ACUMULADO
+        $colorAccumulatedYield = "yellow";
+        $narrowAccumulatedYield = "minus";
+        if ( $accumulatedYield > $accumulatedYieldBefore)
+        {
+            $colorAccumulatedYield = "green";
+            $narrowAccumulatedYield = "caret-up";
+        }
+        elseif ( $accumulatedYield < $accumulatedYieldBefore)
+        {
+            $colorAccumulatedYield = "red";
+            $narrowAccumulatedYield = "caret-down";
+        }
+
+
+        // STOP WIN
+        $percentageStopWin = !empty($configurationsBankrollData[0]['stop_win']) ? (float)$configurationsBankrollData[0]['stop_win']/100 : 0.0;
+        $stopWin = (($bankrollLastDay*$percentageStopWin)+$bankrollLastDay);
+
+
+        
+        // STOP LOSS
+        $percentageStopLoss = !empty($configurationsBankrollData[0]['stop_loss']) ? (float)$configurationsBankrollData[0]['stop_loss']/100 : 0.0;
+        $stopLoss = ($bankrollLastDay-($bankrollLastDay*$percentageStopLoss));
 
 
 
@@ -65,59 +131,110 @@ class HomeHandler implements RequestHandlerInterface
         else
             $totalWithdrawals = 0.0;
 
-        
-
-        // BANCA INICIAL
-        $initial_bankroll = !empty($configurationsBankrollData[0]['initial_bankroll']) ? (float)$configurationsBankrollData[0]['initial_bankroll'] : 0.0;
 
 
-        // MARGEM DE LUCRO
-        $yield = !empty($configurationsBankrollData[0]['yield']) ? (float)$configurationsBankrollData[0]['yield'] : 0.0;
-
-
-
-        // LUCRO TOTAL ACUMLADO
+        // LUCRO DO ULTIMO DIA DE OPERAÇÃO
         if ( !empty($configurationsBankrollData[0]['id']) )
         {
-            $stmt = $this->pdo->prepare("SELECT sum(result) as result FROM operations WHERE bankroll_id = :bankrollId AND status = 'A'");
+            $stmt = $this->pdo->prepare("SELECT sum(result) as result FROM operations WHERE bankroll_id = :bankrollId AND status = 'A' AND bet_at = (select max(bet_at) from operations where bankroll_id = :bankrollId AND DATE(bet_at) <> CURDATE())");
             $stmt->execute(['bankrollId' => $configurationsBankrollData[0]['id']]);
-            $accumulatedYieldData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $dailyYieldLastDayData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $accumulatedYield = (float)$accumulatedYieldData[0]['result'];
+            $dailyYieldLastDay = !empty($dailyYieldLastDayData[0]['result']) ? (float)$dailyYieldLastDayData[0]['result'] : 0.0;
         }
         else
-            $accumulatedYield = 0.0;
+            $dailyYieldLastDay = 0.0;
 
 
-
-        // LUCRO TOTAL ACUMLADO - MENOS O DIA CORRENTE
+        // LUCRO DO DIA
         if ( !empty($configurationsBankrollData[0]['id']) )
         {
-            $stmt = $this->pdo->prepare("SELECT sum(result) as result FROM operations WHERE bankroll_id = :bankrollId AND status = 'A' AND bet_at < (select max(bet_at) from operations where bankroll_id = :bankrollId)");
+            $stmt = $this->pdo->prepare("SELECT sum(result) as result FROM operations WHERE bankroll_id = :bankrollId AND status = 'A' AND DATE(bet_at) = CURDATE()");
             $stmt->execute(['bankrollId' => $configurationsBankrollData[0]['id']]);
-            $accumulatedYieldLastDayData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $dailyYieldData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $accumulatedYieldBefore = (float)$accumulatedYieldLastDayData[0]['result'];
+            $dailyYield = !empty($dailyYieldData[0]['result']) ? (float)$dailyYieldData[0]['result'] : 0.0;
         }
         else
-            $accumulatedYieldBefore = 0.0;
+            $dailyYield = 0.0;
+
+
+        // ICONE DO LUCRO DO DIA
+        $colorDailyYield = "yellow";
+        $narrowDailyYield = "minus";
+        if ( $dailyYield == 0)
+        {
+            $colorDailyYield = "yellow";
+            $narrowDailyYield = "minus";
+        }
+        elseif ( $dailyYield > $dailyYieldLastDay)
+        {
+            $colorDailyYield = "green";
+            $narrowDailyYield = "caret-up";
+        }
+        elseif ( $dailyYield < $dailyYieldLastDay)
+        {
+            $colorDailyYield = "red";
+            $narrowDailyYield = "caret-down";
+        }
         
 
-        // ICONE DO LUCRO ACUMULADO
-        $colorAccumulatedYield = "yellow";
-        $narrowAccumulatedYield = "minus";
-        if ( $accumulatedYield > $accumulatedYieldBefore)
+        // META DO DIA
+        $goal = ($bankrollLastDay*$yield)/100;
+        $percenteGoal = $goal ? ($dailyYield*100)/$goal : 0;
+        if ($percenteGoal >= 100)
+            $percenteGoal = 100.0;
+        if ($percenteGoal < 0)
+            $percenteGoal = 0.0;
+
+
+
+        // PORCENTAGEM DE CRESCIMENTO DA BANCA
+        $percentBankrollYield = $initial_bankroll ? (($bankroll*100)/$initial_bankroll)-100 : 0;
+        $colorPercentBankrollYield = "yellow";
+        if ( $percentBankrollYield > 0)
+            $colorPercentBankrollYield = "green";
+        elseif ( $percentBankrollYield < 0)
+            $colorPercentBankrollYield = "red";
+
+
+        // TABELA DE GESTÃO DE APOSTAS
+        $tableGales = null;
+        if ( !empty($configurationsBankrollData[0]['id']) )
         {
-            $colorAccumulatedYield = "green";
-            $narrowAccumulatedYield = "caret-up";
-        }
-        elseif ( $accumulatedYield < $accumulatedYieldBefore)
-        {
-            $colorAccumulatedYield = "red";
-            $narrowAccumulatedYield = "caret-down";
+            $percentage = 0.005;
+            $tableGales = array();
+            for ($i=0; $i < 16; $i++) { 
+                $color = $i%2 ? 'bg-zinc-700' : '';
+                $gale = $bankrollLastDay*$percentage;
+                $valuePercentage = $percentage*100;
+                $greensRequired = $gale ? $goal/$gale : 0;
+                $tableGales[] = array(
+                    'gale' => number_format($gale,2,",","."),
+                    'valuePercentage' => number_format($valuePercentage,1,",","."),
+                    'greensRequired' => ceil($greensRequired),
+                    'color' => $color,
+                );
+                $percentage += 0.005;
+            }
         }
 
 
+
+
+
+
+                // if ( !empty($configurationsBankrollData[0]['id']) )
+        // {
+        //     $stmt = $this->pdo->prepare("SELECT sum(result) as result FROM operations WHERE bankroll_id = :bankrollId AND status = 'A' AND bet_at <= (select max(bet_at) from operations where bankroll_id = :bankrollId AND DATE(bet_at) <> CURDATE())");
+        //     $stmt->execute(['bankrollId' => $configurationsBankrollData[0]['id']]);
+        //     $accumulatedYieldLastDayData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        //     $accumulatedYieldBefore = (float)$accumulatedYieldLastDayData[0]['result'];
+        // }
+        // else
+            
+        
 
         // LUCRO POR DIA - 10 DIAS
         if ( !empty($configurationsBankrollData[0]['id']) )
@@ -143,99 +260,21 @@ class HomeHandler implements RequestHandlerInterface
 
 
 
-        // LUCRO DO ULTIMO DIA DE OPERAÇÃO
-        if ( !empty($configurationsBankrollData[0]['id']) )
-        {
-            $stmt = $this->pdo->prepare("SELECT sum(result) as result FROM operations WHERE bankroll_id = :bankrollId AND status = 'A' AND bet_at = (select max(bet_at) from operations where bankroll_id = :bankrollId AND DATE(bet_at) <> CURDATE())");
-            $stmt->execute(['bankrollId' => $configurationsBankrollData[0]['id']]);
-            $dailyYieldLastDayData = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            $dailyYieldLastDay = !empty($dailyYieldLastDayData[0]['result']) ? (float)$dailyYieldLastDayData[0]['result'] : 0.0;
-        }
-        else
-            $dailyYieldLastDay = 0.0;
-
-
-
-        // LUCRO DO DIA
-        if ( !empty($configurationsBankrollData[0]['id']) )
-        {
-            $stmt = $this->pdo->prepare("SELECT sum(result) as result FROM operations WHERE bankroll_id = :bankrollId AND status = 'A' AND DATE(bet_at) = CURDATE()");
-            $stmt->execute(['bankrollId' => $configurationsBankrollData[0]['id']]);
-            $dailyYieldData = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            $dailyYield = !empty($dailyYieldData[0]['result']) ? (float)$dailyYieldData[0]['result'] : 0.0;
-        }
-        else
-            $dailyYield = 0.0;
-
-
-        $colorDailyYield = "yellow";
-        $narrowDailyYield = "minus";
-        if ( $dailyYield > $dailyYieldLastDay)
-        {
-            $colorDailyYield = "green";
-            $narrowDailyYield = "caret-up";
-        }
-        elseif ( $dailyYield < $dailyYieldLastDay)
-        {
-            $colorDailyYield = "red";
-            $narrowDailyYield = "caret-down";
-        }
-
-
         
         // BANCA ATUAL
-        $bankroll = ($initial_bankroll+$accumulatedYield+$totalDeposits)-$totalWithdrawals;
+        // $bankroll = ($initial_bankroll+$accumulatedYield+$totalDeposits)-$totalWithdrawals;
 
 
-
-        // STOP WIN
-        $percentageStopWin = !empty($configurationsBankrollData[0]['stop_win']) ? (float)$configurationsBankrollData[0]['stop_win']/100 : 0.0;
-        $stopWin = ((($initial_bankroll+$accumulatedYieldBefore)*$percentageStopWin)+($initial_bankroll+$accumulatedYieldBefore));
-
-
-        
-        // STOP LOSS
-        $percentageStopLoss = !empty($configurationsBankrollData[0]['stop_loss']) ? (float)$configurationsBankrollData[0]['stop_loss']/100 : 0.0;
-        $stopLoss = (($initial_bankroll+$accumulatedYieldBefore)-(($initial_bankroll+$accumulatedYieldBefore)*$percentageStopLoss));
-
-
-
-        // PORCENTAGEM DE CRESCIMENTO DA BANCA
-        $percentBankrollYield = $initial_bankroll ? (($initial_bankroll+$accumulatedYield)*100)/$initial_bankroll-100 : 0;
-        $colorPercentBankrollYield = "yellow";
-        if ( $percentBankrollYield > 0)
-            $colorPercentBankrollYield = "green";
-        elseif ( $percentBankrollYield < 0)
-            $colorPercentBankrollYield = "red";
+        // BANCA DO DIA
+        // $lastBankroll = ($initial_bankroll+$accumulatedYieldBefore+$totalDeposits)-$totalWithdrawals
 
 
         
-        // META DO DIA
-        $goal = ((($initial_bankroll+$accumulatedYieldBefore+$totalDeposits)-$totalWithdrawals)*$yield)/100;
-        $percenteGoal = $goal ? ($dailyYield*100)/$goal : 0;
-        if ($percenteGoal >= 100)
-            $percenteGoal = 100.0;
 
 
 
-        // TABELA DE GESTÃO DE APOSTAS
-        $percentage = 0.005;
-        $tableGales = array();
-        for ($i=0; $i < 16; $i++) { 
-            $color = $i%2 ? 'bg-zinc-700' : '';
-            $gale = (($initial_bankroll+$accumulatedYieldBefore+$totalDeposits)-$totalWithdrawals)*$percentage;
-            $valuePercentage = $percentage*100;
-            $greensRequired = $gale ? $goal/$gale : 0;
-            $tableGales[] = array(
-                'gale' => number_format($gale,2,",","."),
-                'valuePercentage' => number_format($valuePercentage,1,",","."),
-                'greensRequired' => ceil($greensRequired),
-                'color' => $color,
-            );
-            $percentage += 0.005;
-        }
+
+
         
 
 
@@ -245,6 +284,7 @@ class HomeHandler implements RequestHandlerInterface
                 'yield' => !empty($configurationsBankrollData[0]['yield']) ? $configurationsBankrollData[0]['yield'] : '',
                 'stop_win' => !empty($configurationsBankrollData[0]['stop_win']) ? $configurationsBankrollData[0]['stop_win'] : '',
                 'stop_loss' => !empty($configurationsBankrollData[0]['stop_loss']) ? $configurationsBankrollData[0]['stop_loss'] : '',
+                'created_at' => !empty($configurationsBankrollData[0]['created_at']) ? $configurationsBankrollData[0]['created_at'] : date('Y-m-d'),
             ),
             
             'bankroll' => number_format($bankroll,2,",","."),

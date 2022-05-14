@@ -30,7 +30,7 @@
                     <div class="bg-zinc-800 h-full rounded shadow p-2">
                         <div class="flex flex-row items-center">
                             <div class="flex-1 text-left md:text-left">
-                                <h5 class="font-bold uppercase text-green-700">Lucro por dia</h5>
+                                <h5 class="font-bold uppercase text-green-700">Lucro do dia</h5>
                                 <h3 class="font-bold text-md md:text-3xl">R$ {{dailyYield}} <span class="text-{{colorDailyYield}}-500"><i class="fa-solid fa-{{narrowDailyYield}}"></i></span></h3>
                             </div>
                         </div>
@@ -162,19 +162,20 @@
                     <!--Template Card-->
                     <div class="bg-zinc-800 rounded shadow">
                         <div class="bg-zinc-800 rounded p-3">
-                            <h5 class="font-bold uppercase text-green-700">Gestão das Apostas¹</h5>
+                            <h5 class="font-bold uppercase text-green-700">Gestão das Apostas{% if tableGales is not null %}¹{% endif %}</h5>
                         </div>
                         <div class="p-2">
                             <table class="w-full p-5 text-gray-200 text-center text-sm md:text-md">
                                 <thead>
                                     <tr class="bg-zinc-700 text-gray-200">
                                         <th>Porcentagem</th>
-                                        <th>Valor da aposta²</th>
-                                        <th>Greens³</th>
+                                        <th>Valor da aposta{% if tableGales is not null %}²{% endif %}</th>
+                                        <th>Greens{% if tableGales is not null %}³{% endif %}</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
+                                {% if tableGales is not null %}
                                     {% for gale in tableGales %}
                                     <tr class="{{gale.color}}">
                                         <td>{{gale.valuePercentage}}%</td>
@@ -182,11 +183,18 @@
                                         <td>{{gale.greensRequired}}</td>
                                     </tr>
                                     {% endfor %}
+                                {% else %}
+                                    <tr >
+                                        <td colspan="3" class="text-center">Configure a sua banca</td>
+                                    </tr>
+                                {% endif %}
                                 </tbody>
                             </table>
-                            <div class="text-[10px] text-gray-500 mt-1">¹ Valores calculados com base no valor ncessário para bater a meta do dia.</div>
-                            <div class="text-[10px] text-gray-500 mt-1">² Valores referentes ao primeiro <i>gale</i>. Siga o modelo <i>Martingale</i> nas próximas entradas.</div>
-                            <div class="text-[10px] text-gray-500 mt-1">³ Quantidade aproximada de greens para bater a meta do dia. Considere a porcentagem do primeiro <i>gale</i>.</div>
+                            {% if tableGales is not null %}
+                                <div class="text-[10px] text-gray-500 mt-1">¹ Valores calculados com base no valor ncessário para bater a meta do dia.</div>
+                                <div class="text-[10px] text-gray-500 mt-1">² Valores referentes ao primeiro <i>gale</i>. Siga o modelo <i>Martingale</i> nas próximas entradas.</div>
+                                <div class="text-[10px] text-gray-500 mt-1">³ Quantidade aproximada de greens para bater a meta do dia. Considere a porcentagem do primeiro <i>gale</i>.</div>
+                            {% endif %}
                         </div>
                     </div>
                     <!--/Template Card-->
@@ -297,17 +305,17 @@
             <div class="modal-body relative p-4">
                 <form class="px-6 pb-4 space-y-6 lg:px-8 sm:pb-6 xl:pb-8" method="post" action="{{actionSaveWithdrawal}}">
                     <div>
-                        <label for="dateWithdrawal" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Data do saque*</label>
-                        <input type="date" name="dateWithdrawal" id="dateWithdrawal" placeholder="dd/mm/aaaa" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="dd/mm/aaaa" required="">
+                        <label for="withdrawal_at" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Data do saque*</label>
+                        <input type="date" name="withdrawal_at" id="withdrawal_at" placeholder="dd/mm/aaaa" min="{{configurationsBankroll.created_at|date("Y-m-d")}}" max="{{ "now"|date("Y-m-d") }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
                     </div>
                     <div>
-                        <label for="withdrawal" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Valor*</label>
-                        <input type="number" min="0.00" max="1000000.00" step="0.01" name="withdrawal" id="withdrawal" placeholder="R$100,00" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="R$ 200,00" required="">
+                        <label for="value_withdrawal" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Valor*</label>
+                        <input type="number" min="0.00" max="1000000.00" step="0.01" name="value_withdrawal" id="value_withdrawal" placeholder="R$100,00" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
                         {# <div class="text-sm text-gray-500 mt-1">Informe o valor que foi sacado da sua conta.</div> #}
                     </div>
                     <div>
-                        <label for="codeWithdrawal" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Código da operação</label>
-                        <input type="text" name="codeWithdrawal" id="codeWithdrawal"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
+                        <label for="operation_code_withdrawal" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Código da operação</label>
+                        <input type="text" name="operation_code_withdrawal" id="operation_code_withdrawal"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
                     </div>
             </div>
             <div  class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
@@ -341,20 +349,20 @@
             <div class="modal-body relative p-4">
                 <form class="px-6 pb-4 space-y-6 lg:px-8 sm:pb-6 xl:pb-8" method="post" action="{{actionSaveDeposit}}">
                     <div>
-                        <label for="dateDeposit" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Data do depósito*</label>
-                        <input type="date" name="dateDeposit" id="dateDeposit" placeholder="dd/mm/aaaa" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="dd/mm/aaaa" required="">
+                        <label for="deposited_at" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Data do depósito*</label>
+                        <input type="date" name="deposited_at" id="deposited_at" placeholder="dd/mm/aaaa" min="{{configurationsBankroll.created_at|date("Y-m-d")}}" max="{{ "now"|date("Y-m-d") }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
                     </div>
                     <div>
-                        <label for="deposit" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Valor*</label>
-                        <input type="number" min="0.00" max="1000000.00" step="0.01" name="deposit" id="deposit" placeholder="R$100,00" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="R$ 200,00" required="">
+                        <label for="value" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Valor*</label>
+                        <input type="number" min="0.00" max="1000000.00" step="0.01" name="value" id="value" placeholder="R$100,00" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="R$ 200,00" required="">
                     </div>
                     <div>
-                        <label for="codeDeposit" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Código da operação</label>
-                        <input type="text" name="codeDeposit" id="codeDeposit"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
+                        <label for="deposit_operation_code" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Código da operação</label>
+                        <input type="text" name="deposit_operation_code" id="deposit_operation_code"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
                     </div>
             </div>
             <div  class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
-                <button type="button"
+                <button type="submit"
                 class="inline-block px-6 py-2.5 bg-green-700 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-emerald-700 hover:shadow-lg focus:bg-emerald-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-emerald-700 active:shadow-lg transition duration-150 ease-in-out ml-1">
                 Salvar
                 </button>
@@ -543,29 +551,29 @@
                 <div class="modal-body relative p-4">
                     <form class="px-6 pb-4 space-y-6 lg:px-8 sm:pb-6 xl:pb-8" method="post" action="{{actionSaveOperation}}">
                         <div>
-                            <label for="dateOperation" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Data da operação*</label>
-                            <input type="date" name="dateOperation" id="dateOperation" placeholder="dd/mm/aaaa" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="dd/mm/aaaa" required="">
+                            <label for="bet_at" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Data da operação*</label>
+                            <input type="date" name="bet_at" id="bet_at" placeholder="dd/mm/aaaa" min="{{configurationsBankroll.created_at|date("Y-m-d")}}" max="{{ "now"|date("Y-m-d") }}" value="{{ "now"|date("Y-m-d") }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
                         </div>
                         <div>
-                            <label for="bank_balance_current" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Valor apostado*</label>
-                            <input type="number" min="0.00" max="1000000.00" step="0.01" name="bank_balance_current" id="bank_balance_current" placeholder="R$100,00" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
+                            <label for="value_bet" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Valor apostado*</label>
+                            <input type="number" min="0.00" max="1000000.00" step="0.01" name="value_bet" id="value_bet" placeholder="R$100,00" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
                         </div>
                         <div>
-                            <label for="bank_balance_current" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Valor retornado*</label>
-                            <input type="number" min="0.00" max="1000000.00" step="0.01" name="bank_balance_current" id="bank_balance_current" placeholder="R$100,00" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
+                            <label for="returned_value" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Valor retornado*</label>
+                            <input type="number" min="0.00" max="1000000.00" step="0.01" name="returned_value" id="returned_value" placeholder="R$100,00" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
                             <div class="text-sm text-gray-500 mt-1">Informe o valor R$ 0,00 quando for red</div>
                         </div>
                         <div>
-                            <label for="bank_balance_current" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">ODD</label>
-                            <input type="number" min="0.00" max="1000000.00" step="0.01" name="bank_balance_current" id="bank_balance_current" placeholder="2.60" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
+                            <label for="odd" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">ODD</label>
+                            <input type="number" min="0.00" max="1000000.00" step="0.01" name="odd" id="odd" placeholder="2.60" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
                         </div>
                         <div>
-                            <label for="bank_balance_current" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Código da operação</label>
-                            <input type="text" name="bank_balance_current" id="bank_balance_current" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
+                            <label for="operation_code" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Código da operação</label>
+                            <input type="text" name="operation_code" id="operation_code" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
                         </div>
                 </div>
                 <div  class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
-                    <button type="button"
+                    <button type="submit"
                     class="inline-block px-6 py-2.5 bg-green-700 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-emerald-700 hover:shadow-lg focus:bg-emerald-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-emerald-700 active:shadow-lg transition duration-150 ease-in-out ml-1">
                     Salvar
                     </button>

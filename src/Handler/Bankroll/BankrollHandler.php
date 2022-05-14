@@ -13,6 +13,7 @@ use Slim\Routing\RouteContext;
 use Psr\Container\ContainerInterface;
 use Slim\Flash\Messages;
 use PDO;
+use App\Handler\CashFlow\CashFlowHandler;
 
 
 class BankrollHandler implements RequestHandlerInterface
@@ -62,7 +63,7 @@ class BankrollHandler implements RequestHandlerInterface
 
         try
         {
-            $stmt = $this->pdo->prepare("SELECT id FROM bankroll WHERE users_id = :userId AND status = 'A' LIMIT 1");
+            $stmt = $this->pdo->prepare("SELECT id, created_at FROM bankroll WHERE users_id = :userId AND status = 'A' LIMIT 1");
             if ( $stmt->execute(['userId' => $_SESSION['user']['id']]) === false )
             {
                 $this->logger->error("Erro ao buscar informações da banca do usuário");
@@ -110,6 +111,7 @@ class BankrollHandler implements RequestHandlerInterface
                     yield = :yield,
                     stop_win = :stopWin,
                     stop_loss = :stopLoss,
+                    created_at = :createdAt,
                     updated_at = now()
                 WHERE
                     users_id = :userId AND
@@ -119,6 +121,7 @@ class BankrollHandler implements RequestHandlerInterface
                     'yield' => (float)$data['yield'],
                     'stopWin' => (float)$data['stop_win'],
                     'stopLoss' => (float)$data['stop_loss'],
+                    'createdAt' => $bankrollData[0]['created_at'],
                     'userId' => $_SESSION['user']['id'],
                     'bankrollId' => $bankrollData[0]['id'],
                 ];
@@ -131,6 +134,7 @@ class BankrollHandler implements RequestHandlerInterface
 
                 $this->flash->addMessage('success', 'Configurações da banca alteradas com sucesso.');
             }
+            (new CashFlowHandler($this->logger, $this->container, $this->pdo))->saveCashFlow();
         }
         catch ( \Execption $e )
         {
@@ -190,6 +194,21 @@ class BankrollHandler implements RequestHandlerInterface
             if ( $stmt->execute($arrData) === false )
             {
                 $this->logger->error("Erro ao excluir informações dos saques do usuário");
+                throw new \Exception("Não foi possível excluir todos os registros.");
+            }
+
+            $sql = "
+            DELETE FROM 
+                cash_flow 
+            WHERE 
+                bankroll_id = :bankrollId";	
+            $arrData = [
+                'bankrollId' => $bankrollData[0]['id'],
+            ];
+            $stmt = $this->pdo->prepare($sql);
+            if ( $stmt->execute($arrData) === false )
+            {
+                $this->logger->error("Erro ao excluir informações do fluxo de caixa do usuário");
                 throw new \Exception("Não foi possível excluir todos os registros.");
             }
 

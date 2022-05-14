@@ -13,7 +13,9 @@ use App\Handler\HomeHandler;
 use App\Handler\Auth\AuthHandler;
 use App\Handler\Users\UsersHandler;
 use App\Handler\Bankroll\BankrollHandler;
-
+use App\Handler\Operations\OperationsHandler;
+use App\Handler\Deposits\DepositsHandler;
+use App\Handler\Withdrawals\WithdrawalsHandler;
 
 
 return function (App $app) {
@@ -49,11 +51,11 @@ return function (App $app) {
             $groupBankroll->post('/delete', BankrollHandler::class.':deleteBankroll')->setName('actionDeleteBankroll');
         });
 
-        $groupManagement->get('/operation/save', HomeHandler::class)->setName('actionSaveOperation');
+        $groupManagement->post('/operation/save', OperationsHandler::class.':saveOperation')->setName('actionSaveOperation');
 
-        $groupManagement->get('/deposit/save', HomeHandler::class)->setName('actionSaveDeposit');
+        $groupManagement->post('/deposit/save', DepositsHandler::class.':saveDeposit')->setName('actionSaveDeposit');
 
-        $groupManagement->get('/withdrawal/save', HomeHandler::class)->setName('actionSaveWithdrawal');
+        $groupManagement->post('/withdrawal/save', WithdrawalsHandler::class.':saveWithdrawal')->setName('actionSaveWithdrawal');
 
     })->add(PreLoadMiddleware::class)->add(CheckNoAuthenticatedMiddleware::class);
 };

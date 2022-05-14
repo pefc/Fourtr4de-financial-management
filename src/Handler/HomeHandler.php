@@ -234,6 +234,32 @@ class HomeHandler implements RequestHandlerInterface
             $stmt->execute(['bankrollId' => $configurationsBankrollData[0]['id']]);
             $chartWithdrawalsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
+
+
+        $projectionData = array();
+        if ( !empty($configurationsBankrollData[0]['id']) )
+        {
+            $projectionData = array();
+            $p_bankroll = $initial_bankroll;
+            $expected_yiel = $initial_bankroll*($yield/100);
+            $expected_bankroll = $initial_bankroll*($yield/100)+$initial_bankroll;
+            for ($i=0; $i < 180; $i++) 
+            { 
+                $color = $i%2 ? 'bg-zinc-700' : '';
+                $projectionData[] = array(
+                    'day' => $i+1,
+                    'p_bankroll' => number_format($p_bankroll, 2, ',', '.'),
+                    'expected_bankroll' => number_format($expected_bankroll, 2, ',', '.'),
+                    'expected_yiel' => number_format($expected_yiel, 2, ',', '.'),
+                    'color' => $color,
+                );
+
+                $p_bankroll = $expected_bankroll;
+                $expected_yiel = $p_bankroll*($yield/100);
+                $expected_bankroll = $p_bankroll*($yield/100)+$p_bankroll;
+
+            }
+        }
     
 
 
@@ -268,6 +294,8 @@ class HomeHandler implements RequestHandlerInterface
             'stopLoss' => number_format($stopLoss,2,",","."),
 
             'tableGales' => $tableGales,
+
+            'projectionData' => $projectionData,
 
             'chart' => $chartData,
             'chartYieldByDayData' => $chartYieldByDayData,

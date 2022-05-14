@@ -455,66 +455,20 @@
                                 </thead>
 
                                 <tbody>
-                                    <tr>
-                                        <td>1º</td>
-                                        <td>R$ 500,00</td>
-                                        <td>R$ 530,00</td>
-                                        <td>R$ 30,00</td>
-                                    </tr>
-                                    <tr class="bg-zinc-700">
-                                        <td>2º</td>
-                                        <td>R$ 530,00</td>
-                                        <td>R$ 561,80</td>
-                                        <td>R$ 31,80</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3º</td>
-                                        <td>R$ 561,80</td>
-                                        <td>R$ 595,51</td>
-                                        <td>R$ 33,71</td>
-                                    </tr>
-                                    <tr class="bg-zinc-700">
-                                        <td>4º</td>
-                                        <td>R$ 595,51</td>
-                                        <td>R$ 631,24</td>
-                                        <td>R$ 35,73</td>
-                                    </tr>
-                                    <tr>
-                                        <td>5º</td>
-                                        <td>R$ 631,24</td>
-                                        <td>R$ 669,11</td>
-                                        <td>R$ 37,87</td>
-                                    </tr>
-                                    <tr class="bg-zinc-700">
-                                        <td>6º</td>
-                                        <td>R$ 631,24</td>
-                                        <td>R$ 709,26</td>
-                                        <td>R$ 40,15</td>
-                                    </tr>
-                                    <tr>
-                                        <td>7º</td>
-                                        <td>R$ 709,26</td>
-                                        <td>R$ 751,82</td>
-                                        <td>R$ 42,56</td>
-                                    </tr>
-                                    <tr class="bg-zinc-700">
-                                        <td>8º</td>
-                                        <td>R$ 751,82</td>
-                                        <td>R$ 796,92</td>
-                                        <td>R$ 45,11</td>
-                                    </tr>
-                                    <tr>
-                                        <td>9º</td>
-                                        <td>R$ 751,82</td>
-                                        <td>R$ 844,74</td>
-                                        <td>R$ 47,82</td>
-                                    </tr>
-                                    <tr class="bg-zinc-700">
-                                        <td>10º</td>
-                                        <td>R$ 844,74</td>
-                                        <td>R$ 895,42</td>
-                                        <td>R$ 50,68</td>
-                                    </tr>
+                                    {% if projectionData is not null %}
+                                        {% for projection in projectionData %}
+                                        <tr class="{{projection.color}}">
+                                            <td>{{projection.day}}</td>
+                                            <td>R$ {{projection.p_bankroll}}</td>
+                                            <td>R$ {{projection.expected_bankroll}}</td>
+                                            <td>R$ {{projection.expected_yiel}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                        <tr >
+                                            <td colspan="4" class="text-center">Configure a sua banca</td>
+                                        </tr>
+                                    {% endif %}
                                 </tbody>
                             </table>
                         </div>
@@ -559,18 +513,53 @@
                             <input type="number" min="0.00" max="1000000.00" step="0.01" name="value_bet" id="value_bet" placeholder="R$100,00" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
                         </div>
                         <div>
+                            <label for="odd" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">ODD*</label>
+                            <input required type="number" min="0.00" max="1000000.00" step="0.01" name="odd" id="odd" placeholder="2.60" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
+                        </div>
+                        <div>
+                            <label for="operation_result" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Resultado da aposta*</label>
+                            <div class="md:flex md:justify-start md:items-center mt-4 md:space-y-0 md:space-x-4">
+                                <div class="flex items-center">
+                                    <input required id="operation_result_green" name="operation_result" type="radio" value="1" class="focus:ring-sky-500 h-4 w-4 text-gray-200 border-gray-300">
+                                    <label for="operation_result_green" class="ml-3 block text-sm font-medium text-green-400">
+                                        GREEN
+                                    </label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input required id="operation_result_red" name="operation_result" type="radio" value="2" class="focus:ring-sky-500 h-4 w-4 text-gray-200 border-gray-300">
+                                    <label for="operation_result_red" class="ml-3 block text-sm font-medium text-red-400">
+                                        RED
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="operation_credit" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Crédito de aposta*</label>
+                            <div class="md:flex md:justify-start md:items-center mt-4 md:space-y-0 md:space-x-4">
+                                <div class="flex items-center">
+                                    <input required checked id="operation_credit_n" name="operation_credit" type="radio" value="1" class="focus:ring-sky-500 h-4 w-4 text-gray-200 border-gray-300">
+                                    <label for="operation_credit_n" class="ml-3 block text-sm font-medium text-gray-200">
+                                        NÃO
+                                    </label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input required id="operation_credit_s" name="operation_credit" type="radio" value="2" class="focus:ring-sky-500 h-4 w-4 text-gray-200 border-gray-300">
+                                    <label for="operation_credit_s" class="ml-3 block text-sm font-medium text-gray-200">
+                                        SIM
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        {# <div>
                             <label for="returned_value" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Valor retornado*</label>
                             <input type="number" min="0.00" max="1000000.00" step="0.01" name="returned_value" id="returned_value" placeholder="R$100,00" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
                             <div class="text-sm text-gray-500 mt-1">Informe o valor R$ 0,00 quando for red</div>
                         </div>
-                        <div>
-                            <label for="odd" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">ODD</label>
-                            <input type="number" min="0.00" max="1000000.00" step="0.01" name="odd" id="odd" placeholder="2.60" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
-                        </div>
+                        
                         <div>
                             <label for="operation_code" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Código da operação</label>
                             <input type="text" name="operation_code" id="operation_code" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
-                        </div>
+                        </div> #}
                 </div>
                 <div  class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
                     <button type="submit"
@@ -639,10 +628,18 @@ function deleteBanroll()
 new Chart(document.getElementById("chartjs-0"), {
     "type": "line",
     "data": {
-        "labels": ["10/04/2022", "11/04/2022", "12/04/2022", "13/04/2022", "14/04/2022", "15/04/2022", "16/04/2022", "17/04/2022"],
+        "labels": [
+            {% for chartBankroll in chart %}
+                "{{chartBankroll.created_at|date("d/m/Y")}}",
+            {% endfor %}
+        ],
         "datasets": [{
             "label": "",
-            "data": [6989, 5158, 4424, 1650, 8510, 9973, 5921, 8427],
+            "data": [
+                {% for chartBankroll in chart %}
+                    "{{chartBankroll.result}}",
+                {% endfor %}
+            ],
             "borderColor": "hsl(209, 100%, 42%)",
             "lineTension": 0.1,
             "fill": true,
@@ -682,10 +679,18 @@ new Chart(document.getElementById("chartjs-0"), {
 new Chart(document.getElementById("chartjs-1"), {
     "type": "line",
     "data": {
-        "labels": ["12:41", "12:50", "12:59", "14:01", "15:40", "15:55", "16:00", "19:03"],
+        "labels": [
+            {% for chartYieldByDay in chartYieldByDayData %}
+                "{{chartYieldByDay.result_at|date("d/m/Y")}}",
+            {% endfor %}
+        ],
         "datasets": [{
             "label": "",
-            "data": [253, 124, 358, 129, 214, 341, 70, 303],
+            "data": [
+                {% for chartYieldByDay in chartYieldByDayData %}
+                    "{{chartYieldByDay.result|number_format(2,'.','')}}",
+                {% endfor %}
+            ],
             "borderColor": "hsl(209, 100%, 42%)",
             "lineTension": 0.1,
             "fill": true,
@@ -725,10 +730,18 @@ new Chart(document.getElementById("chartjs-1"), {
 new Chart(document.getElementById("chartjs-2"), {
     "type": "line",
     "data": {
-        "labels": ["10/04/2022", "11/04/2022", "12/04/2022", "13/04/2022", "14/04/2022", "15/04/2022", "16/04/2022", "17/04/2022"],
+        "labels": [
+            {% for chartBankroll in chart %}
+                "{{chartBankroll.created_at|date("d/m/Y")}}",
+            {% endfor %}
+        ],
         "datasets": [{
             "label": "",
-            "data": [5421, 1765, 3497, 2077, 9934, 6190, 7373, 10024],
+            "data": [
+                {% for chartBankroll in chart %}
+                    "{{chartBankroll.operations|number_format(2,'.','')}}",
+                {% endfor %}
+            ],
             "borderColor": "hsl(209, 100%, 42%)",
             "lineTension": 0.1,
             "fill": true,
@@ -766,10 +779,18 @@ new Chart(document.getElementById("chartjs-2"), {
 new Chart(document.getElementById("chartjs-7"), {
     "type": "line",
     "data": {
-        "labels": ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho"],
+        "labels": [
+            {% for chartWithdrawals in chartWithdrawalsData %}
+                "{{chartWithdrawals.withdrawal_at|date("d/m/Y")}}",
+            {% endfor %}
+        ],
         "datasets": [{
             "label": "",
-            "data": [1312, 4122, 2141, 5012, 4122, 1231, 6232],
+            "data": [
+                {% for chartWithdrawals in chartWithdrawalsData %}
+                    "{{chartWithdrawals.result|number_format(2,'.','')}}",
+                {% endfor %}
+            ],
             "borderColor": "rgb(75, 192, 192)",
             "lineTension": 0.1,
             "fill": true,

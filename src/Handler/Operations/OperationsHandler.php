@@ -60,7 +60,7 @@ class OperationsHandler implements RequestHandlerInterface
                 throw new \Exception("Não foi possível recupera as informações da sua banca.");
             }
 
-            if ( empty(trim($data['bet_at'])) || $data['value_bet'] == '' || $data['returned_value'] == '' )
+            if ( empty(trim($data['bet_at'])) || $data['value_bet'] == '' || empty($data['odd']) || empty($data['operation_result']) || empty($data['operation_credit']) )
                 throw new \Exception('Todos os campos obrigatórios devem ser preenchidos.'); 
                 
             if ( strtotime($data['bet_at']) > strtotime(date("Y-m-d H:i:s")) )
@@ -80,6 +80,30 @@ class OperationsHandler implements RequestHandlerInterface
 
         try
         {
+            $value_bet = (float)$data['value_bet'];
+
+            // GREEN = 1 / RED = 2
+            if ( (int)$data['operation_result'] == 1 )
+            {
+                // COM CRÉDITO = 2 / SEM CRÉDITO = 1
+                if ( (int)$data['operation_credit'] == 2 )
+                {
+                    $returnedValue = ((float)$data['odd']*$value_bet)-$value_bet;
+                    $result = $returnedValue;
+                }
+                elseif ( (int)$data['operation_credit'] == 1 )
+                {
+                    $returnedValue = (float)$data['odd']*$value_bet;
+                    $result = $returnedValue-$value_bet;
+                }
+            }
+            else
+            {
+                $returnedValue = 0;
+                $result = $returnedValue-$value_bet;
+            }
+
+
             $sql = "
             INSERT INTO 
                 operations 
@@ -89,6 +113,7 @@ class OperationsHandler implements RequestHandlerInterface
                 result,
                 odd,
                 operation_code,
+                with_credit,
                 bankroll_id)
             VALUES 
                 (:betAt, 
@@ -97,14 +122,16 @@ class OperationsHandler implements RequestHandlerInterface
                 :result,
                 :odd,
                 :operationCode,
+                :withCredit,
                 :bankrollId)";	
             $arrData = [
                 'betAt' => $data['bet_at'],
                 'valueBet' => (float)$data['value_bet'],
-                'returnedValue' => (float)$data['returned_value'],
-                'result' => ((float)$data['returned_value']-(float)$data['value_bet']),
-                'odd' => $data['odd'],
+                'returnedValue' => $returnedValue,
+                'result' => $result,
+                'odd' => (float)$data['odd'],
                 'operationCode' => $data['operation_code'],
+                'withCredit' => (int)$data['operation_credit'] == 2 ? 1 : 0,
                 'bankrollId' => $bankrollData[0]['id']
             ];
             $stmt = $this->pdo->prepare($sql);

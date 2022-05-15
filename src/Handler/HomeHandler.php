@@ -146,23 +146,23 @@ class HomeHandler implements RequestHandlerInterface
 
 
         // ICONE DO LUCRO DO DIA
-        $colorDailyYield = "yellow";
-        $narrowDailyYield = "minus";
-        if ( $dailyYield == 0)
-        {
-            $colorDailyYield = "yellow";
-            $narrowDailyYield = "minus";
-        }
-        elseif ( $dailyYield > $dailyYieldLastDay)
-        {
-            $colorDailyYield = "green";
-            $narrowDailyYield = "caret-up";
-        }
-        elseif ( $dailyYield < $dailyYieldLastDay)
-        {
-            $colorDailyYield = "red";
-            $narrowDailyYield = "caret-down";
-        }
+        // $colorDailyYield = "yellow";
+        // $narrowDailyYield = "minus";
+        // if ( $dailyYield == 0)
+        // {
+        //     $colorDailyYield = "yellow";
+        //     $narrowDailyYield = "minus";
+        // }
+        // elseif ( $dailyYield > $dailyYieldLastDay)
+        // {
+        //     $colorDailyYield = "green";
+        //     $narrowDailyYield = "caret-up";
+        // }
+        // elseif ( $dailyYield < $dailyYieldLastDay)
+        // {
+        //     $colorDailyYield = "red";
+        //     $narrowDailyYield = "caret-down";
+        // }
         
 
         // META DO DIA
@@ -278,8 +278,8 @@ class HomeHandler implements RequestHandlerInterface
             'colorPercentBankrollYield' => $colorPercentBankrollYield,
 
             'dailyYield' => number_format($dailyYield,2,",","."),
-            'colorDailyYield' => $colorDailyYield,
-            'narrowDailyYield' => $narrowDailyYield,
+            // 'colorDailyYield' => $colorDailyYield,
+            // 'narrowDailyYield' => $narrowDailyYield,
 
             'accumulatedYield' => number_format($accumulatedYield,2,",","."),
             'colorAccumulatedYield' => $colorAccumulatedYield,

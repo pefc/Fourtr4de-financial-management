@@ -70,12 +70,12 @@ class PreLoadMiddleware
                 'title' => 'Saques'
             );
     
-            $mainMenu[] = array(
-                'href' => '#',
-                'targetModal' => '#projectionModal',
-                'icon' => 'chart-line',
-                'title' => 'Projeção'
-            );
+            // $mainMenu[] = array(
+            //     'href' => '#',
+            //     'targetModal' => '#projectionModal',
+            //     'icon' => 'chart-line',
+            //     'title' => 'Projeção'
+            // );
     
             $mainMenu[] = array(
                 'href' => '#',
@@ -98,12 +98,12 @@ class PreLoadMiddleware
                 'line' => '<li><hr class="border-t border-dotted  mx-10 border-gray-400"></li>'
             );
 
-            $accountMenu[] = array(
-                'href' => '#',
-                'targetModal' => '',
-                'title' => 'Pagamento',
-                'line' => '<li><hr class="border-t border-dotted  mx-10 border-gray-400"></li>'
-            );
+            // $accountMenu[] = array(
+            //     'href' => '#',
+            //     'targetModal' => '',
+            //     'title' => 'Pagamento',
+            //     'line' => '<li><hr class="border-t border-dotted  mx-10 border-gray-400"></li>'
+            // );
 
             $accountMenu[] = array(
                 'href' => $routeParser->urlFor('logoutAccount'),

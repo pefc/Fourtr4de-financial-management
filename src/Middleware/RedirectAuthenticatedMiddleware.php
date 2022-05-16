@@ -31,7 +31,7 @@ class RedirectAuthenticatedMiddleware
         {            
             return $response
                 ->withStatus(302)
-                ->withHeader('Location', $routeParser->urlFor('managementHome'));
+                ->withHeader('Location', $routeParser->urlFor('dashboard'));
         }
 
         $response = $handler->handle($request);

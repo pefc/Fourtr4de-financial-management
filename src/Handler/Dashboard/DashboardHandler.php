@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Handler;
+namespace App\Handler\Dashboard;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -14,7 +14,7 @@ use Psr\Container\ContainerInterface;
 use Slim\Flash\Messages;
 use PDO;
 
-class HomeHandler implements RequestHandlerInterface
+class DashboardHandler implements RequestHandlerInterface
 {
     private $twig;
     private $flash;

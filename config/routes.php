@@ -9,7 +9,7 @@ use App\Middleware\PreLoadMiddleware;
 use App\Middleware\CheckNoAuthenticatedMiddleware;
 use App\Middleware\RedirectAuthenticatedMiddleware;
 
-use App\Handler\HomeHandler;
+use App\Handler\Dashboard\DashboardHandler;
 use App\Handler\Auth\AuthHandler;
 use App\Handler\Users\UsersHandler;
 use App\Handler\Bankroll\BankrollHandler;
@@ -42,20 +42,20 @@ return function (App $app) {
     })->add(PreLoadMiddleware::class)->add(RedirectAuthenticatedMiddleware::class);
 
 
-    $app->group('/management', function (RouteCollectorProxy $groupManagement) {
-        $groupManagement->get('', HomeHandler::class)->setName('managementHome');
+    $app->group('/dashboard', function (RouteCollectorProxy $groupDashboard) {
+        $groupDashboard->get('', DashboardHandler::class)->setName('dashboard');
         // $groupManagement->get('/account/edit/{id}', UsersHandler::class.':editUser')->setName('formEditUser');
 
-        $groupManagement->group('/bankroll', function (RouteCollectorProxy $groupBankroll) {
+        $groupDashboard->group('/bankroll', function (RouteCollectorProxy $groupBankroll) {
             $groupBankroll->post('/save', BankrollHandler::class.':saveBankroll')->setName('actionRegisterBankroll');
             $groupBankroll->post('/delete', BankrollHandler::class.':deleteBankroll')->setName('actionDeleteBankroll');
         });
 
-        $groupManagement->post('/operation/save', OperationsHandler::class.':saveOperation')->setName('actionSaveOperation');
+        $groupDashboard->post('/operation/save', OperationsHandler::class.':saveOperation')->setName('actionSaveOperation');
 
-        $groupManagement->post('/deposit/save', DepositsHandler::class.':saveDeposit')->setName('actionSaveDeposit');
+        $groupDashboard->post('/deposit/save', DepositsHandler::class.':saveDeposit')->setName('actionSaveDeposit');
 
-        $groupManagement->post('/withdrawal/save', WithdrawalsHandler::class.':saveWithdrawal')->setName('actionSaveWithdrawal');
+        $groupDashboard->post('/withdrawal/save', WithdrawalsHandler::class.':saveWithdrawal')->setName('actionSaveWithdrawal');
 
     })->add(PreLoadMiddleware::class)->add(CheckNoAuthenticatedMiddleware::class);
 };

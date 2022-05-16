@@ -75,7 +75,7 @@ class DepositsHandler implements RequestHandlerInterface
             $this->flash->addMessage('error', $e->getMessage());
             return $response
                     ->withStatus(302)
-                    ->withHeader('Location', $routeParser->urlFor('managementHome')); 
+                    ->withHeader('Location', $routeParser->urlFor('dashboard')); 
         }
 
         try
@@ -116,6 +116,6 @@ class DepositsHandler implements RequestHandlerInterface
         }
         return $response
             ->withStatus(302)
-            ->withHeader('Location', $routeParser->urlFor('managementHome')); 
+            ->withHeader('Location', $routeParser->urlFor('dashboard')); 
     }
 }

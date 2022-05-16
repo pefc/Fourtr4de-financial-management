@@ -210,9 +210,10 @@ class HomeHandler implements RequestHandlerInterface
         $chartYieldByDayData = array();
         if ( !empty($configurationsBankrollData[0]['id']) )
         {
-            $stmt = $this->pdo->prepare("SELECT sum(result) as result, bet_at AS result_at FROM operations WHERE bankroll_id = :bankrollId AND status = 'A' GROUP BY bet_at ORDER BY bet_at ASC LIMIT 10");
+            $stmt = $this->pdo->prepare("SELECT sum(result) as result, bet_at AS result_at FROM operations WHERE bankroll_id = :bankrollId AND status = 'A' GROUP BY bet_at ORDER BY bet_at DESC LIMIT 10");
             $stmt->execute(['bankrollId' => $configurationsBankrollData[0]['id']]);
             $chartYieldByDayData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $chartYieldByDayData = array_reverse($chartYieldByDayData);
         }
 
 
@@ -220,9 +221,10 @@ class HomeHandler implements RequestHandlerInterface
         $chartData = array();
         if ( !empty($configurationsBankrollData[0]['id']) )
         {
-            $stmt = $this->pdo->prepare("SELECT operations, result, DATE(created_at) as created_at FROM cash_flow WHERE id IN (SELECT MAX(id) FROM cash_flow WHERE bankroll_id = :bankrollId group by DATE(created_at)) ORDER BY created_at ASC LIMIT 10");
+            $stmt = $this->pdo->prepare("SELECT operations, result, DATE(created_at) as created_at FROM cash_flow WHERE id IN (SELECT MAX(id) FROM cash_flow WHERE bankroll_id = :bankrollId group by DATE(created_at)) ORDER BY created_at DESC LIMIT 10");
             $stmt->execute(['bankrollId' => $configurationsBankrollData[0]['id']]);
             $chartData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $chartData = array_reverse($chartData);
         }
 
 
@@ -233,6 +235,7 @@ class HomeHandler implements RequestHandlerInterface
             $stmt = $this->pdo->prepare("SELECT sum(value) as result, date(withdrawal_at) as withdrawal_at FROM withdrawals WHERE bankroll_id = :bankrollId AND status = 'A' GROUP BY DATE(withdrawal_at)");
             $stmt->execute(['bankrollId' => $configurationsBankrollData[0]['id']]);
             $chartWithdrawalsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $chartWithdrawalsData = array_reverse($chartWithdrawalsData);
         }
 
 

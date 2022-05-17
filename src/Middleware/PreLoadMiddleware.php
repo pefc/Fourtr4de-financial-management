@@ -28,26 +28,30 @@ class PreLoadMiddleware
         $response = new Response();
         $routeParser = RouteContext::fromRequest($request)->getRouteParser();
 
-        if ( empty($_SESSION['descriptionTerms']) || empty($_SESSION['descriptionPolices']) )
-        {
-            $stmt = $this->pdo->prepare("SELECT id, description FROM terms_polices WHERE type = 'T' and status = 'A' ORDER BY id DESC LIMIT 1");
-            $stmt->execute();
-            $terms = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt = $this->pdo->prepare("SELECT id, description FROM terms_polices WHERE type = 'T' and status = 'A' ORDER BY id DESC LIMIT 1");
+        $stmt->execute();
+        $terms = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $stmt = $this->pdo->prepare("SELECT id, description FROM terms_polices WHERE type = 'P' and status = 'A' ORDER BY id DESC LIMIT 1");
-            $stmt->execute();
-            $polices = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            
-            $_SESSION['idTerms'] = $terms[0]["id"];
-            $_SESSION['descriptionTerms'] = $terms[0]["description"];
-            $_SESSION['descriptionPolices'] = $polices[0]["description"];
-        }
+        $stmt = $this->pdo->prepare("SELECT id, description FROM terms_polices WHERE type = 'P' and status = 'A' ORDER BY id DESC LIMIT 1");
+        $stmt->execute();
+        $polices = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        $_SESSION['idTerms'] = $terms[0]["id"];
+        $_SESSION['descriptionTerms'] = $terms[0]["description"];
+        $_SESSION['descriptionPolices'] = $polices[0]["description"];
 
         $_SESSION['menus'] = array();
         if ( !empty($_SESSION['user']['id']) )
         {
             $mainMenu = array();
             $accountMenu = array();
+
+            $mainMenu[] = array(
+                'href' => $routeParser->urlFor('formLogin'),
+                'targetModal' => '',
+                'icon' => 'chart-simple',
+                'title' => 'Dashboard'
+            );
 
             $mainMenu[] = array(
                 'href' => '#',
@@ -78,7 +82,7 @@ class PreLoadMiddleware
             // );
     
             $mainMenu[] = array(
-                'href' => '#',
+                'href' => $routeParser->urlFor('history'),
                 'targetModal' => '',
                 'icon' => 'receipt',
                 'title' => 'Hstórico'
@@ -92,8 +96,8 @@ class PreLoadMiddleware
             );
 
             $accountMenu[] = array(
-                'href' => '#',
-                'targetModal' => '#myAccountModal',
+                'href' => $routeParser->urlFor('formAccount'),
+                'targetModal' => '',
                 'title' => 'Minha conta',
                 'line' => '<li><hr class="border-t border-dotted  mx-10 border-gray-400"></li>'
             );

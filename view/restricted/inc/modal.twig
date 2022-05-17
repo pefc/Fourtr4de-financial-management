@@ -1,0 +1,331 @@
+{# <div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
+id="myAccountModal" tabindex="-1" aria-labelledby="myAccountModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable relative w-auto pointer-events-none">
+        <div
+        class="bg-zinc-800 modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-clip-padding rounded-md outline-none text-current">
+        <div
+            class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
+            <h5 class="text-xl font-medium leading-normal text-green-700" id="myAccountModalLabel">
+            Minha Conta
+            </h5>
+            <button type="button"
+            class="btn-close box-content w-4 h-4 p-1 text-gray-100 border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-gray-200 hover:opacity-75 hover:no-underline"
+            data-bs-dismiss="modal" aria-label="Close">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+            </button>
+        </div>
+        <div class="modal-body relative p-4">
+            <form class="px-6 pb-4 space-y-6 lg:px-8 sm:pb-6 xl:pb-8" action="#">
+                <div>
+                    <label for="name" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Nome</label>
+                    <input type="text" name="name" id="name"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
+                </div>
+                <div>
+                    <label for="email" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">E-mail</label>
+                    <input type="email" name="email" id="email" placeholder="email@email.com" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
+                </div>
+                <div>
+                    <label for="password" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Senha</label>
+                    <input type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
+                </div>
+                <div>
+                    <label for="confirm_password" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Confirmar senha</label>
+                    <input type="password" name="confirm_password" id="confirm_password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
+                </div>
+            </form>
+        </div>
+        <div  class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
+            <button type="button"
+            class="inline-block px-6 py-2.5 bg-green-700 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-emerald-700 hover:shadow-lg focus:bg-emerald-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-emerald-700 active:shadow-lg transition duration-150 ease-in-out ml-1">
+            Salvar
+            </button>
+        </div>
+        </div>
+    </div>
+</div> #}
+    
+<div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
+id="withdrawalModal" tabindex="-1" aria-labelledby="withdrawalModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable relative w-auto pointer-events-none">
+        <div
+        class="bg-zinc-800 modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-clip-padding rounded-md outline-none text-current">
+        <div
+            class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
+            <h5 class="text-xl font-medium leading-normal text-green-700" id="withdrawalModalLabel">
+            Saques
+            </h5>
+            <button type="button"
+            class="btn-close box-content w-4 h-4 p-1 text-gray-100 border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-gray-200 hover:opacity-75 hover:no-underline"
+            data-bs-dismiss="modal" aria-label="Close">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+            </button>
+        </div>
+        <div class="modal-body relative p-4">
+            <form class="px-6 pb-4 space-y-6 lg:px-8 sm:pb-6 xl:pb-8" method="post" action="{{actionSaveWithdrawal}}">
+                <div>
+                    <label for="withdrawal_at" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Data do saque*</label>
+                    <input type="date" name="withdrawal_at" id="withdrawal_at" placeholder="dd/mm/aaaa" min="{{configurationsBankroll.created_at|date("Y-m-d")}}" max="{{ "now"|date("Y-m-d") }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
+                </div>
+                <div>
+                    <label for="value_withdrawal" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Valor*</label>
+                    <input type="number" min="0.00" max="1000000.00" step="0.01" name="value_withdrawal" id="value_withdrawal" placeholder="R$100,00" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
+                    {# <div class="text-sm text-gray-500 mt-1">Informe o valor que foi sacado da sua conta.</div> #}
+                </div>
+                <div>
+                    <label for="operation_code_withdrawal" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Código da operação</label>
+                    <input type="text" name="operation_code_withdrawal" id="operation_code_withdrawal"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
+                </div>
+        </div>
+        <div  class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
+            <button type="submit"
+            class="inline-block px-6 py-2.5 bg-green-700 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-emerald-700 hover:shadow-lg focus:bg-emerald-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-emerald-700 active:shadow-lg transition duration-150 ease-in-out ml-1">
+            Salvar
+            </button>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
+id="depositModal" tabindex="-1" aria-labelledby="depositModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable relative w-auto pointer-events-none">
+        <div
+        class="bg-zinc-800 modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-clip-padding rounded-md outline-none text-current">
+        <div
+            class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
+            <h5 class="text-xl font-medium leading-normal text-green-700" id="depositModalLabel">
+            Depósitos
+            </h5>
+            <button type="button"
+            class="btn-close box-content w-4 h-4 p-1 text-gray-100 border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-gray-200 hover:opacity-75 hover:no-underline"
+            data-bs-dismiss="modal" aria-label="Close">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+            </button>
+        </div>
+        <div class="modal-body relative p-4">
+            <form class="px-6 pb-4 space-y-6 lg:px-8 sm:pb-6 xl:pb-8" method="post" action="{{actionSaveDeposit}}">
+                <div>
+                    <label for="deposited_at" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Data do depósito*</label>
+                    <input type="date" name="deposited_at" id="deposited_at" placeholder="dd/mm/aaaa" min="{{configurationsBankroll.created_at|date("Y-m-d")}}" max="{{ "now"|date("Y-m-d") }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
+                </div>
+                <div>
+                    <label for="value" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Valor*</label>
+                    <input type="number" min="0.00" max="1000000.00" step="0.01" name="value" id="value" placeholder="R$100,00" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="R$ 200,00" required="">
+                </div>
+                <div>
+                    <label for="deposit_operation_code" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Código da operação</label>
+                    <input type="text" name="deposit_operation_code" id="deposit_operation_code"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
+                </div>
+        </div>
+        <div  class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
+            <button type="submit"
+            class="inline-block px-6 py-2.5 bg-green-700 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-emerald-700 hover:shadow-lg focus:bg-emerald-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-emerald-700 active:shadow-lg transition duration-150 ease-in-out ml-1">
+            Salvar
+            </button>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
+id="configModal" tabindex="-1" aria-labelledby="configModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable relative w-auto pointer-events-none">
+        <div
+        class="bg-zinc-800 modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-clip-padding rounded-md outline-none text-current">
+        <div
+            class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
+            <h5 class="text-xl font-medium leading-normal text-green-700" id="configModalLabel">
+            Configurações da Banca
+            </h5>
+            <button type="button"
+            class="btn-close box-content w-4 h-4 p-1 text-gray-100 border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-gray-200 hover:opacity-75 hover:no-underline"
+            data-bs-dismiss="modal" aria-label="Close">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+            </button>
+        </div>
+        <div class="modal-body relative p-4">
+            <form class="px-6 pb-4 space-y-6 lg:px-8 sm:pb-6 xl:pb-8" method="post" action="{{actionRegisterBankroll}}">
+                <div>
+                    <label for="initial_bankroll" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Banca inicial*</label>
+                    <input type="number" value="{{configurationsBankroll.initial_bankroll}}" min="0.75" max="1000000.00" step="0.01" name="initial_bankroll" placeholder="500" id="initial_bankroll" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
+                </div>
+                <div>
+                    <label for="yield" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Procentagem de lucro*</label>
+                    <input type="number" value="{{configurationsBankroll.yield}}" min="0.1" max="1000000.00" step="0.01" name="yield" placeholder="3" id="yield" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
+                </div>
+                <div>
+                    <label for="stop_win" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Porcentagem para stop win*</label>
+                    <input type="number" value="{{configurationsBankroll.stop_win}}" min="0.1" max="100.00" step="0.01" name="stop_win" id="stop_win" placeholder="30" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
+                </div>
+                <div>
+                    <label for="stop_loss" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Porcentagem para stop loss*</label>
+                    <input type="number" value="{{configurationsBankroll.stop_loss}}" min="0.1" max="100.00" step="0.01" name="stop_loss" id="stop_loss" placeholder="20" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
+                </div>
+        </div>
+        <div  class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
+            <button type="button" onclick="deleteBanroll()"
+            class="inline-block px-6 py-2.5 bg-red-700 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-800 hover:shadow-lg focus:bg-red-800 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out ml-1">
+            Excluir registros
+            </button>
+            <button type="submit"
+            class="inline-block px-6 py-2.5 bg-green-700 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-emerald-700 hover:shadow-lg focus:bg-emerald-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-emerald-700 active:shadow-lg transition duration-150 ease-in-out ml-1">
+            Salvar
+            </button>
+        </div>
+        </form>
+        <form id="deleteBankroll" method="post" action="{{actionDeleteBankroll}}"></form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
+id="projectionModal" tabindex="-1" aria-labelledby="projectionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable relative w-auto pointer-events-none">
+        <div
+        class="bg-zinc-800 modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-clip-padding rounded-md outline-none text-current">
+            <div
+                class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
+                <h5 class="text-xl font-medium leading-normal text-green-700" id="projectionModalLabel">
+                Projeção
+                </h5>
+                <button type="button"
+                class="btn-close box-content w-4 h-4 p-1 text-gray-100 border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-gray-200 hover:opacity-75 hover:no-underline"
+                data-bs-dismiss="modal" aria-label="Close">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                </button>
+            </div>
+            <div class="modal-body relative p-4">
+                <!-- <form class="px-6 pb-4 space-y-6 lg:px-8 sm:pb-6 xl:pb-8" action="#"> -->
+                    <div>
+                        <table class="w-full p-5 text-gray-200 text-center text-sm md:text-md">
+                            <thead>
+                                <tr class="bg-zinc-700 text-gray-200">
+                                    <th>Dia</th>
+                                    <th>Banca</th>
+                                    <th>Resultado Previsto</th>
+                                    <th>Lucro Previsto</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% if projectionData is not null %}
+                                    {% for projection in projectionData %}
+                                    <tr class="{{projection.color}}">
+                                        <td>{{projection.day}}</td>
+                                        <td>R$ {{projection.p_bankroll}}</td>
+                                        <td>R$ {{projection.expected_bankroll}}</td>
+                                        <td>R$ {{projection.expected_yiel}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr >
+                                        <td colspan="4" class="text-center">Configure a sua banca</td>
+                                    </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-[10px] text-gray-500 mt-1">A porcentagem de lucro é aplicada sobre a sua banca inicial.</div>
+                <!-- </form> -->
+            </div>
+            <!-- <div  class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
+                <button type="button"
+                class="inline-block px-6 py-2.5 bg-green-700 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-emerald-700 hover:shadow-lg focus:bg-emerald-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-emerald-700 active:shadow-lg transition duration-150 ease-in-out ml-1">
+                Salvar
+                </button>
+            </div> -->
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
+id="betsModal" tabindex="-1" aria-labelledby="betsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable relative w-auto pointer-events-none">
+        <div
+        class="bg-zinc-800 modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-clip-padding rounded-md outline-none text-current">
+            <div
+                class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
+                <h5 class="text-xl font-medium leading-normal text-green-700" id="betsModalLabel">
+                Apostas
+                </h5>
+                <button type="button"
+                class="btn-close box-content w-4 h-4 p-1 text-gray-100 border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-gray-200 hover:opacity-75 hover:no-underline"
+                data-bs-dismiss="modal" aria-label="Close">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                </button>
+            </div>
+            <div class="modal-body relative p-4">
+                <form class="px-6 pb-4 space-y-6 lg:px-8 sm:pb-6 xl:pb-8" method="post" action="{{actionSaveOperation}}">
+                    <div>
+                        <label for="bet_at" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Data da operação*</label>
+                        <input type="date" name="bet_at" id="bet_at" placeholder="dd/mm/aaaa" min="{{configurationsBankroll.created_at|date("Y-m-d")}}" max="{{ "now"|date("Y-m-d") }}" value="{{ "now"|date("Y-m-d") }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
+                    </div>
+                    <div>
+                        <label for="value_bet" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Valor apostado*</label>
+                        <input type="number" min="0.00" max="1000000.00" step="0.01" name="value_bet" id="value_bet" placeholder="R$100,00" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
+                    </div>
+                    <div>
+                        <label for="odd" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">ODD*</label>
+                        <input required type="number" min="0.00" max="1000000.00" step="0.01" name="odd" id="odd" placeholder="2.60" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
+                    </div>
+                    <div>
+                        <label for="operation_result" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Resultado da aposta*</label>
+                        <div class="md:flex md:justify-start md:items-center mt-4 md:space-y-0 md:space-x-4">
+                            <div class="flex items-center">
+                                <input required id="operation_result_green" name="operation_result" type="radio" value="1" class="focus:ring-sky-500 h-4 w-4 text-gray-200 border-gray-300">
+                                <label for="operation_result_green" class="ml-3 block text-sm font-medium text-green-400">
+                                    GREEN
+                                </label>
+                            </div>
+                            <div class="flex items-center">
+                                <input required id="operation_result_red" name="operation_result" type="radio" value="2" class="focus:ring-sky-500 h-4 w-4 text-gray-200 border-gray-300">
+                                <label for="operation_result_red" class="ml-3 block text-sm font-medium text-red-400">
+                                    RED
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="operation_credit" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Crédito de aposta*</label>
+                        <div class="md:flex md:justify-start md:items-center mt-4 md:space-y-0 md:space-x-4">
+                            <div class="flex items-center">
+                                <input required checked id="operation_credit_n" name="operation_credit" type="radio" value="1" class="focus:ring-sky-500 h-4 w-4 text-gray-200 border-gray-300">
+                                <label for="operation_credit_n" class="ml-3 block text-sm font-medium text-gray-200">
+                                    NÃO
+                                </label>
+                            </div>
+                            <div class="flex items-center">
+                                <input required id="operation_credit_s" name="operation_credit" type="radio" value="2" class="focus:ring-sky-500 h-4 w-4 text-gray-200 border-gray-300">
+                                <label for="operation_credit_s" class="ml-3 block text-sm font-medium text-gray-200">
+                                    SIM
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    {# <div>
+                        <label for="returned_value" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Valor retornado*</label>
+                        <input type="number" min="0.00" max="1000000.00" step="0.01" name="returned_value" id="returned_value" placeholder="R$100,00" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
+                        <div class="text-sm text-gray-500 mt-1">Informe o valor R$ 0,00 quando for red</div>
+                    </div>
+                    
+                    <div>
+                        <label for="operation_code" class="block mb-2 text-sm font-medium text-gray-200 dark:text-gray-300">Código da operação</label>
+                        <input type="text" name="operation_code" id="operation_code" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
+                    </div> #}
+            </div>
+            <div  class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
+                <button type="submit"
+                class="inline-block px-6 py-2.5 bg-green-700 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-emerald-700 hover:shadow-lg focus:bg-emerald-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-emerald-700 active:shadow-lg transition duration-150 ease-in-out ml-1">
+                Salvar
+                </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

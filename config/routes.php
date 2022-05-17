@@ -16,7 +16,7 @@ use App\Handler\Bankroll\BankrollHandler;
 use App\Handler\Operations\OperationsHandler;
 use App\Handler\Deposits\DepositsHandler;
 use App\Handler\Withdrawals\WithdrawalsHandler;
-
+use App\Handler\History\HistoryHandler;
 
 return function (App $app) {
 
@@ -44,7 +44,11 @@ return function (App $app) {
 
     $app->group('/dashboard', function (RouteCollectorProxy $groupDashboard) {
         $groupDashboard->get('', DashboardHandler::class)->setName('dashboard');
-        // $groupManagement->get('/account/edit/{id}', UsersHandler::class.':editUser')->setName('formEditUser');
+
+        $groupDashboard->group('/my-account', function (RouteCollectorProxy $groupAccount) {
+            $groupAccount->get('', UsersHandler::class.':getUser')->setName('formAccount');
+            $groupAccount->post('/edit', BankrollHandler::class.':editUser')->setName('actionEditAccount');
+        });
 
         $groupDashboard->group('/bankroll', function (RouteCollectorProxy $groupBankroll) {
             $groupBankroll->post('/save', BankrollHandler::class.':saveBankroll')->setName('actionRegisterBankroll');
@@ -56,6 +60,8 @@ return function (App $app) {
         $groupDashboard->post('/deposit/save', DepositsHandler::class.':saveDeposit')->setName('actionSaveDeposit');
 
         $groupDashboard->post('/withdrawal/save', WithdrawalsHandler::class.':saveWithdrawal')->setName('actionSaveWithdrawal');
+
+        $groupDashboard->get('/history', HistoryHandler::class)->setName('history');
 
     })->add(PreLoadMiddleware::class)->add(CheckNoAuthenticatedMiddleware::class);
 };

@@ -14,6 +14,8 @@ use Psr\Container\ContainerInterface;
 use Slim\Flash\Messages;
 use PDO;
 use App\Handler\Mailer\MailHandler;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 class UsersHandler implements RequestHandlerInterface
 {
@@ -170,6 +172,45 @@ class UsersHandler implements RequestHandlerInterface
             return $response
                     ->withStatus(302)
                     ->withHeader('Location', $routeParser->urlFor('formLogin')); 
+        }
+    }
+
+    public function getUser(ServerRequestInterface $request): ResponseInterface
+    {
+        $routeParser = RouteContext::fromRequest($request)->getRouteParser();
+
+        $response = new Response();
+
+        try
+        {
+            $key = $this->container->get('settings')['secret_key'];
+            $decoded = JWT::decode($_COOKIE['token'], new Key($key, 'HS256'));
+            
+            $stmt = $this->pdo->prepare("SELECT * FROM users WHERE token = :userToken AND id = :userId AND status = 'A' LIMIT 1");
+            $stmt->execute(['userToken' => $decoded->user, 'userId' => $_SESSION['user']['id']]);
+            $userData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if ( empty($userData[0]['id']) )
+                throw new \Exception("Não foi possível localizar o cadastro.");
+
+            $args = array(
+                'pageTitle' => "Minha Conta",
+                'pageData' => $_SESSION['pageData'],
+                'actionEditAccount' => $routeParser->urlFor('actionEditAccount'),
+                'userData' => $userData[0],
+            );
+            $response->getBody()->write(
+                $this->twig->render('restricted/my-account.twig', $args)
+            );
+            return $response;
+        }
+        catch ( \Exception $e )
+        {
+            $this->flash->addMessage('error', $e->getMessage());
+
+            return $response
+                ->withStatus(302)
+                ->withHeader('Location', $routeParser->urlFor('logoutAccount'));
         }
     }
 

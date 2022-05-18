@@ -216,9 +216,18 @@ class UsersHandler implements RequestHandlerInterface
 
     public function checkEmailExist($email) 
     {
-        $stmt = $this->pdo->prepare("SELECT email FROM users WHERE email = :userEmail LIMIT 1");
-        $stmt->execute(['userEmail' => $email ]);
-        $userData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if ( empty($_SESSION['user']['id']) )
+        {
+            $stmt = $this->pdo->prepare("SELECT email FROM users WHERE email = :userEmail LIMIT 1");
+            $stmt->execute(['userEmail' => $email ]);
+            $userData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        else
+        {
+            $stmt = $this->pdo->prepare("SELECT email FROM users WHERE email = :userEmail AND id <> :userId LIMIT 1");
+            $stmt->execute(['userEmail' => $email, 'userId' => $_SESSION['user']['id'] ]);
+            $userData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
 
         if ( empty($userData[0]['email']) )
             return false;
@@ -561,6 +570,102 @@ class UsersHandler implements RequestHandlerInterface
                 ->withStatus(302)
                 ->withHeader('Location', $routeParser->urlFor('formLogin'));
         }
+    }
+
+
+    public function editUser(ServerRequestInterface $request): ResponseInterface
+    {
+        $response = new Response();
+        $routeContext = RouteContext::fromRequest($request);
+        $routeParser = $routeContext->getRouteParser();
+        $route = $routeContext->getRoute();
+
+        try{
+            $key = $this->container->get('settings')['secret_key'];
+            $decoded = JWT::decode($_COOKIE['token'], new Key($key, 'HS256'));
+
+            $stmt = $this->pdo->prepare("SELECT * FROM users WHERE token = :userToken AND id = :userId AND status = 'A' LIMIT 1");
+            $stmt->execute(['userToken' => $decoded->user, 'userId' => $_SESSION['user']['id']]);
+            $userData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if ( empty($userData[0]['id']))
+                throw new \Exception("Não foi possível localizar a conta.");
+
+            $data = $request->getParsedBody();
+
+            if ( empty(trim($data['name'])) || empty(trim($data['identifier'])) || empty(trim($data['email'])) )
+                throw new \Exception('Todos os campos obrigatórios devem ser preenchidos.');
+
+            if ( filter_var($data['email'], FILTER_VALIDATE_EMAIL) === false )
+                throw new \Exception('Informe um e-mail válido.');
+
+            if ( !empty(trim($data['password'])) )
+            {
+                if ( strlen(trim($data['password'])) < 6 || strlen(trim($data['confirm_password'])) < 6 )
+                    throw new \Exception('A senha deve ter pelo menos 6 caracteres.');
+
+                if ( $data['password'] != $data['confirm_password'] )
+                    throw new \Exception('As senhas devem ser iguais.');
+            }
+
+            if ( $this->checkEmailExist($data['email']) === true )
+                throw new \Exception('E-mail já cadastrado. Por favor, forneça outro e-mail válido.');  
+            
+            $createdAt = sha1(date("dmyhis"));
+            $newToken = sha1($createdAt.sha1($data["email"]).sha1($userData[0]["identifier"]).sha1($this->container->get('settings')['secret_key']));
+
+            $sql = "
+            UPDATE 
+                users 
+            SET
+                name = :userName,
+                email = :userEmail,
+                password = :userPassword,
+                token = :newToken,
+                updated_at = now()
+            WHERE
+                token = :token AND
+                id = :userId";	
+            $arrData = [
+                'userName' => trim($data['name']),
+                'userEmail' => strtolower(trim($data['email'])),
+                'userPassword' => $data['password'] ? sha1($data['password']) : $userData[0]['password'],
+                'newToken' => $newToken,
+                'token' => $decoded->user,
+                'userId' => $_SESSION['user']['id'],
+            ];
+            $stmt = $this->pdo->prepare($sql);
+            if ( $stmt->execute($arrData) === false )
+            {
+                $this->logger->error("Erro ao verificar a conta do usuário");
+                throw new \Exception("Não foi possível editar a sua conta.");
+            }
+
+
+            $tokenToJwt = array(
+                "user" => $newToken,
+                "name" => ucwords(strtolower($data['name'])),
+                "iss" => $this->container->get('settings')['site_url'],
+                "aud" => $this->container->get('settings')['site_url'],
+            );
+
+            $_SESSION['user']['name'] = ucwords(strtolower($data['name']));
+
+            $jwt = JWT::encode($tokenToJwt, $key, 'HS256');
+
+            setcookie("token", $jwt, 0, "/");
+
+            $this->flash->addMessage('success', 'Informações alteradas com sucesso.');
+
+        }
+        catch ( \Exception $e )
+        {
+            $this->flash->addMessage('error', $e->getMessage());
+        }
+
+        return $response
+            ->withStatus(302)
+            ->withHeader('Location', $routeParser->urlFor('formAccount')); 
     }
 
     

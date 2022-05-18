@@ -47,7 +47,7 @@ return function (App $app) {
 
         $groupDashboard->group('/my-account', function (RouteCollectorProxy $groupAccount) {
             $groupAccount->get('', UsersHandler::class.':getUser')->setName('formAccount');
-            $groupAccount->post('/edit', BankrollHandler::class.':editUser')->setName('actionEditAccount');
+            $groupAccount->post('/edit', UsersHandler::class.':editUser')->setName('actionEditAccount');
         });
 
         $groupDashboard->group('/bankroll', function (RouteCollectorProxy $groupBankroll) {

@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'f69ad5afcfbe9dfae6d5cad88ae79d83124ea09f',
+        'reference' => '7043182464f0d35c3e320235edadb285bbf861f1',
         'name' => '__root__',
         'dev' => true,
     ),
@@ -16,7 +16,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'f69ad5afcfbe9dfae6d5cad88ae79d83124ea09f',
+            'reference' => '7043182464f0d35c3e320235edadb285bbf861f1',
             'dev_requirement' => false,
         ),
         'doctrine/lexer' => array(
@@ -325,6 +325,15 @@
             'provided' => array(
                 0 => '2.0',
             ),
+        ),
+        'symfony/google-mailer' => array(
+            'pretty_version' => 'v5.4.8',
+            'version' => '5.4.8.0',
+            'type' => 'symfony-mailer-bridge',
+            'install_path' => __DIR__ . '/../symfony/google-mailer',
+            'aliases' => array(),
+            'reference' => '8da892489a7536e869c56efa06bf2f74f15a4693',
+            'dev_requirement' => false,
         ),
         'symfony/mailer' => array(
             'pretty_version' => 'v5.4.7',

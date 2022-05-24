@@ -77,13 +77,17 @@ return static function (ContainerBuilder $containerBuilder, array $settings) {
             $settings = $c->get('settings')['smtp'];
             
             // smtp://user:pass@smtp.example.com:25
+            // $dsn = sprintf(
+            //     '%s://%s:%s@%s:%s',
+            //     $settings['MAILER_URL'],
+            //     $settings['username'],
+            //     $settings['password'],
+            //     $settings['host'],
+            //     $settings['port']
+            // );
             $dsn = sprintf(
-                '%s://%s:%s@%s:%s',
-                $settings['type'],
-                $settings['username'],
-                $settings['password'],
-                $settings['host'],
-                $settings['port']
+                '%s',
+                $settings['MAILER_URL']
             );
     
             return new Mailer(Transport::fromDsn($dsn));

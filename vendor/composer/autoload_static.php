@@ -39,6 +39,7 @@ class ComposerStaticInit13bf66b86c70ae08ef3bcfb4ddf1816d
             'Symfony\\Contracts\\Service\\' => 26,
             'Symfony\\Contracts\\EventDispatcher\\' => 34,
             'Symfony\\Component\\Mime\\' => 23,
+            'Symfony\\Component\\Mailer\\Bridge\\Google\\' => 39,
             'Symfony\\Component\\Mailer\\' => 25,
             'Symfony\\Component\\EventDispatcher\\' => 34,
             'Slim\\Views\\' => 11,
@@ -153,6 +154,10 @@ class ComposerStaticInit13bf66b86c70ae08ef3bcfb4ddf1816d
         'Symfony\\Component\\Mime\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/mime',
+        ),
+        'Symfony\\Component\\Mailer\\Bridge\\Google\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/google-mailer',
         ),
         'Symfony\\Component\\Mailer\\' => 
         array (
@@ -275,8 +280,9 @@ class ComposerStaticInit13bf66b86c70ae08ef3bcfb4ddf1816d
         'App\\Handler\\Auth\\AuthHandler' => __DIR__ . '/../..' . '/src/Handler/Auth/AuthHandler.php',
         'App\\Handler\\Bankroll\\BankrollHandler' => __DIR__ . '/../..' . '/src/Handler/Bankroll/BankrollHandler.php',
         'App\\Handler\\CashFlow\\CashFlowHandler' => __DIR__ . '/../..' . '/src/Handler/CashFlow/CashFlowHandler.php',
+        'App\\Handler\\Dashboard\\DashboardHandler' => __DIR__ . '/../..' . '/src/Handler/Dashboard/DashboardHandler.php',
         'App\\Handler\\Deposits\\DepositsHandler' => __DIR__ . '/../..' . '/src/Handler/Deposits/DepositsHandler.php',
-        'App\\Handler\\HomeHandler' => __DIR__ . '/../..' . '/src/Handler/HomeHandler.php',
+        'App\\Handler\\History\\HistoryHandler' => __DIR__ . '/../..' . '/src/Handler/History/HistoryHandler.php',
         'App\\Handler\\Mailer\\MailHandler' => __DIR__ . '/../..' . '/src/Handler/Mailer/MailHandler.php',
         'App\\Handler\\Operations\\OperationsHandler' => __DIR__ . '/../..' . '/src/Handler/Operations/OperationsHandler.php',
         'App\\Handler\\Users\\UsersHandler' => __DIR__ . '/../..' . '/src/Handler/Users/UsersHandler.php',
@@ -909,6 +915,8 @@ class ComposerStaticInit13bf66b86c70ae08ef3bcfb4ddf1816d
         'Symfony\\Component\\EventDispatcher\\GenericEvent' => __DIR__ . '/..' . '/symfony/event-dispatcher/GenericEvent.php',
         'Symfony\\Component\\EventDispatcher\\ImmutableEventDispatcher' => __DIR__ . '/..' . '/symfony/event-dispatcher/ImmutableEventDispatcher.php',
         'Symfony\\Component\\EventDispatcher\\LegacyEventDispatcherProxy' => __DIR__ . '/..' . '/symfony/event-dispatcher/LegacyEventDispatcherProxy.php',
+        'Symfony\\Component\\Mailer\\Bridge\\Google\\Transport\\GmailSmtpTransport' => __DIR__ . '/..' . '/symfony/google-mailer/Transport/GmailSmtpTransport.php',
+        'Symfony\\Component\\Mailer\\Bridge\\Google\\Transport\\GmailTransportFactory' => __DIR__ . '/..' . '/symfony/google-mailer/Transport/GmailTransportFactory.php',
         'Symfony\\Component\\Mailer\\DataCollector\\MessageDataCollector' => __DIR__ . '/..' . '/symfony/mailer/DataCollector/MessageDataCollector.php',
         'Symfony\\Component\\Mailer\\DelayedEnvelope' => __DIR__ . '/..' . '/symfony/mailer/DelayedEnvelope.php',
         'Symfony\\Component\\Mailer\\Envelope' => __DIR__ . '/..' . '/symfony/mailer/Envelope.php',

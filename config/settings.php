@@ -35,12 +35,13 @@ return static function(array $appEnv) {
         ],
         
         'smtp' => [
-            'type' => $appEnv['SMTP_TYPE'],
-            'host' => $appEnv['SMTP_HOST'],
-            'port' => $appEnv['SMTP_PORT'],
-            'username' => $appEnv['SMTP_USERNAME'],
-            'password' => $appEnv['SMTP_PASSWORD'],
+            // 'type' => $appEnv['SMTP_TYPE'],
+            // 'host' => $appEnv['SMTP_HOST'],
+            // 'port' => $appEnv['SMTP_PORT'],
+            // 'username' => $appEnv['SMTP_USERNAME'],
+            // 'password' => $appEnv['SMTP_PASSWORD'],
             'from' => $appEnv['SMTP_FROM'],
+            'MAILER_URL'=> $appEnv['MAILER_URL']
         ],
     ];
 

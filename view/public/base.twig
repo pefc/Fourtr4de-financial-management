@@ -29,6 +29,17 @@
     </script>
 
     <style>
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+    -moz-appearance: textfield;
+    }
     </style>
 
     <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>
@@ -41,7 +52,7 @@
 <body class="bg-zinc-900 min-h-screen pt-12 md:pt-10 pb-6 px-2 md:px-0" style="font-family:'Lato',sans-serif;">
     <header class="max-w-lg mx-auto text-center">
     <div class="flex items-center justify-center">
-            <img src="/assets/img/logo_2.png" class="w-[310px]"></div>
+            <img src="/assets/img/logo_2.pnga" class="w-[310px]"></div>
     </header>
 
     {% block content %}{% endblock %}
@@ -109,6 +120,8 @@
         </div>
     </div>
     <!-- /Modal -->
-
 </body>
 </html>
+
+
+{% block script_footer %}{% endblock %}

@@ -165,7 +165,7 @@ class UsersHandler implements RequestHandlerInterface
         catch ( \Execption $e )
         {
             $stmt = $this->pdo->prepare("DELETE FROM users WHERE email = :userEmail AND identifier = :userIdentifier");
-            $stmt->execute(['userEmail' => strtolower(trim($data['email'])), 'userIdentifier' => tim($data['identifier']) ]);
+            $stmt->execute(['userEmail' => strtolower(trim($data['email'])), 'userIdentifier' => trim(str_replace([".","-"], "", $data['identifier'])) ]);
 
             $this->flash->addMessage('error', $e->getMessage());
 
@@ -238,7 +238,7 @@ class UsersHandler implements RequestHandlerInterface
     public function checkIdentifierExist($identifier) 
     {
         $stmt = $this->pdo->prepare("SELECT identifier FROM users WHERE identifier = :userIdentifier LIMIT 1");
-        $stmt->execute(['userIdentifier' => $identifier ]);
+        $stmt->execute(['userIdentifier' => trim(str_replace([".","-"], "", $identifier)) ]);
         $userData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         if ( empty($userData[0]['identifier']) )
@@ -364,7 +364,7 @@ class UsersHandler implements RequestHandlerInterface
             }
 
             $stmt = $this->pdo->prepare("SELECT * FROM users WHERE token = :token AND identifier = :userIdentifier LIMIT 1");
-            $stmt->execute(['token' => $token, 'userIdentifier' => $data['identifier']]);
+            $stmt->execute(['token' => $token, 'userIdentifier' => trim(str_replace([".","-"], "", $data['identifier']))]);
             $userData = $stmt->fetchAll(PDO::FETCH_ASSOC);
             if ( empty($userData[0]['id']))
                 throw new \Exception("Não foi possível localizar a conta.");

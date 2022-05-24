@@ -75,7 +75,7 @@ class AuthHandler implements RequestHandlerInterface
         else
         {
             $stmt = $this->pdo->prepare("SELECT id, name, email, identifier, verified, token FROM users WHERE identifier = :formIdentifier AND password = :formPassword AND status = 'A' LIMIT 1");
-            $stmt->execute(['formIdentifier' => $data['identifier'], 'formPassword' => sha1($data['password'])]);
+            $stmt->execute(['formIdentifier' => trim(str_replace([".","-"], "", $data['identifier'])), 'formPassword' => sha1($data['password'])]);
             $userData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             if ( !empty($userData) )

@@ -252,7 +252,7 @@
                     {% for mainMenu in pageData.menus.mainMenu %}
                     <li class="mr-6 my-2 md:my-0" data-bs-toggle="modal" data-bs-target="{{mainMenu.targetModal}}">
                         <a href="{{mainMenu.href}}" class="block py-1 md:py-3 pl-1 align-middle text-gray-100 no-underline hover:text-gray-500">
-                            <i class="fa fa-{{mainMenu.icon}} fa-fw mr-3"></i><span class="pb-1 md:pb-0 text-sm" >{{mainMenu.title}}</span>
+                            <i class="fa fa-{{mainMenu.icon}} fa-fw mr-3 text-green-400"></i><span class="pb-1 md:pb-0 text-sm" >{{mainMenu.title}}</span>
                         </a>
                     </li>
                     {% endfor %}
